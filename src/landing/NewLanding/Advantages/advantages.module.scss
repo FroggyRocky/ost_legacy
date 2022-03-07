@@ -1,0 +1,137 @@
+@import "../LandingGeneral.scss";
+
+
+
+.wrapper {
+@extend %wrapper;
+}
+
+
+.content {
+    @extend %content_desktop;
+    margin-top: 136px;
+}
+
+main {
+    .h1 {
+       
+        @extend %headers_exceptHome;
+        font-weight: 600;
+        margin-bottom: 56px;
+    }
+}
+
+.advantages_container {
+    display: flex;
+    .advantage {
+        display: flex;
+        align-items: center;
+        img {
+            width: 64px;
+            height: 64px;
+            margin-right: 24px;
+        }
+        p {
+            @extend %text_icons;
+        }
+    }
+}
+.advantages_firstGroup .advantage:nth-child(2),
+.advantages_secondGroup .advantage:nth-child(2) {
+    padding: 48px 0 48px 0;
+    white-space: nowrap;
+}
+.advantages_firstGroup .advantage:nth-child(2) {
+    margin-right: 142px;
+}
+
+.advantages_secondGroup .advantage:nth-child(2) {
+    margin-right: 144px;
+}
+
+.info_container {
+    display: flex;
+}
+
+.vector {
+    position: relative;
+    max-width: 272px;
+    height: 483px;
+    margin-top: -108px;
+    right: 25px;
+    z-index: 5;
+
+    .gradient {
+      position: absolute;
+      right: 18%;
+      z-index: 1;
+    }
+}
+
+.achivements {
+    display: none;
+}
+.gradient_mob {
+    display: none;
+}
+
+@media (max-width: 992px) {
+}
+
+@media (max-width: 768px) {
+.content {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    main {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        h1 {
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+    }
+    .achivements {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .advantages_container {
+        display: flex;
+        flex-direction: column;
+        margin: 0 16px;
+
+    }
+
+    .advantages_secondGroup {
+        margin-top: 24px;
+    }
+    .advantages_firstGroup .advantage:nth-child(2),
+    .advantages_secondGroup .advantage:nth-child(2) {
+        padding: 24px 0 24px 0;
+        margin: 0;
+    }
+
+    .vector {
+        display: none;
+    }
+    .info_container {
+        position: relative;        
+    .gradient_mob {
+        display: inline-block;
+        position: absolute;
+        width: 100%;
+        height: 408px;
+        top: 80px;
+        background:-webkit-linear-gradient(274.02deg, #228de2 0%, #4252e6 50.52%, #4428b6 100%);
+        opacity: 0.3;
+        -webkit-filter:blur(150px);
+        display: none;
+    }}
+}
+}
+

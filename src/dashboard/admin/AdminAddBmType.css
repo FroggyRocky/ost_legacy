@@ -1,0 +1,57 @@
+.add-bm-type .add-bm-type-header-name {
+    font-family: "Montserrat sBold", sans-serif;
+    font-size: 48px;
+    color: white;
+    margin-bottom: 32px;
+}
+.add-bm-type button {
+    height: 48px;
+    width: 140px;
+    border-radius: 4px;
+    background: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    justify-self: end;
+}
+.add-bm-type .add-bm-type-td {
+    display: grid;
+    grid-auto-flow: row;
+    margin-bottom: 16px;
+}
+.add-bm-type .add-bm-type-td .add-bm-type-td-name {
+    color: white;
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+.add-bm-type .add-bm-type-td .add-bm-type-td-data {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: start;
+    column-gap: 16px;
+}
+.add-bm-type .add-bm-type-td .add-bm-type-td-data .text-input {
+    height: 40px;
+    width: 400px;
+    background-color: #25272D;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 14px;
+    color: white;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: none;
+}
+.add-bm-type .add-bm-type-td .add-bm-type-td-data .text-input::placeholder {
+    color: #61646B;
+}
+.add-bm-type .add-bm-type-td .add-bm-type-td-data textarea.text-input {
+    height: unset;
+}
+.add-bm-type .add-bm-type-td .add-bm-type-td-data .text-input[type="number"] {
+    width: 80px;
+}

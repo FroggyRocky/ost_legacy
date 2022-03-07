@@ -1,0 +1,26 @@
+///General///
+$font-proxima: "Proxima Nova Rg", sans-serif;
+$font-montserrat: "Montserrat sBold", sans-serif;
+$font-roboto: "Roboto Light", sans-serif;
+
+$color-gradient: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+$color-gray1: #25272D;
+$color-gray2: #2F3137;
+$color-text: #767C89;
+
+///Landing///
+$color-background: #1c1d22;
+$fcNav_unactive: #767c89;
+$fc_minor: #babdc6;
+$fc_box-numbers: #61646b;
+$fc_main: white;
+
+
+%buttons_general_styles {
+    background: linear-gradient(274.02deg, #228de2 0%, #4252e6 50.52%, #4428b6 100%);
+    border-radius: 4px;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.6;
+    }
+  }

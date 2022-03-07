@@ -1,0 +1,157 @@
+@import "../../variables";
+
+.messages-container {
+  margin: 20px 0;
+  max-width: 100%;
+}
+
+.messages__message {
+  margin: 10px 0;
+  word-break: break-all;
+  max-width: 45%;
+  flex-direction: column;
+}
+.you {
+}
+.other {
+  text-align: right;
+  margin-left: 45%;
+}
+
+.messages__message {
+  &--name,
+  &--text,
+  &--date {
+    display: grid;
+    align-items: center;
+    height: 100%;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  &--name {
+    grid-area: name;
+    padding: 0;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 32px;
+    font-family: $font-proxima;
+    color: #babdc6;
+  }
+
+  &--text {
+    align-items: center;
+    justify-content: center;
+    background-color: $color-gray2;
+    grid-area: text;
+    color: #f2f2f3;
+    min-height: 56px;
+    margin-top: 4px;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    font-family: $font-proxima;
+    border-radius: 8px;
+    text-align: left;
+    display: inline-flex;
+  }
+}
+
+.send-message {
+  &__button {
+    margin-top: 10px;
+    text-align: right;
+  }
+  textarea {
+    height: unset;
+    width: 100%;
+    resize: none;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    font-family: $font-proxima;
+  }
+}
+
+.ticket-chat-header {
+  color: #f2f2f3;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 48px;
+  font-family: $font-montserrat;
+  margin-bottom: 8px;
+}
+
+.ticket-chat-title {
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  font-family: $font-proxima;
+  color: #babdc6;
+}
+
+.ticket-chat-header--breakLine {
+  height: 1px;
+  width: 100%;
+  background: #2f3137;
+  margin: 24px 0 36px 0;
+}
+
+.ticket-chat-action-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  .ticket-chat-label {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    font-family: $font-proxima;
+    color: #babdc6;
+  }
+
+  .checkbox-solved,
+  .checkbox-unresolved {
+    width: 30px;
+    height: 30px;
+    background-color: #767c89;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.checkbox-solved {
+  margin: 0 8px;
+}
+
+.chat-checkbox-chosen {
+  background: linear-gradient(274.02deg, #228de2 0%, #4252e6 50.52%, #4428b6 100%);
+}
+
+.ticket-chat-info {
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  font-family: $font-proxima;
+}
+
+.ticket-chat-info:nth-child(odd) {
+  padding: 0 16px;
+}
+
+.ticket-chat-info-title {
+  color: #babdc6;
+}
+
+@media (max-width: 445px) {
+  .ticket-chat-info:nth-child(odd) {
+    padding: 15px 0px;
+  }
+  .ticket-chat-info--container {
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,123 @@
+@import "../../variables";
+
+.tickets {
+  .button-link-icon {
+    path {
+      stroke: white;
+    }
+  }
+  &__ticket {
+    text-decoration: none;
+    color: $color-text;
+  }
+}
+
+.tickets-action-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  column-gap: 20px;
+  row-gap: 25px;
+  margin-bottom: 10px;
+}
+
+.tickets-filter-checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.tickets-filter-select-container {
+  width: 240px;
+  display: flex;
+  align-items: center;
+}
+.tickets-filter-select {
+  width: 100%;
+  height: 40px;
+  background-color: #2f3137;
+  color: #babdc6;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 14px;
+  line-height: 16px;
+  font-family: $font-proxima;
+}
+
+
+.tickets-filter-checkbox-label {
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  font-family: $font-proxima;
+  margin: 0;
+  padding: 0;
+  color: #f2f2f3;
+  white-space: nowrap;
+}
+.tickets-filter-checkbox {
+  width: 24px;
+  height: 24px;
+  background-color:#767c89;
+  background: #767c89;
+  -webkit-filter:invert(0.5);
+}
+.tickets-filter-checkbox:checked {
+  color: white;
+  background-color: linear-gradient(274.02deg, #228de2 0%, #4252e6 50.52%, #4428b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-filter:none;
+}
+
+.tickets-buttons-navigation-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 36px;
+}
+
+.tickets-btn-nav-solved, .tickets-btn-nav-unresolved {
+  width: 100%;
+}
+
+.tickets-nav-btn {
+  width: 100%;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 32px;
+  font-family: $font-proxima;
+  color: #f2f2f3;
+  background-color: #2f3137;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tickets-btn-nav-unresolved {
+  margin-right: 16px;
+}
+
+.tickets-btn-nav-text {
+  margin-left: 8px;
+}
+.tickets-nav-btn-chosen {
+  background: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+}
+ 
+.header-standard {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.ticket-type-option--active {
+  color: #babdc6;
+}
+
+.ticket-type-option--unactive {
+  color: #767c89;
+
+}

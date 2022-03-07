@@ -1,0 +1,10 @@
+.main {
+    grid-area: main;
+    padding: 3% 3% 45px 3%;
+    position: relative;
+}
+@media only screen and (max-width: 960px) {
+    .main {
+        padding: 1% 1% 45px 1% !important;
+    }
+}

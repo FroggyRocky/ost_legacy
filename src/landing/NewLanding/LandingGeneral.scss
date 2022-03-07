@@ -1,0 +1,124 @@
+
+
+
+@font-face {
+  font-family: Proxima Nova Rg;
+  src: url(../../fonts/ProximaNova-Regular.ttf);
+}
+
+@font-face {
+  font-family: Montserrat sBold;
+  src: url(../../fonts/Montserrat-SemiBold.ttf);
+}
+
+$font-proxima: "Proxima Nova Rg", sans-serif;
+$font-montserrat: "Montserrat sBold", sans-serif;
+$font-roboto: "Roboto Light", sans-serif;
+
+$color-gradient: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+$color-gray1: #25272D;
+$color-gray2: #2F3137;
+$color-text: #767C89;
+
+///Landing///
+$color-background: #1c1d22;
+$fcNav_unactive: #767c89;
+$fc_minor: #babdc6;
+$fc_box-numbers: #61646b;
+$fc_main: white;
+
+
+%buttons_general_styles {
+    background: linear-gradient(274.02deg, #228de2 0%, #4252e6 50.52%, #4428b6 100%);
+    border-radius: 4px;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+///buttons///
+%buttons_general_styles {
+  background: linear-gradient(274.02deg, #228de2 0%, #4252e6 50.52%, #4428b6 100%);
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+///headers///
+%headers_general_styles {
+  color: $fc_main;
+  font-family: $font-montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 48px;
+}
+
+///content///
+%content_desktop {
+  z-index: 10;
+  scroll-margin: 0;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 1144px;
+}
+
+%wrapper {
+  min-width: 100%;
+}
+
+///gradient///
+%gradient {
+  position: absolute;
+  background:-webkit-linear-gradient(274.02deg, #228de2 0%, #4252e6 50.52%, #4428b6 100%);
+  opacity: 0.5;
+  -webkit-filter:blur(240px);
+}
+
+%text_icons {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 400;
+  font-family: $font-proxima;
+  color: $fc_main;
+}
+
+%headers_exceptHome {
+  font-family:$font-montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 48px;
+  font-weight: 600;
+  color: $fc_main;
+}
+
+@media (max-width: 992px) {
+%wrapper {
+  max-width: 100%;
+}
+  %content_desktop {
+    max-width: 750px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  %wrapper {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  %content_desktop {   
+    margin: 0 auto;
+    max-width: none;
+  }
+  %text_icons {
+    font-size: 20px;
+  }
+}
+

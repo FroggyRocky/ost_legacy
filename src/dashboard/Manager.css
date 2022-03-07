@@ -1,0 +1,45 @@
+@font-face {
+    font-family: Proxima Nova Rg;
+    src: url(../fonts/ProximaNova-Regular.ttf);
+  }
+
+.manager {
+    display: grid;
+   
+}
+.manager div {
+    background-color: #2F3137;
+    padding: 3px 0;
+    padding-left: 32px;
+}
+.manager .manager-icons {
+    display: flex;
+
+}
+.manager .telegram-icon, .skype-icon {
+    grid-template-columns: min-content;
+    width: 34px;
+    height: 34px;
+}
+
+.manager .manager-name {
+    color: white;
+    font-size: 24px;
+    line-height: 32px;
+    font-family: Proxima Nova Rg;
+
+}
+
+.manager-time {
+    display: flex;
+    align-items: center;
+}
+.manager-clock-icon {
+    margin-bottom: 4px;
+}
+
+.manager-skype-icon, .manager-telegram-icon {
+    color: white;
+    cursor: pointer;
+    
+}

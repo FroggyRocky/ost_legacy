@@ -1,0 +1,88 @@
+
+.top-up-container {
+    margin-right: 10px
+}
+.top-up-header-container {
+  display: flex;
+  align-items: center;
+  margin:23px 0;
+}
+
+.top-up--header {
+  font-size: 36px;
+  line-height: 64px;
+  font-weight: 600;
+  font-family: "Montserrat sBold", sans-serif;
+  color: #F2F2F3;
+}
+
+.top-up--balance {
+    font-weight: 600;
+font-size: 36px;
+line-height: 64px;
+font-family: "Montserrat sBold", sans-serif;
+background:linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.top-up-form-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 320px;
+}
+
+.top-up--select-coin, .top-up--amount {
+    height: 55px;
+    color: #F2F2F3;
+    background-color: #25272C;
+    border: none;
+    font-weight: normal;
+font-size: 15px;
+line-height: 64px;
+color: #babdc6;
+display: flex;
+align-items: center;
+padding-left:10px;
+
+}
+
+
+.top-up--amount {
+    margin: 9px 0 18px 0;
+}
+
+.top-up--button {
+    height: 48px;
+    color: #F2F2F3;
+    border: none;
+    font-weight: 600;
+font-size: 25px;
+line-height: 24px;
+font-family: "Montserrat sBold", sans-serif;
+    background:linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+    margin-bottom: 23px;
+    cursor: pointer;
+}
+
+
+.top-up--breaking-line {
+    width: 100%;
+    height: 1px;
+    background-color:#2F3137;
+    margin: 32px 0;
+    border: none;
+}
+
+.top-up--button-disabled {
+    background:#767c89;
+    cursor: initial;
+}
+
+.top-up-select--error {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: normal;
+    font-family: "Montserrat sBold", sans-serif;
+    color: darkred;
+}

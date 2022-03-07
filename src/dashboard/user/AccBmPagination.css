@@ -1,0 +1,143 @@
+@media only screen and (max-width: 420px) {
+    .pagination .pagination-area {
+        padding: 0 !important;
+    }
+    .pagination .pagination-area select {
+        width: 100px !important;
+    }
+    .pagination .pagination-area ul {
+        grid-column-gap: 5px !important;
+    }
+}
+.pagination {
+    display: grid;
+    justify-content: left;
+    align-content: center;
+    grid-template-columns: repeat(auto-fit, 160px);
+    grid-gap: 15px;
+}
+.pagination .pagination-text-input {
+    display: grid;
+    grid-template-columns: 48px 112px;
+    width: 160px;
+    height: 48px;
+    background-color: #25272D;
+    border-radius: 4px;
+}
+.pagination .pagination-text-input .pagination-text-input-icon{
+    background-color: #2F3137;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    border-radius: 4px;
+}
+.pagination .pagination-text-input input {
+    background-color: #25272D;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 16px;
+    color: white;
+}
+.pagination .pagination-text-input input::placeholder {
+    color: #61646B;
+}
+.pagination .pagination-text-input input:focus {
+    outline: none;
+}
+.pagination .pagination-text-input .react-datepicker__input-container input {
+    padding: 0 0 0 12px;
+    width: 100%;
+    height: 48px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.pagination .pagination-check-input {
+    display: grid;
+    grid-template-columns: auto;
+    align-items: center;
+    cursor: pointer;
+}
+.pagination .pagination-check-input .pagination-check-input-text {
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+
+}
+.pagination .pagination-check-input input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+.pagination .pagination-check-input .pagination-check-input-text::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    background-color: #61646B;
+    border-radius: 4px;
+    margin-right: 8px;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.pagination .pagination-check-input input:checked+.pagination-check-input-text::before {
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 12.5L10.3103 18L19 6' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E");
+}
+.pagination .pagination-check-input input:checked + .pagination-check-input-text {
+    color: white;
+}
+.pagination .pagination-area {
+    position: absolute;
+    bottom: 6px;
+    left: 0;
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    grid-template-columns: 1fr min-content;
+    width: 100%;
+    padding: 0 40px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.pagination .pagination-area ul {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    list-style-type: none;
+    grid-column-gap: 10px;
+    margin: 0;
+    padding: 0;
+}
+.pagination .pagination-area ul li {
+    width: 21px;
+    height: 32px;
+    cursor: pointer;
+}
+.pagination .pagination-area ul li a {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    outline: none;
+}
+.pagination .pagination-area .pagination-active {
+    background-color: #25272D;
+    border-radius: 8px;
+    color: white;
+}
+.pagination .pagination-area select {
+    width: 160px;
+    height: 40px;
+    background-color: #25272D;
+    border: none;
+    color: white;
+    outline: none;
+    border-radius: 4px;
+    padding: 10px;
+}

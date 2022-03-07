@@ -1,0 +1,305 @@
+@font-face {
+    font-family: Proxima Nova Rg;
+    src: url(../../fonts/ProximaNova-Regular.ttf);
+  }
+  
+  @font-face {
+    font-family: Montserrat sBold;
+    src: url(../../fonts/Montserrat-SemiBold.ttf);
+  }
+
+.buy-account {
+    display: flex;
+    justify-content: start;
+}
+
+.buy-account .buy-account-header-name {
+    font-family: "Montserrat sBold", sans-serif;
+    font-size: 48px;
+    color: white;
+}
+.buy-account .buy-account-section-td-radio-status {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: start;
+    column-gap: 10px;
+}
+
+.buy-account .buy-account-section-td-name {
+    color: white;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 32px;
+    font-family: "Proxima Nova Rg", sans-serif;
+    margin-bottom: 8px;
+    margin-top: 32px;
+}
+.buy-account .buy-account-section-td-data .text-input {
+    width: 100%;
+    background-color: #25272D;
+    border: none;
+    border-radius: 4px;
+    padding: 11px;
+    font-size: 14px;
+    color: white;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: none;
+}
+.text-input-container {
+    width:400px;
+    height: 40px;
+}
+
+.icon-input-container {
+    display: flex;
+    align-items: center;
+}
+
+.q-icon {
+    margin-left: 5px;
+}
+
+.buy-account .buy-account-section-td-data {
+    display: grid;
+    justify-content: start;
+    align-items: center;
+    height: 40px;
+}
+.buy-account .buy-account-section-td-data svg {
+    width: 30px;
+    height: 30px;
+    color: white;
+}
+.buy-account .buy-account-button {
+    height: 48px;
+    width: 140px;
+    border-radius: 4px;
+    background: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    align-items: center;
+    column-gap: 10px;
+    margin-top: 24px;
+}
+
+/* NEW STYLINGS I HAVE ADDED */
+.section_second {
+    margin-left: 135px;
+    background-color: #25272D;
+    width:360px;
+    height: 248px;
+    border-radius: 16px;
+    margin-top: 40px;
+}
+.section_second .buy-account-section-td-name {
+    margin: 0;
+    font-weight: 600;
+font-size: 36px;
+line-height: 48px;
+font-family: "Montserrat sBold", sans-serif;
+}
+.buy-account .buy-account-separator {
+    width: 1px;
+    height: 492px;
+    background: #2F3137;
+    margin-top: 40px;
+    margin-left: 135px;
+}
+.buy-account-section-td-sum {
+font-weight: 600;
+font-size: 36px;
+line-height: 48px;
+background:linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.buy-account-section-td-container {
+    margin: 40px 0 0 40px;
+}
+
+.buy-account-section-td-stock{
+    font-weight: normal;
+font-size: 24px;
+line-height: 32px;
+font-family: "Proxima Nova Rg", sans-serif;
+color: #61646B;
+}
+.buy-account-section-td-stock-total-num {
+    color:white  ;
+}
+
+.bm-types-icons {
+    display: flex;
+}
+
+                    /* MODAL WINDOW STYLING */
+h2 {
+    margin: 0;
+    padding: 0;
+}
+.buy-modal-container {
+    width: 480px;
+    height: 449px;
+    background-color: #1C1D22;
+border-radius: 16px;
+display: flex;
+justify-content: center;
+}
+
+.buy-modal-content {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.buy-modal-header {
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 64px;
+    font-family: "Montserrat sBold", sans-serif;
+    color: #F2F2F3;
+}
+
+.buy-modal-purchase-info_line {
+    display: flex;
+    justify-content: space-between;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 32px;
+    color: #F2F2F3;
+    font-family: "Proxima Nova Rg", sans-serif;
+}
+
+.buy-modal-value {
+    background:linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.buy-modal-breaking-line { 
+height: 1px;
+width: 336px;
+background: #2F3137;
+}
+
+
+.buy-modal-button {
+    width: 100%;
+    height: 48px;
+    background: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+    color: #F2F2F3;
+    border-radius: 4px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-window {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+.buy-modal-button {
+    
+}
+
+.buy-checkbox-container {
+    display:flex;
+}
+
+.buy-checkbox {
+    width: 16px;
+    height: 16px;
+    background-color:#767c89;
+    background: #767c89;
+    -webkit-filter:invert(0.5);
+    margin-right:10px
+}
+
+.buy-checkbox:checked {
+    color: white;
+    background-color: linear-gradient(274.02deg, #228de2 0%, #4252e6 50.52%, #4428b6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-filter:none;
+}
+
+
+@media (max-width:1300px) {
+    .section_second {
+        margin-left: 20px;
+        max-width:360px;
+        height: 248px;
+
+    }
+}
+
+@media (max-width:920px) {
+    .section_second {
+        width: none;
+        margin-left: 20px;
+        max-width:100%;
+        height: 248px;
+    }
+}
+
+@media (max-width:780px) {
+    .buy-account {
+        display:block;
+    }
+    .buy-account .buy-account-separator {
+        width: 100%;
+        height: 1px;
+        margin-left: 0;
+    }
+    .section_second {
+        margin-left: 0;
+        max-width: 250px;
+        max-height: 200px;
+    }
+    .text-input-container {
+        width:277px;
+        height: 40px;
+
+    }
+}
+
+.buy-account--amount-input {
+    background: #25272C;
+}
+
+
+.buy-checkbox {
+    height: 17px;
+    width: 17px;
+}
+
+.buy-checkbox:checked:after {
+    width: 9px;
+    height: 9px;
+    border-radius: 15px;
+    top:1.8px;
+    left: 3px;
+    position: relative;
+    background-color: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 1px solid linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);;
+}
+
+.buy-modal-button--disabled {
+    background: none;
+    background-color: #767c89;
+}

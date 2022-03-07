@@ -1,0 +1,60 @@
+.statistics .statistics-header-name {
+    font-family: "Montserrat sBold", sans-serif;
+    font-size: 48px;
+    color: white;
+    margin-bottom: 32px;
+}
+.statistics table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-top: 32px;
+    font-size: 14px;
+}
+.statistics table th {
+    height: 40px;
+}
+.statistics table td {
+    background-color: #25272D;
+    height: 80px;
+    color: white;
+}
+.statistics table td, th {
+    text-align: center;
+    vertical-align: middle !important;
+}
+.statistics table tbody tr:first-child td:first-child {
+    border-radius: 8px 0 0 8px;
+    cursor: pointer;
+}
+.statistics table tbody tr:first-child td:last-child {
+    border-radius: 0 8px 8px 0;
+}
+.statistics table tbody tr.opened td:first-child {
+    border-radius: 8px 0 0 0;
+}
+.statistics table tbody tr.opened td:last-child {
+    border-radius: 0 8px 0 0;
+}
+
+.statistics table tbody tr td:first-child {
+    border-radius: 0 0 0 8px;
+    cursor: pointer;
+}
+.statistics table tbody tr td:last-child {
+    border-radius: 0 0 8px 0;
+}
+.statistics table .statistics-table-spacer {
+    height: 8px;
+}
+/*
+.statistics-table td, .statistics-table th {
+    text-align: center;
+    vertical-align: middle !important;
+}
+.statistics-table .acc-id {
+    cursor: pointer;
+}
+.statistics-table .acc-information {
+    text-align: start;
+}*/

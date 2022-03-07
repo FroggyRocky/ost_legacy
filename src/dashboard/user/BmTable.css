@@ -1,0 +1,145 @@
+@media only screen and (max-width: 680px) {
+    .bm .bm-table .create-date, .link2, .link3 {
+        display: none !important;
+    }
+}
+@media only screen and (max-width: 450px) {
+    .bm .bm-table td,th {
+        font-size: 12px !important;
+    }
+}
+@media only screen and (max-width: 375px) {
+    .bm .bm-table .face-bm {
+        display: none !important;
+    }
+}
+.bm .bm-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    height: 64px;
+    padding: 16px 0 29px 0;
+}
+.bm .bm-header .bm-header-name {
+    font-family: "Montserrat sBold", sans-serif;
+    font-size: 48px;
+    color: white;
+}
+.bm .bm-header a {
+    text-decoration: none;
+}
+.bm .bm-header a div {
+    width: 160px;
+    height: 48px;
+    background: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+    color: white;
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-content: center;
+    align-items: center;
+    justify-items: center;
+    padding: 14px;
+    cursor: pointer;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.bm .bm-header a div path {
+    stroke: white;
+}
+.bm .bm-admin-bar {
+    display: grid;
+    grid-auto-flow: column;
+    padding-bottom: 20px;
+    grid-auto-columns: 1fr auto;
+}
+.bm .bm-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.bm .bm-table th {
+    font-size: 14px;
+    line-height: 16px;
+    background-color: #1C1D22;
+    height: 40px;
+}
+.bm .bm-table td {
+    background-color: #25272D;
+    height: 80px;
+}
+.bm .bm-table .bm-table-spacer {
+    height: 8px;
+}
+.bm .bm-table tbody tr td:first-child {
+    border-radius: 8px 0 0 8px;
+}
+.bm .bm-table tbody tr td:last-child {
+    border-radius: 0 8px 8px 0;
+}
+.bm .bm-table .bm-table-id {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 4px auto;
+    align-items: center;
+    color: white;
+    column-gap: 8px;
+}
+.bm .bm-table .bm-table-id .bm-table-id-status {
+    border-radius: 8px 0 0 8px;
+    height: 100%;
+}
+.bm-table td, .bm-table th {
+    text-align: center;
+    vertical-align: middle !important;
+}
+.bm .bm-table td.white {
+    color: white;
+}
+.bm .bm-table .bm-table-id .bm-table-id-status {
+    border-radius: 8px 0 0 8px;
+    height: 100%;
+}
+.bm .bm-table .bm-table-date .bm-table-date-time {
+    color: white;
+}
+.bm .bm-table td .bm-table-copy {
+    display: grid;
+    width: 100%;
+    justify-content: center;
+}
+.bm .bm-table td .bm-table-copy .bm-table-copy-icon {
+    width: 32px;
+    height: 32px;
+    background-color: #2F3137;
+    border-radius: 8px;
+    border: none;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    cursor: pointer;
+}
+.bm .bm-table td .bm-table-copy .bm-table-copy-icon:hover path {
+    fill: white;
+}
+.bm .bm-table .bm-table-edit {
+    display: grid;
+    width: 100%;
+    justify-content: center;
+}
+.bm .bm-table .bm-table-edit button {
+    width: 32px;
+    height: 32px;
+    background-color: #2F3137;
+    border-radius: 8px;
+    border: none;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    cursor: pointer;
+}
+.bm .bm-table .bm-table-edit button:hover path {
+    fill: white;
+}

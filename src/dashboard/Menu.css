@@ -1,0 +1,353 @@
+@font-face {
+    font-family: Proxima Nova Rg;
+    src: url(../fonts/ProximaNova-Regular.ttf);
+  }
+  
+@media only screen and (max-width: 960px) {
+    /* Compact */
+  
+    .dashboard .dashboard-menu {
+        height: 72px;
+    }
+    .dashboard .dashboard-menu .menu {
+        height: 72px !important;
+        width: 100% !important;
+        grid-template-rows: 1fr !important;
+        grid-template-columns: 1fr 1fr !important;
+        z-index: 1;
+        background-color: #2F3137 !important;
+        /*position: absolute !important;
+        left: 0;
+        top: 0;*/
+    }
+    .menu .menu-resize .menu-resize-icon-sm {
+        display: initial !important;
+        margin-right: 10px !important;
+    }
+    .menu .menu-resize .menu-resize-text-sm {
+        display: initial !important;
+    }
+    .menu nav {
+        display: none !important;
+    }
+    /* Full */
+    .dashboard .dashboard-menu.full .menu nav {
+        display: grid !important;
+        grid-column: 1 / 4 !important;
+        background-color: #25272D !important;
+    }
+    .dashboard .dashboard-menu.full .menu {
+        grid-template-rows: 72px 1fr !important;
+        height: 100% !important;
+    }
+    .dashboard .dashboard-menu.full + .main {
+        display: none !important;
+    }
+    .dashboard .dashboard-menu .menu nav .menu-user .menu-user-settings {
+        justify-items: center !important;
+    }
+    /* Both */
+    .menu .menu-resize {
+        padding: 0 0 0 16px !important;
+        align-self: center !important;
+        width: max-content !important;
+    }
+    .menu .menu-logo {
+        padding: 0 16px 0 0 !important;
+        justify-self: end;
+        align-self: center;
+    }
+    .menu .menu-logo .big {
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: unset !important;
+    }
+    .menu .menu-logo .small {
+        visibility: hidden !important;
+        position: absolute !important;
+        display: none;
+    }
+    .menu .menu-resize {
+        cursor: pointer;
+        height: 32px;
+        width: 50px;
+        justify-items: center;
+        grid-auto-flow: column;
+        display: grid;
+        align-items: center;
+        visibility: visible !important;
+    }
+    .menu nav .menu-user .menu-user-email {
+        overflow: unset !important;
+        width: unset !important;
+    }
+    
+    .dashboard .dashboard-menu .menu nav .menu-user {
+        grid-column-gap: 30px !important;
+    }
+
+}
+/* Compact */
+.dashboard .dashboard-menu {
+    width: 96px;
+}
+.dashboard .dashboard-menu .menu {
+    width: 96px;
+    background-color: #25272D;
+    color: #767C89;
+    position: fixed;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+}
+.menu .menu-logo .big {
+    visibility: hidden;
+    position: absolute;
+    opacity: 0;
+}
+.dashboard .dashboard-menu .menu nav .menu-link {
+    display: flex;
+    font-size: 16px;
+    align-items: center;
+    grid-auto-flow: column;
+    text-decoration: none;
+    color: #767C89;
+    -webkit-transition: 1s ease;
+    -o-transition: 1s ease;
+    -moz-transition: 1s ease;
+    transition: 1s ease;
+}
+.dashboard .dashboard-menu .menu nav .menu-link .menu-name {
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    width: 1px;
+}
+    /* Manager */
+.dashboard .dashboard-menu .menu nav .manager {
+    visibility: hidden;
+    opacity: 0;
+    width: 0;
+    height: 130px;
+}
+    /* User */
+.dashboard .dashboard-menu .menu nav .menu-user {
+    grid-template-rows: 24px 24px;
+    grid-template-areas:
+            "email settings"
+            "balance settings";
+    align-self: end;
+    color: white;
+    background-color: #2F3137;
+    display: grid;
+    font-size: 16px;
+    align-content: center;
+    align-items: center;
+    height: 70px;
+}
+.dashboard .dashboard-menu .menu nav .menu-user .menu-user-email {
+    grid-area: email;
+    visibility: hidden;
+    opacity: 0;
+    width: 0;
+}
+.dashboard .dashboard-menu .menu nav .menu-user .menu-user-balance {
+    grid-area: balance;
+    visibility: hidden;
+    opacity: 0;
+    width: 0;
+}
+.dashboard .dashboard-menu .menu nav .menu-user .menu-user-settings {
+    grid-area: settings;
+    display: grid;
+    align-content: center;
+    overflow: hidden;
+}
+
+/* Full */
+.dashboard .dashboard-menu.full {
+    width: 230px;
+}
+.dashboard .dashboard-menu.full .menu {
+    width: 230px;
+}
+.dashboard .dashboard-menu.full .menu .menu-logo .small {
+    visibility: hidden;
+    position: absolute;
+    transition-delay: 2s;
+}
+.dashboard .dashboard-menu.full .menu .menu-logo .big {
+    visibility: visible;
+    position: unset;
+    -webkit-transition: 2s ease;
+    -o-transition: 2s ease;
+    -moz-transition: 2s ease;
+    transition: 2s ease;
+    opacity: 1;
+}
+.dashboard .dashboard-menu.full .menu nav .manu-link {
+    grid-template-columns: 72px auto 4px;
+}
+.dashboard .dashboard-menu.full .menu nav a .menu-name {
+    height: unset;
+    width: 100%;
+    visibility: visible;
+    opacity: 1;
+    -webkit-transition: 1s ease;
+    -o-transition: 1s ease;
+    -moz-transition: 1s ease;
+    transition: 1s ease;
+    white-space: nowrap;
+}
+    /* Manager */
+.dashboard .dashboard-menu.full .menu nav .manager {
+    height: 130px;
+    width: 100%;
+    visibility: visible;
+    opacity: 1;
+    -webkit-transition: opacity 3s;
+}
+    /* User */
+.dashboard .dashboard-menu.full .menu nav .menu-user .menu-user-email {
+    padding-left: 32px;
+    visibility: visible;
+    opacity: 1;
+    -webkit-transition: 1s ease;
+    -o-transition: 1s ease;
+    -moz-transition: 1s ease;
+    transition: 1s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 140px;
+}
+.dashboard .dashboard-menu.full .menu nav .menu-user .menu-user-balance {
+    padding-left: 32px;
+    visibility: visible;
+    opacity: 1;
+    -webkit-transition: 1s ease;
+    -o-transition: 1s ease;
+    -moz-transition: 1s ease;
+    transition: 1s ease;
+    width: unset;
+}
+.dashboard .dashboard-menu.full .menu nav .menu-user .menu-user-settings a {
+    grid-template-columns: auto;
+    width: min-content;
+}
+.dashboard .dashboard-menu.full .menu nav .menu-user .menu-user-settings .menu-name:hover {
+    background-color: inherit;
+}
+.dashboard .dashboard-menu.full .menu nav .menu-user .menu-user-balance-number {
+    color: #2883E3;
+}
+
+/* Both */
+.menu nav .menu-user path {
+  
+}
+.menu nav .menuActive .menu-icon path {
+    fill: white;
+    -webkit-transition: 1s ease;
+    -o-transition: 1s ease;
+    -moz-transition: 1s ease;
+    transition: 1s ease;
+}
+.menu nav .menu-link .menu-icon {
+   
+    margin-left: 32px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: #2F3137;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    flex-shrink: 0;
+    margin-right: 16px;
+}
+.menu nav {
+    display: grid;
+    grid-auto-flow: row;
+    /*grid-template-rows: repeat(auto-fill, min-content);*/
+}
+.menu .menu-resize {
+    visibility: hidden;
+    padding: 24px 4px 16px 24px;
+}
+.menu .menu-logo {
+    padding: 0 0 24px 32px;
+}
+.menu .menu-resize .menu-resize-icon {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+.menu .menu-resize .menu-resize-icon-sm {
+    display: none;
+}
+.menu .menu-resize .menu-resize-text-sm {
+    display: none;
+}
+.menu nav .menuActive .menu-icon {
+    background: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+}
+.menu nav .menu-link:hover, .menu nav .menuActive {
+    background-color: #1C1D22;
+    color: #2883E3;
+}
+.menu nav .menuActive .menu-left-span {
+    background-color: #2883E3;
+    width: 4px;
+    height: 100%;
+    justify-self: right;
+}
+
+
+
+
+/* RECENT STYLINGS */
+.menu-expand-container {
+display: flex;
+justify-content: center;
+cursor: pointer;
+margin-left: 5px;
+}
+
+.menu-minimize-container {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.menu-minimize-text {
+    font-weight: normal;
+font-size: 18px;
+line-height: 24px;
+}
+
+.dashboard-menu {
+    transition: 800ms ease-in-out;
+}
+
+.menu-toggle-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    
+    margin-left: 32px;
+}
+
+.menu .menu-small-logo {
+padding: 0 24px 24px 24px;
+}
+
+
+@media (max-width:960px) {
+    .menu-toggle-container {
+        display: none;
+    }
+}

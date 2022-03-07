@@ -1,0 +1,245 @@
+@import "../LandingGeneral.scss";
+
+
+
+.wrapper {
+    @extend %wrapper;
+    
+}
+.content {
+    @extend %content_desktop;
+    margin-top: 168px;
+
+
+    main {
+        position: relative;
+        .gears {
+            position: absolute;
+            right: 0;
+            top: 19.5px;
+        }
+        .gradient {
+            position: absolute;
+            top:0%;
+            left: 0%;
+            z-index: 1;
+        }
+
+    }
+
+  .h1 {
+    @extend %headers_exceptHome;
+    margin-bottom: 56px;
+}  
+
+}
+
+
+
+.box {
+    background-color: rgba(31, 31, 33, 0.5);
+    -webkit-backdrop-filter:blur(8px) ;
+    border-radius: 8px;
+    border: none;
+    z-index: 10;
+    
+}
+
+.box_content {
+    padding: 24px;
+    p {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 24px;
+        font-family: $font-proxima;
+        color: $fc_minor;
+    }
+
+    .box_header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        h2 {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 24px;
+            line-height: 32px;
+            font-family: $font-proxima;
+            color: $fc_main;
+        }
+        .number {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 24px;
+            line-height: 32px;
+            font-family: $font-proxima;
+            color: $fc_box-numbers;
+            font-weight: 400;
+        }
+    }
+}
+.box_section_first {
+    display: flex;
+    align-items: center;
+    .box {
+        max-width: 332px;
+        min-height: 136px;
+    }
+}
+
+.box_section_second {
+    display: flex;
+    align-items: center;
+    .box {
+        max-width: 535px;
+        min-height: 136px;
+    }
+}
+
+.arrow {
+    width: 74px;
+    height: 74px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrow_down {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    img {
+        transform: rotate(90deg);
+        margin-right: 129px;
+    }
+}
+
+.box_section_second {
+    .arrow:nth-child(2) {
+        img {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.dollar {
+    width: 100px;
+    padding-left: 10px;
+}
+.box_withDollar {
+    display: flex;
+    align-items: center;
+}
+
+.box_content_withDollar {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.box_five_mobile {
+    display: none;
+}
+.arrow_mobile {
+    display: none;
+}
+
+.gradient_mob {
+    display: none;
+}
+
+
+@media (max-width: 992px) {
+    .arrow_down {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        img {
+            transform: rotate(90deg);
+            margin-right: 50px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin: 56px 16px;
+
+        h1 {
+            margin-bottom: 32px;
+        }
+    }
+
+    .box_section_first,
+    .box_section_second {
+        display: flex;
+        flex-direction: column;
+        .box {
+            max-width: 288px;
+            border-color: silver;
+            border: 1px solid $fc_box-numbers;
+        }
+
+        .arrow {
+            img {
+                transform: rotate(90deg);
+            }
+        }
+    }
+    .arrow_down {
+        display: none;
+    }
+    .box_five_mobile {
+        display: flex;
+    }
+    .arrow_mobile {
+        display: flex;
+    }
+    .box_section_second {
+        .arrow:nth-child(2) {
+            img {
+                transform: rotate(90deg);
+            }
+        }
+    }
+
+    .box_header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        h2 {
+            padding-right: 38px;
+        }
+    }
+
+    main {
+        position: relative;
+        .gradient_mob {
+            // -webkit-filter:blur(105px);
+            // display: inline-block;
+            // position: absolute;
+            // width: 1060px;
+            // height: 288px;
+            // top: 55%;
+            // background:-webkit-linear-gradient(274.02deg, #228de2 0%, #4252e6 50.52%, #4428b6 100%);
+            // opacity: 0.3;
+            // transform: rotate(-90deg);   
+            display: none;
+        }
+    }
+    .gears {
+        display: none;
+    }
+    .box_withDollar {
+        display: none;
+    }
+    main {
+    
+        .gradient {
+           display: none;
+        }
+
+}
+
+}
+

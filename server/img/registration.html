@@ -1,0 +1,56 @@
+<div style="width:100%;background:#404040;text-align:center;font-family:Arial,sans-serif">
+    <div style="max-width:600px;margin-left: auto;margin-right: auto">
+        <div style="padding: 40px 30px 30px 30px"><a href="https://${req.get('host')}"><img src="logo.png" alt="logo" style="width:165px;cursor:pointer"></a></div>
+        <div style="background:#ffffff;padding:30px">
+            <div style="margin-top:0;margin-bottom:16px;font-size:26px;line-height:32px;font-weight:bold;letter-spacing:-0.02em;text-align:left">
+                Forgot your password?
+            </div>
+            <div style="text-align:left">Hi friend,
+                <br>
+                You've recently asked to reset password for this account: tct@tut.by
+                <br>
+                To update your password, click the link below :
+            </div>
+            <br>
+            <a href="https://${req.get('host')}/email/${jwt.sign(userInfo.email, process.env.FORGET_PASSWORD)}" style="background:linear-gradient(274.02deg,#228de2,#4252e6 50.52%,#4428b6);width:100%;padding:10px 0;display:block;border-radius:8px;color:white;font-size:26px;font-weight:600;align-items:center;cursor:pointer;text-decoration:none">
+                Confirm
+            </a>
+            <img src="forgot.png" alt="forgot" style="width:540px;margin-top:70px">
+            <div style="background:#404040;padding:30px;color:white;border-radius:4px;font-size:14px;line-height:20px;font-weight:bold">
+                <div style="margin-bottom:10px">
+                    <a href="https://www.facebook.com/ostproduct"><img src="facebook.png" alt="facebook" style="width:30px;margin-right:10px;cursor:pointer"></a>
+                    <a href="https://www.t.me/ostproduct"><img src="telegram.png" alt="telegram" style="width:30px;cursor:pointer"></a>
+                </div>
+                &reg; OST TEAM, 2021
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="width:100%;background:#404040;text-align:center;font-family:Arial,sans-serif">
+    <div style="max-width:600px;">
+        <div style="padding: 40px 30px 30px 30px"><a href="https://${req.get('host')}"><img src="cid:logo" style="width:165px"></a></div>
+        <div style="background:#ffffff;padding:30px">
+            <div style="margin-top:0;margin-bottom:16px;font-size:26px;line-height:32px;font-weight:bold;letter-spacing:-0.02em;text-align:left">
+                Registration Successful
+            </div>
+            <div style="text-align:left">Hi friend,
+                Your application will undergo administrative review and you will receive our decision by email shortly.
+                <br>
+                Please click here to confirm your email address by clicking the link below:
+            </div>
+            <br>
+            <a href="https://${req.get('host')}/email/${jwt.sign(userInfo.email, process.env.FORGET_PASSWORD)}" style="background:linear-gradient(274.02deg,#228de2,#4252e6 50.52%,#4428b6);width:100%;padding:10px 0;display:block;border-radius:8px;color:white;font-size:26px;font-weight:600;cursor:pointer;text-decoration:none">
+                Confirm
+            </a>
+            <img src="cid:forgot" alt="forgot" style="width:540px;margin-top:70px">
+            <div style="background:#404040;padding:30px;color:white;border-radius:4px;font-size:14px;line-height:20px;font-weight:bold">
+                <div style="margin-bottom:10px">
+                    <a href="https://www.facebook.com/ostproduct"><img src="cid:facebook" alt="facebook" style="width:30px;margin-right:10px;cursor:pointer"></a>
+                    <a href="https://www.t.me/ostproduct"><img src="cid:telegram" alt="telegram" style="width:30px;cursor:pointer"></a>
+                </div>
+                &reg; OST TEAM, 2021
+            </div>
+        </div>
+    </div>
+</div>

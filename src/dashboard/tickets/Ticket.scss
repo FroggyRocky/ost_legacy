@@ -1,0 +1,70 @@
+@import "../../variables";
+
+.ticket-container {
+  margin-bottom: 32px;
+}
+.ticket {
+  background-color: $color-gray1;
+  font-size: 18px;
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: 4px 1fr;
+  grid-template-rows: 56px;
+  grid-template-areas: "color last";
+
+  &__color {
+    grid-area: color;
+    border-radius: 8px 0 0 8px;
+  }
+
+  &__last-message {
+    padding: 16px;
+    grid-area: last;
+    display: grid;
+    grid-auto-flow: column;
+    border-top: 1px solid #2f3137;
+    grid-template-columns: min-content 1fr;
+    grid-column-gap: 10px;
+    align-items: center;
+
+    &--name {
+      color: white;
+      white-space: nowrap;
+    }
+    &--text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+.ticket__header {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  &--title {
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 32px;
+    font-family: $font-proxima;
+    color: #F2F2F3
+  }
+  &--untitled {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    font-family: $font-proxima;
+    font-style: italic;
+  }
+  &--info{
+    padding: 0 16px;
+    font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  font-family: $font-proxima;
+  }
+}
+.ticket-header-info {
+  color: #babdc6;
+}

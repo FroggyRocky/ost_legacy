@@ -1,0 +1,75 @@
+@media only screen and (max-width: 475px) {
+    .check-bm .check-bm-data {
+        grid-auto-flow: row !important;
+        grid-row-gap: 20px !important;
+        justify-items: center !important;
+    }
+    .check-bm .check-row {
+        grid-column-gap: 5% !important;
+    }
+}
+.check-bm .check-bm-header-name {
+    font-family: "Montserrat sBold", sans-serif;
+    font-size: 48px;
+    color: white;
+    margin-bottom: 32px;
+}
+.check-bm .check-bm-name {
+    color: white;
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+.check-bm .check-bm-data {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: start;
+    column-gap: 16px;
+    align-items: center;
+    margin-bottom: 32px;
+    margin-top: 20px;
+}
+.check-bm .check-bm-data textarea {
+    width: 310px;
+    height: 80px;
+    background-color: #25272D;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 14px;
+    color: white;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: none;
+    font-family: inherit;
+    resize: none;
+}
+.check-bm .check-bm-data button {
+    height: 48px;
+    width: 140px;
+    border-radius: 4px;
+    background: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    font-family: "Proxima Nova Rg", sans-serif;
+}
+.check-bm .check-row {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 4px 1fr auto minmax(39px, auto);
+    height: 80px;
+    background-color: #25272D;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    align-items: center;
+    padding-right: 10%;
+    grid-column-gap: 10%;
+    white-space: nowrap;
+}
+.check-bm .check-row div:first-child {
+    border-radius: 8px 0 0 8px;
+    height: 80px;
+}

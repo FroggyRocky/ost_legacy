@@ -1,0 +1,62 @@
+.admin-countries {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 150px);
+    grid-gap: 13px;
+    margin-bottom: 32px;
+}
+.admin-countries .admin-country {
+    display: grid;
+    grid-auto-flow: column;
+    width: 146px;
+    height: 146px;
+    background-color: #25272D;
+    border-radius: 8px;
+    padding: 16px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.admin-countries .admin-country-add {
+    display: grid;
+    width: 146px;
+    height: 146px;
+    background-color: #25272D;
+    border-radius: 8px;
+    justify-content: center;
+    align-content: center;
+}
+.admin-countries .admin-country-add:hover path {
+    stroke: white;
+}
+.admin-countries .admin-country .admin-country-data {
+    display: grid;
+    grid-auto-flow: row;
+    align-items: center;
+}
+.admin-countries .admin-country .admin-country-data div {
+    font-size: 24px;
+}
+.admin-countries .admin-country .admin-country-data div:first-child {
+    font-size: 16px;
+}
+.admin-countries .admin-country .admin-country-edit {
+    display: grid;
+    justify-content: end;
+}
+.admin-countries .admin-country .admin-country-edit button {
+    width: 32px;
+    height: 32px;
+    background-color: #2F3137;
+    border-radius: 8px;
+    border: none;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    cursor: pointer;
+}
+.admin-countries .admin-country .admin-country-edit button:focus {
+    outline: none;
+}
+.admin-countries .admin-country .admin-country-edit button:hover path {
+    fill: white;
+}

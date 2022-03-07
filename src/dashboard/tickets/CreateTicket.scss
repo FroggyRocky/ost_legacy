@@ -1,0 +1,19 @@
+.ticket-create {
+  select.input-text {
+    width: 240px;
+  }
+  .row-long {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: start;
+    grid-column-gap: 20px;
+  }
+  .row-standard {
+    &__data.full-width {
+      justify-content: stretch;
+    }
+  }
+  textarea {
+    height: unset;
+  }
+}

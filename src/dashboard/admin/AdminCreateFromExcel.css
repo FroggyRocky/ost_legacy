@@ -1,0 +1,68 @@
+@media only screen and (max-width: 765px) {
+    .bulk-upload {
+        display: none !important;
+    }
+}
+.excel-table {
+    width: 100%;
+}
+.excel-table th {
+    color: white;
+    height: 30px;
+}
+.excel-table td, .excel-table th {
+    text-align: center;
+    vertical-align: middle !important;
+    font-size: 12px;
+    background-color: #25272D;
+}
+.bulk-upload {
+    display: grid;
+    grid-template-columns: 48px 160px;
+    align-items: center;
+    justify-items: center;
+    justify-self: end;
+    height: 48px;
+}
+.bulk-upload .bulk-upload-href a {
+    text-decoration: none;
+    color: #767C89;
+}
+.bulk-upload .bulk-upload-file {
+    display: grid;
+    grid-template-columns: 112px 48px;
+    background-color: #25272D;
+    border-radius: 4px;
+}
+.bulk-upload .bulk-upload-file input {
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+    width: 0;
+}
+.bulk-upload .bulk-upload-file label {
+    height: 48px;
+    width: 112px;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: #25272D;
+    border-radius: 4px;
+    color: #61646B;
+}
+.bulk-upload .bulk-upload-button button {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    background-color: #2F3137;
+    border: none;
+    cursor: pointer;
+}
+.bulk-upload .bulk-upload-button button:focus {
+    outline: none;
+}
+.bulk-upload .bulk-upload-button button:hover path {
+    stroke: white;
+}

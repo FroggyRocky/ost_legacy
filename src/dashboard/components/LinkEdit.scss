@@ -1,0 +1,14 @@
+@import 'src/variables';
+
+.link-edit {
+  width: 32px;
+  height: 32px;
+  background-color: $color-gray2;
+  border-radius: 8px;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  &:hover path {
+    fill: white;
+  }
+}

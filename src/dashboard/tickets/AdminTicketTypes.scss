@@ -1,0 +1,33 @@
+@import '../../variables';
+
+.ticket-types {
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 200px);
+    grid-gap: 13px;
+    .ticket-type {
+      display: grid;
+      grid-template-columns: 4px 1fr 50px;
+      height: 60px;
+      border-radius: 8px;
+      background-color: $color-gray1;
+      align-items: center;
+      &__color {
+        border-radius: 8px 0 0 8px;
+        height: 100%;
+      }
+      &__name {
+        display: grid;
+        align-items: center;
+        padding-left: 20px;
+      }
+      &--plus {
+        grid-template-columns: none;
+        justify-items: center;
+        &:hover path {
+          stroke: white;
+        }
+      }
+    }
+  }
+}

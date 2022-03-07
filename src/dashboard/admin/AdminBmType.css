@@ -1,0 +1,62 @@
+@media only screen and (max-width: 395px) {
+    .admin-bm-types .admin-bm-type div {
+        font-size: 16px !important;
+    }
+}
+.admin-bm-types .admin-bm-type {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 50px auto;
+    grid-column-gap: 10px;
+    max-width: 680px;
+    height: 80px;
+    background-color: #25272D;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    padding: 16px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    align-items: center;
+    overflow-wrap: break-word;
+}
+.admin-bm-types .admin-bm-type .admin-bm-type-edit {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+.admin-bm-types .admin-bm-type .admin-bm-type-edit button {
+    width: 32px;
+    height: 32px;
+    background-color: #2F3137;
+    border-radius: 8px;
+    border: none;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    cursor: pointer;
+}
+.admin-bm-types .admin-bm-type .admin-bm-type-edit button:focus {
+    outline: none;
+}
+.admin-bm-types .admin-bm-type .admin-bm-type-edit button:hover path {
+    fill: white;
+}
+.admin-bm-types .admin-bm-type div {
+    font-size: 24px;
+}
+.admin-bm-types .admin-bm-type div div:first-child {
+    font-size: 16px;
+}
+.admin-bm-types .admin-bm-type-add {
+    max-width: 680px;
+    height: 80px;
+    background-color: #25272D;
+    border-radius: 8px;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+.admin-bm-types .admin-bm-type-add:hover path {
+    stroke: white;
+}

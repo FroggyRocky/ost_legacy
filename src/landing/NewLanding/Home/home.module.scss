@@ -1,0 +1,156 @@
+@import "../LandingGeneral.scss";
+
+
+.wrapper {
+    @extend %wrapper;
+    min-height: 100vh;
+}
+.wrapper {
+    position: relative;
+    .wave, .wave2 {
+        position: absolute;
+        width: 100vw;
+        bottom: 0px;
+        z-index: 10;
+    }
+
+    .backLogo, .stroke, .message {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        z-index: 5;
+    }}
+    .message {
+        top:15%;
+        right: 1%;
+    }
+
+.wrapper {
+    position: relative;
+    a {
+        text-decoration: none
+    }
+.gradient {
+    position: absolute;
+    opacity: 0.4;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    z-index: 1;
+}
+}
+
+.achivements {
+    position: absolute;
+    bottom: 5%;
+}
+.content {
+    @extend %content_desktop;
+    max-height: 812px;
+    flex-direction: column;
+    br {
+        display: none;
+    }
+}
+
+.heading_container {
+    max-width: 564px;
+    flex-wrap: wrap;
+    margin-top: 230px;
+    margin-bottom: 246px;
+    z-index: 15;
+    h1 {
+        margin-bottom: 16px;
+        font-family: $font-montserrat;
+        font-weight: 600;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 48px;
+        line-height: 64px;
+        @extend %headers_general_styles;
+    }
+    .subHeader {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 40px;
+        color: $fc_minor;
+        font-family:$font-proxima;
+    }
+    button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 128px;
+        height: 48px;
+        border-radius: 4px;
+        @extend %buttons_general_styles;
+        font-style: normal;
+        font-size: 16px;
+        line-height: 24px;
+        font-family: $font-proxima;
+        color: $fc_main;
+        font-weight: 100;
+        letter-spacing: 1px;
+        border: none;
+        cursor: pointer;
+        p {
+            margin-left: 4px;
+        }
+    }
+}
+
+
+
+@media (max-width: 768px) {
+    .wrapper {
+        background-image: url("../assets/svgs/mobHome.png");
+        background-repeat: no-repeat;
+        background-position: right;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-size: cover;
+        min-height: none;
+        z-index: 0;
+        .backLogo, .stroke, .message {
+            display: none;
+        }
+    }
+
+    .content {
+        margin:0;
+        br {
+            display: initial;
+        }
+    }
+    .heading_container {
+        max-width: 280px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-right: 25px;
+        margin-left: 0;
+        button {
+            flex-shrink: 0;
+        }
+    }
+    .achivements {
+        display: none;
+    }
+    .gradient {
+        display: none;
+    }
+    .wave {
+        display: none;
+    }
+    .wave2 {
+        display: none;
+    }
+
+}
+
+

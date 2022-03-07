@@ -1,0 +1,57 @@
+@import '../LandingGeneral.scss';
+
+.achievements_container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index:15;
+    .achivement {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        p {
+            padding-right: 16px;
+            color: $fc_main;
+            font-family: $font-proxima;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 24px;
+            line-height: 32px;
+            font-weight: 400;
+        }
+        span {
+            color: $fc_minor;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 24px;
+            font-family: $font-proxima;
+            padding-top: 1px;
+        }
+    }
+    .vertical_line {
+        width: 2px;
+        height: 16px;
+        margin: 0 40px;
+        background-color: #767c89;
+    }
+}
+
+
+@media (max-width:768px) {
+    .achievements_container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+        margin: 24px 0 50px 0;
+    } 
+    .achivement {
+        p {
+           padding: 8px;
+        }
+    }
+    .vertical_line {
+        display: none;
+    }
+}

@@ -1,0 +1,128 @@
+@media only screen and (max-width: 790px) {
+    .user-list .user-list-table .email, .country, .manager-id, .admin, .user-list-manager {
+        display: none !important;
+    }
+    .user-list .user-list-table td {
+        font-size: 12px !important;
+    }
+}
+@media only screen and (max-width: 350px) {
+
+}
+.user-list .user-list-header-name {
+    font-family: "Montserrat sBold", sans-serif;
+    font-size: 48px;
+    color: white;
+    margin-bottom: 32px;
+}
+.user-list .user-list-bar {
+    display: grid;
+    grid-auto-flow: column;
+    padding-bottom: 20px;
+}
+.user-list .user-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.user-list .user-list-table th {
+    font-size: 14px;
+    line-height: 16px;
+    background-color: #1C1D22;
+    height: 40px;
+}
+.user-list .user-list-table td {
+    background-color: #25272D;
+    height: 80px;
+    color: white;
+}
+.user-list .user-list-table .user-list-table-spacer {
+    height: 8px;
+}
+.user-list .user-list-table tbody tr td:first-child {
+    border-radius: 8px 0 0 8px;
+}
+.user-list .user-list-table tbody tr td:last-child {
+    border-radius: 0 8px 8px 0;
+    padding-right: 5px;
+}
+.user-list .user-list-table .user-list-table-id {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 4px auto;
+    align-items: center;
+    column-gap: 8px;
+}
+.user-list .user-list-table .user-list-table-id .user-list-table-id-status {
+    border-radius: 8px 0 0 8px;
+    height: 100%;
+}
+.user-list-table td, .user-list-table th {
+    text-align: center;
+    vertical-align: middle !important;
+}
+.user-list .user-list-table .email.text-green {
+    color: #37BA5B;
+}
+.user-list .user-list-table .email.text-red {
+    color: #E13E3E;
+}
+.user-list .user-list-table .user-list-table-messenger {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+}
+.user-list .user-list-table .user-list-table-messenger div {
+    height: 40px;
+    width: 40px;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    border: 1px solid #2F3137;
+    border-radius: 0 8px 8px 0;
+    color: #767C89;
+}
+.user-list .user-list-table .user-list-table-messenger div.copy {
+    cursor: pointer;
+}
+.user-list .user-list-table .user-list-table-messenger div.copy:hover path {
+    fill: white;
+}
+.user-list .user-list-table .user-list-table-messenger div svg{
+    height: 24px;
+    width: 24px;
+}
+.user-list .user-list-table .user-list-table-manager {
+    color: #767C89;
+    font-size: 14px;
+    border: 1px solid #2F3137;
+    border-radius: 8px;
+    padding: 3px 0;
+}
+.user-list .user-list-table .user-list-table-messenger div:first-child {
+    border-right: 1px solid #2F3137;
+    border-radius: 8px 0 0 8px;
+}
+.user-list .user-list-table .user-list-table-icon {
+    width: 100%;
+    display: grid;
+    justify-content: center;
+}
+.user-list .user-list-table .user-list-table-icon div {
+    width: 32px;
+    height: 32px;
+    background-color: #2F3137;
+    border-radius: 8px;
+    border: none;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    cursor: pointer;
+}
+.user-list .user-list-table .user-list-table-icon:not(.edit) div:hover path {
+    stroke: white;
+}
+.user-list .user-list-table .user-list-table-icon.edit div:hover path {
+    fill: white;
+}

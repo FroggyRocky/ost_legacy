@@ -1,0 +1,51 @@
+.faq-create .faq-create-header-name {
+    font-family: "Montserrat sBold", sans-serif;
+    font-size: 48px;
+    color: white;
+    margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-auto-flow: column;
+    align-items: center;
+}
+.faq-create button {
+    height: 48px;
+    width: 140px;
+    border-radius: 4px;
+    background: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+}
+.faq-create .faq-create-td {
+    display: grid;
+    grid-auto-flow: row;
+    margin-bottom: 16px;
+}
+.faq-create .faq-create-td .faq-create-td-name {
+    color: white;
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+.faq-create .faq-create-td .faq-create-td-data {
+
+}
+.faq-create .faq-create-td .faq-create-td-data .text-input {
+    height: 40px;
+    width: 400px;
+    background-color: #25272D;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 14px;
+    color: white;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: none;
+}
+.faq-create .faq-create-td .faq-create-td-data textarea.text-input {
+    height: unset;
+}

@@ -1,0 +1,10 @@
+@import './../../index.scss';
+@import './normalize.scss';
+
+.landing_container {
+    background-color: $color-background;
+    @extend %normalize;
+}
+
+
+
