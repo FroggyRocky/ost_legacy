@@ -202,7 +202,7 @@ const AdminBmList = (props) => {
                 <thead>
                 <tr>
                     <th>
-                        ID:
+                        ID
                         <ReactTooltip    effect="solid" event='click' delayHide={400}
                                       afterShow={(evt) => TableAdditionalInfo.copyText(evt)}/>
                     </th>
@@ -210,10 +210,10 @@ const AdminBmList = (props) => {
                     {props.user.admin && <th>User</th>}
                     {props.user.admin && <th className='create-date'>Created</th>}
                     <th>Type</th>
-                    <th className='face-bm'>BM ID:</th>
-                    <th>Link 1:</th>
-                    <th className='link2'>Link 2:</th>
-                    <th className='link3'>Link 3:</th>
+                    <th className='face-bm'>BM ID</th>
+                    <th>Link 1</th>
+                    <th className='link2'>Link 2</th>
+                    <th className='link3'>Link 3</th>
                     <th>Account</th>
                     {!props.user.admin && !props.archive && <th>Problem</th>}
                     <th>{!props.user.admin && 'Archive'}</th>

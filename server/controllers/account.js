@@ -310,8 +310,8 @@ exports.addProxyTraffic = async (req, res) => {
     }
 };
 exports.proxyData = async (req, res) => {
-    try {
-        if (req.permission.acc_bm_update) {
+    try { 
+        if (req.permission.acc_bm_update) { 
             let result;
             if (req.body.data.type !== 'p') {
                 result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
@@ -322,9 +322,10 @@ exports.proxyData = async (req, res) => {
             }
         } else {
             return res.sendStatus(401)
+            
         }
     } catch (e) {
         console.log(e);
-        res.sendStatus(405)
+        
     }
 };

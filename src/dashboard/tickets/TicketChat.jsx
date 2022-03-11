@@ -15,6 +15,7 @@ const TicketChat = (props) => {
   });
   const [creatorEmail, setCreatorEmail] = useState("");
   const chatPanel = useRef(null);
+  const [paragraph, setParagraph] = useState('')
 
   useEffect(async () => {
     props.setPaymentTicketStatus(false);
@@ -25,11 +26,11 @@ const TicketChat = (props) => {
     }
   }, []);
 
-  function keyDown(e) {
-    if (e.keyCode === 13) {
+  function keyDown(e) {  console.log(messageState);
+    if (e.keyCode === 13 && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
-    }
+    } 
   }
 
   useCallback(() => {
@@ -197,6 +198,7 @@ const TicketChat = (props) => {
               maxLength="400"
               onClick={expand}
               onKeyDown={keyDown}
+              onKeyPress={keyDown}
             />
             <Zoom in={isExpanded}>
               <div className="send-message__button">

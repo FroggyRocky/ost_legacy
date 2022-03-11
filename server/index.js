@@ -16,11 +16,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     next();
 });
-// eader("Access-Control-Allow-Origin: *");
-// header('Access-Control-Allow-Origin: *');
-// header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-// header('Access-Control-Allow-Headers: *');
-// header('Access-Control-Max-Age: 1728000');
+
 db.authenticate()
     .then(() => console.log('Database connected!!!'))
     .catch(err => console.log('Error:' + err));

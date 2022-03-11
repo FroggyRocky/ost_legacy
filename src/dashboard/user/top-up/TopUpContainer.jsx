@@ -10,7 +10,6 @@ import AdminAPI from '../../../api/AdminAPI'
 const [error, setError] = useState('')
 
 async function onSubmit(formData) {
-
     const ticketTypeId = await AdminAPI.getBalanceTicketTypeId('Balance');
     
     const ticketData = {
@@ -19,7 +18,7 @@ async function onSubmit(formData) {
         title:'TOP UP'
     } 
     if(!formData.coin) {
-        setError('Choose a coin')
+        formData.coin = 'BITCOIN'
     } else await props.setPaymentData(formData, ticketData)
 }
 
