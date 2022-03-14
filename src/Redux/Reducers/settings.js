@@ -4,10 +4,11 @@ import UserAPI from '../../api/UserAPI'
 const SET_TOP_UP_DATA = "Reducers/settings/SET_TOP_UP_DATA";
 const SET_PAYMENT_TICKET_STATUS = "Reducers/settings/SET_PAYMENT_TICKET_STATUS";
 const SET_PAYMENT_REQUEST_STATUS = 'Reducers/settings/SET_PAYMENT_REQUEST_STATUS'
+const SET_DROP_DOWN_STATE = 'Reducers/settings/SET_DROP_DOWN_STATE'
 
-const BTC = "BITCOIN";
-const ETH = "ETHEREUM";
-const LTC = "LITECOIN";
+const BTC = "BTC";
+const ETH = "ETH";
+const LTC = "LTC";
 
 const initialState = {
   topUp: {
@@ -18,6 +19,7 @@ const initialState = {
     isTicketCreated: false,
     isRequestSending:false
   },
+  isDropDownOpen:false
 };
 
 export default function settings(state = initialState, action) {
@@ -49,6 +51,11 @@ export default function settings(state = initialState, action) {
             isRequestSending:action.status
           }
         }
+        case SET_DROP_DOWN_STATE: 
+        return {
+          ...state,
+          isDropDownOpen:action.state
+        }
     default:
       return {
         ...state,
@@ -63,6 +70,8 @@ const setTopUpData = (coin, amount, createdTicketId, creatorEmail) => ({
   creatorEmail,
   createdTicketId,
 });
+const setDropDownState = (state) => ({type:SET_DROP_DOWN_STATE, state})
+
 const setPaymentTicketStatus = (status) => ({
   type: SET_PAYMENT_TICKET_STATUS,
   status,
@@ -99,15 +108,15 @@ const setPaymentData = (formData, ticketData) => async (dispatch) =>  {
   const UserAutoMessgae = `${coin} ${amount}$`;
   const AdminAutoMessage = `HELLO! HERE YOUR ${coin} ADDRESS: ${setCryptoAddress(coin)}`;
   const res = await AdminAPI.ticketCreateOrUpdate(ticketData);
-  if (res.statusText === "OK") {
+  if (res.status === 200) {
     const tickets = await AdminAPI.getTickets();
-    if (tickets.statusText === "OK") {
-      const createdTicketId = tickets.data.tickets[0].id;
+    if (tickets.status === 200) {
+    const createdTicketId = tickets.data.tickets[0].id;
     const res = await setPaymentAutoMessage(createdTicketId, userId, UserAutoMessgae);
     const res1 = await setPaymentAutoMessage(createdTicketId, 1, AdminAutoMessage);
     const res3 = await UserAPI.getUserEmailById(userId)
 
-    if(res.statusText === 'OK' && res1.statusText === 'OK' && res3.statusText === 'OK') {
+    if(res.status === 200 && res1.status === 200 && res3.status === 200) {
       dispatch(setTopUpData(coin, amount, createdTicketId,res3.data));
       dispatch(setPaymentTicketStatus(true));
       dispatch(setRequestStatus(false));
@@ -117,4 +126,4 @@ const setPaymentData = (formData, ticketData) => async (dispatch) =>  {
   }
 };
 
-export { setPaymentData, setPaymentTicketStatus };
+export { setPaymentData, setPaymentTicketStatus, setDropDownState };

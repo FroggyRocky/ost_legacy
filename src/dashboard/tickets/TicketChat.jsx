@@ -45,7 +45,7 @@ const TicketChat = (props) => {
   async function sendMessage() {
     if (!messageState.message.length) return;
     const res = await props.messageCreate({ ...messageState });
-    if (res.data === "OK") {
+    if (res.data === "OK") { 
       await props.getTickets();
       setMessageState({ ...messageState, message: "" });
     } else {
@@ -58,7 +58,7 @@ const TicketChat = (props) => {
       const res = await props.ticketCreateOrUpdate({
         id: props.ticket?.id,
         solved: isSolved,
-      });
+      }); 
       if (res.data === "OK") {
         props.getTickets();
       } else {

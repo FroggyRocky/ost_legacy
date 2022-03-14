@@ -7,7 +7,8 @@ import {ReactComponent as Skype} from '../../img/skype.svg';
 import {ReactComponent as Telegram} from '../../img/telegram.svg';
 import {ReactComponent as Mla} from '../../img/mla.svg';
 import TopUp from './top-up/TopUpContainer';
-
+import {setDropDownState} from '../../Redux/Reducers/settings'
+import { connect } from 'react-redux';
 
 const Settings = (props) => {
 
@@ -27,6 +28,12 @@ const Settings = (props) => {
     const [settingsModalState, setSettingsModalState] = useState(false);
     const [changePasswordState, setChangePasswordState] = useState(false);
 
+
+    function closeDropDown(e) { 
+        if(e.target.getAttribute('id') !=='select-coin' && props.isSettingsDropDownOpen === true) {
+            props.setDropDownState(false)
+          }
+    }
     async function patchProfile() {
         const res = await props.patchUserData(settingsState);
         const data = await props.getUserData();
@@ -74,7 +81,7 @@ const Settings = (props) => {
     }
 
     return (
-        <div className='settings'>
+        <div className='settings' onClick={closeDropDown}>
             <div className='settings-header-name'>
                 Settings
                 <NavLink onClick={handleExit} to='/'>
@@ -267,4 +274,8 @@ const Settings = (props) => {
     );
 };
 
-export default Settings
+const mapStateToProps = (state) => ({
+    isSettingsDropDownOpen:state.Settings.isDropDownOpen
+})
+
+export default connect(mapStateToProps, {setDropDownState})(Settings)

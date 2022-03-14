@@ -46,10 +46,7 @@ background:linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
 font-size: 15px;
 line-height: 64px;
 color: #babdc6;
-display: flex;
-align-items: center;
 padding-left:10px;
-
 }
 
 
@@ -61,13 +58,15 @@ padding-left:10px;
     height: 48px;
     color: #F2F2F3;
     border: none;
-    font-weight: 600;
-font-size: 25px;
-line-height: 24px;
-font-family: "Montserrat sBold", sans-serif;
     background:linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
     margin-bottom: 23px;
     cursor: pointer;
+    font-family:'Proxima Nova Rg';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    border-radius: 4px;
 }
 
 
@@ -92,16 +91,52 @@ font-family: "Montserrat sBold", sans-serif;
     color: darkred;
 }
 
-.span {
-    display: block;
-width: 200px;
-height:  50px;
-color: red;
-}
-
 .top-up--select-coin {
-    font-family: 'Proxima Nova Rg';
-    font-weight: 400;
+font-family: 'Proxima Nova Rg';
+font-weight: 400;
 font-size: 16px;
 line-height: 24px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+z-index: 5;
+}
+
+
+.top-up-form-placeholder {
+font-family: 'Proxima Nova Rg';
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+cursor:default;
+color: #F2F2F3;
+}
+
+.top-up-select--arrow {
+margin-top: 5px;
+cursor: pointer;
+padding: 8px 0 5px 8px;
+}
+.top-up-select--arrow_up {
+transform: rotate(180deg);
+}
+
+.top-up-drop-down--option {
+    padding: 8px;
+    margin: 5px 2px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.top-up-drop-down--option:hover {
+    background-color:  #59616e23;
+    color: #F2F2F3;
+}
+.top-up--select-drop-down-container {
+    display: flex;
+    flex-direction: column;
+    background: #25272C;
+    border:none;
+    border-radius: 8px;
+    margin-top: 5px; 
 }

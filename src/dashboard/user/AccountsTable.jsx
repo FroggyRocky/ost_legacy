@@ -460,7 +460,7 @@ const AccountsTable = (props) => {
             'name':parentDiv.dataset.name,
             'os': "mac",
             'browser': 'mimic',
-            'navigator': {'language': 'en-US,en;q=0.9,de;q=0.8'},
+            'navigator': {'language': 'en-US,en;q=0.5,en-US,en;q=0.9'},
             'network': {
                 'proxy': {
                     'type': 'HTTP',

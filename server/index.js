@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(morgan('common'));
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
-    // for ost res.header('Access-Control-Allow-Origin', 'https://ostproduct.com/');
+    // res.header('Access-Control-Allow-Origin', 'https://ostproduct.com/');
     // res.header('Access-Control-Allow-Origin', 'http://350044-cq02541.tmweb.ru/');
     res.header('Access-Control-Allow-Methods', 'GET, POST');
     res.header('Access-Control-Allow-Private-Network')

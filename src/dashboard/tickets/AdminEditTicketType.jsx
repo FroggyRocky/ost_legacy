@@ -24,7 +24,8 @@ const AdminEditTicketType = (props) => {
     function handleClick (event) {
         event.preventDefault();
         async function saveTicketType () {
-            const res = await props.ticketTypeCreateOrUpdate(ticketTypeState);
+            const res = await props.ticketTypeCreateOrUpdate({...ticketTypeState,
+                 name:ticketTypeState.name[0].toUpperCase() + ticketTypeState.name.slice(1)});
             if (res.data === 'OK') {
                 await props.getTickets();
                 window.addEventListener('keydown', (event) => {if (event.keyCode === 27) handleModalClick()});
