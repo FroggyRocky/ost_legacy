@@ -2,6 +2,7 @@ import React from 'react';
 import AdminCountries from "./AdminCountries";
 import AdminBmType from "./AdminBmType";
 import '../admin/AdminPriceList.css'
+import Requisites from './Requisites/Requisites.jsx'
 
 const AdminPriceList = (props) => {
 
@@ -17,6 +18,7 @@ const AdminPriceList = (props) => {
             bmTypes={props.bmTypes}
             user={props.user}
         />
+    <Requisites/>
     </div>
 };
 
