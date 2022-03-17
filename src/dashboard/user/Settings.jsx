@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './Settings.css';
 import {NavLink} from 'react-router-dom';
 import {ReactComponent as Cross} from "../../img/cross.svg";
@@ -9,8 +9,13 @@ import {ReactComponent as Mla} from '../../img/mla.svg';
 import TopUp from './top-up/TopUpContainer';
 import {setDropDownState} from '../../Redux/Reducers/settings'
 import { connect } from 'react-redux';
+import {getRequisites} from '../../Redux/Reducers/priceList'
 
 const Settings = (props) => {
+
+    useEffect(() => {
+        props.getRequisites();
+    }, [])
 
     const [settingsState, setSettingsState] = useState({
         password: '',
@@ -278,4 +283,4 @@ const mapStateToProps = (state) => ({
     isSettingsDropDownOpen:state.Settings.isDropDownOpen
 })
 
-export default connect(mapStateToProps, {setDropDownState})(Settings)
+export default connect(mapStateToProps, {setDropDownState,getRequisites})(Settings)

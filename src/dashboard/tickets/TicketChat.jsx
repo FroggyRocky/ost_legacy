@@ -108,7 +108,7 @@ const TicketChat = (props) => {
     }
   }
 
-  const messages = props.ticket?.messages.map((el) => {
+  const messages = props.ticket?.messages.map((el, index) => {
     return (
       <>
         <div
@@ -117,9 +117,9 @@ const TicketChat = (props) => {
               ? "you"
               : "other"
           }`}
-          key={el.id}
+          key={index}
         >
-          <div className="messages__message--name">
+          <div className="messages__message--name" >
             {el.userId === props.user?.id || el.user?.admin === props.user.admin
               ? "You:"
               : props.user.admin

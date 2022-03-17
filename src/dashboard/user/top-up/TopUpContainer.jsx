@@ -9,6 +9,7 @@ import AdminAPI from '../../../api/AdminAPI'
 
 const [error, setError] = useState('')
 const [currency, setCurrency] = useState('')
+
 async function onSubmit(data) {
     const formData = {
         ...data,
@@ -25,7 +26,7 @@ async function onSubmit(data) {
     return <>
     <WithReduxForm onSubmit={onSubmit} {...props} currency={currency} 
     setCurrency={setCurrency} customError = {error} setDropDownState={props.setDropDownState} 
-    isDropDownOpen={props.isDropDownOpen}
+    isDropDownOpen={props.isDropDownOpen} requisites = {props.requisites}
     />
     </>
  }
@@ -36,7 +37,8 @@ const mapStateToProps = (state) => ({
     isTicketCreated: state.Settings.topUp.isTicketCreated,
     isRequestSending:state.Settings.topUp.isRequestSending,
     createdTicketId:state.Settings.topUp.createdTicketId,
-    isDropDownOpen:state.Settings.isDropDownOpen
+    isDropDownOpen:state.Settings.isDropDownOpen,
+    requisites: state.PriceList.requisites
 })
 
 export default connect(mapStateToProps, {setPaymentData,setDropDownState})(TopUpContainer)

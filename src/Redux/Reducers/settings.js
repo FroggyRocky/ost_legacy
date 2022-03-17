@@ -88,25 +88,18 @@ async function setPaymentAutoMessage(ticketId, userId, message) {
    return AdminAPI.setBalanceAutoMessage({...data});
 }
 
-function setCryptoAddress(coin) {
-  switch (coin) {
-    case BTC:
-      return "1238321838";
-    case LTC:
-      return "3281381";
-    case ETH:
-      return "3821312838";
-    default:
-      break;
-  }
+function setCryptoAddress(coin, requisites) {
+  const reqNum = requisites.filter(el => el.currency_name === coin);
+  return reqNum[0].requisites
 }
 
-const setPaymentData = (formData, ticketData) => async (dispatch) =>  {
-  dispatch(setRequestStatus(true))
+const setPaymentData = (formData, ticketData) => async (dispatch, getState) =>  {
+  const {PriceList} = await getState();
+      dispatch(setRequestStatus(true))
   const { coin, amount } = formData;
   const {userId} = ticketData
   const UserAutoMessgae = `${coin} ${amount}$`;
-  const AdminAutoMessage = `HELLO! HERE YOUR ${coin} ADDRESS: ${setCryptoAddress(coin)}`;
+  const AdminAutoMessage = `HELLO! HERE YOUR ${coin} ADDRESS: ${setCryptoAddress(coin,PriceList.requisites)}`;
   const res = await AdminAPI.ticketCreateOrUpdate(ticketData);
   if (res.status === 200) {
     const tickets = await AdminAPI.getTickets();

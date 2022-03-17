@@ -338,6 +338,16 @@ const Message = db.define('message', {
     }
 });
 
+const Requisites = db.define('requisites', {
+    currency_name: {
+        type:DataTypes.STRING(25)
+    },
+    requisites: {
+        type:DataTypes.STRING(100)
+    }
+    
+})
+
 BmTypes.hasMany(Bms);
 Bms.belongsTo(BmTypes);
 
@@ -387,5 +397,6 @@ module.exports = {
     Phones,
     TicketTypes,
     Tickets,
-    Message
+    Message,
+    Requisites
 };

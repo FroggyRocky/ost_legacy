@@ -157,9 +157,20 @@ async function skip(data) {
     )
 }
 
+function getRequisites() {
+    return axios.get(`${serverURL}/requisites`)
+}  
+
+function changeReq(newReq) {
+    let token = localStorage.getItem('token');
+    if (!token) token = sessionStorage.getItem('token');
+    return axios.post(`${serverURL}/change-req`, newReq, {headers: {Authorization: 'Bearer ' + token}})
+}
+
 const adminApi = {faqCreateOrUpdate, adminUserUpdate, countryCreateOrUpdate, accCreateOrUpdate, faqDelete,
     bmTypeCreateOrUpdate, bmCreateOrUpdate, approveUser, accBulkCreate, bmBulkCreate, accountUUID, proxyData,
-    ticketTypeCreateOrUpdate, getBalanceTicketTypeId, getTickets, ticketCreateOrUpdate, messageCreate,setBalanceAutoMessage, skip
+    ticketTypeCreateOrUpdate, getBalanceTicketTypeId, getTickets, ticketCreateOrUpdate, messageCreate,
+    setBalanceAutoMessage, skip, getRequisites, changeReq
 };
 
 export default adminApi;

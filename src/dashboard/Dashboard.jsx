@@ -38,6 +38,8 @@ const Dashboard = (props) => {
         fetchData().then();
     }, [getTickets]);
 
+    
+
     return (userState && userState.user.active) ? (
         <div className='dashboard'>
             {/* {console.log(userState)} */}
