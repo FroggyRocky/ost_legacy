@@ -1,0 +1,80 @@
+@font-face {
+    font-family: Proxima Nova Rg;
+    src: url(../../../fonts/ProximaNova-Regular.ttf);
+  }
+
+.priceList-coin-container {
+    width: 516px;
+    min-height: 184px;
+    background:#25272D;
+    margin-top: 20px;
+    padding: 1px 0;
+
+}
+
+.priceList-coin-content {
+    margin: 16px;
+}
+
+.priceList-currency_type {
+    margin: 0;
+    margin-top: 15px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    font-family: 'Proxima Nova Rg';
+}
+
+
+.priceList-currency-name--container {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+}
+
+.priceList-currency-logo {
+    width: 35px;
+    height: 35px;
+    margin-left: 5px;
+    border-radius: 8px;
+}
+
+.priceList-delete--container, .priceList-requisites {
+display: flex;
+align-items: center;
+justify-content: space-between;
+font-weight: 400;
+font-size: 24px;
+line-height: 32px;
+font-family:'Proxima Nova Rg';
+}
+
+.priceList-wallet-label {
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 24px;
+    font-family: 'Proxima Nova Rg';
+}
+
+
+.priceList-delete--container {
+    margin-top: 24px;
+}
+
+.priceList-currency-name {
+    font-weight: 400;
+font-size: 24px;
+line-height: 32px;
+font-family: 'Proxima Nova Rg';
+}
+
+.priceList-edit-icon {
+    background-color: #2F3137;
+    border-radius: 5px;
+    
+}
+
+.priceList-requisites {
+    margin-top: 16px;
+    font-family: 'Proxima Nova Rg';
+}

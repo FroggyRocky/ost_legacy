@@ -3,7 +3,6 @@ import { Field } from "redux-form";
 import { Redirect } from 'react-router-dom';
 import './topUp.css';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import currency from '../../../img/currency.svg';
 
 export default function TopUp(props) {
 
@@ -12,7 +11,8 @@ export default function TopUp(props) {
   const [isDropDownOpen, setDropDownState] = useState(false)
 
   function setCrypto(event) {
-    props.setCurrency(event.target.getAttribute('value'));
+    const value = event.currentTarget.getAttribute('value')
+    props.setCurrency(value);
   }
 
   function toggleDropDown() {
@@ -32,20 +32,21 @@ export default function TopUp(props) {
   }, [props.isTicketCreated])
 
   const currencyOptions = props.requisites?.map((el, index) => {
-    return <div className="top-up-drop-down--content" onClick={setCrypto}>
-    <div key={index} className='top-up-drop-down--option-container' value={el.currency_name} >
-      <div>
-        <img className="top-up-currency-img" src={currency} alt='currency_log' />
-        <span>{el.currency_name}</span>
+    return <div key={index} className='top-up-drop-down--option-container'
+      value={el.currency_ticker} onClick={setCrypto}>
+      <div className="top-up-img--container">
+        <img className="top-up-currency-img" src={`/${el.currency_ticker}.svg`} alt='currency_logo'/>
+        <span>{`${el.currency_name} ( ${el.currency_ticker} )`}</span>
       </div>
       <div>
-        <input className="top-up--radio" type="radio" value={el.currency_name}
-         checked= {el.currency_name === props.currency || 
-        !props.currency && index === 0}
-         name={el.currency_name} />
+        <input className="top-up--radio" type="radio"
+          checked={el.currency_ticker === props.currency ||
+            !props.currency && index === 0}
+          name={el.currency_ticker} />
+          <div className={`${el.currency_ticker === props.currency ||
+            !props.currency && index === 0  ? 'radio-circle--checked' : 'radio-circle'}`}></div>
       </div>
     </div>
-  </div>
   })
 
 
@@ -54,6 +55,7 @@ export default function TopUp(props) {
   return (<>
     <div className="top-up--breaking-line"></div>
     <div className="top-up-container">
+
       <div className="top-up-header-container">
         <h2 className="top-up--header">Balance:&nbsp;</h2>
         <span className="top-up--balance">{props.balance || '0'}$</span>
@@ -74,7 +76,7 @@ export default function TopUp(props) {
           </span>
         </div>
         {props.isDropDownOpen && <div className='top-up--select-drop-down-container'>
-            {currencyOptions}
+          {currencyOptions}
         </div>
         }
         {props.customError && <div className="top-up-select--error">*{props.customError}</div>}

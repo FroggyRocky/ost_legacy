@@ -339,8 +339,12 @@ const Message = db.define('message', {
 });
 
 const Requisites = db.define('requisites', {
+    currency_ticker: {
+        type:DataTypes.STRING(20),
+        allowNull: false
+    },
     currency_name: {
-        type:DataTypes.STRING(25)
+        type:DataTypes.STRING(100)
     },
     requisites: {
         type:DataTypes.STRING(100)

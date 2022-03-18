@@ -18,13 +18,6 @@ const priceList = (state = initialState, action) => {
                 isEditModeOn:action.state
             }
         case SET_REQUISITES: 
-    
-        // const newReq = action.requisites.map(el => (
-        //  {  [el.currency_name]:{requisites:el.requisites, id:el.id} }
-        //  ))
-        //  const [BTC, ETH] = newReq;
-        //  console.log(BTC)
-        //  console.log(newReq);
         return {
             ...state,
             requisites: action.requisites

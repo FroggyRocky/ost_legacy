@@ -3,7 +3,7 @@ const modules = require("../dbmodels");
 exports.requisites = async (req,res) => {
 try {
     const data = await modules.Requisites.findAll({
-        attributes:['currency_name', 'requisites', 'id']
+        attributes:['currency_ticker', 'currency_name', 'requisites', 'id']
     })
 res.send(data)
 } catch(e) {

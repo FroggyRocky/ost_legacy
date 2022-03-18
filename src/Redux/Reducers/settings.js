@@ -6,10 +6,6 @@ const SET_PAYMENT_TICKET_STATUS = "Reducers/settings/SET_PAYMENT_TICKET_STATUS";
 const SET_PAYMENT_REQUEST_STATUS = 'Reducers/settings/SET_PAYMENT_REQUEST_STATUS'
 const SET_DROP_DOWN_STATE = 'Reducers/settings/SET_DROP_DOWN_STATE'
 
-const BTC = "BTC";
-const ETH = "ETH";
-const LTC = "LTC";
-
 const initialState = {
   topUp: {
     coin: "",
@@ -89,8 +85,8 @@ async function setPaymentAutoMessage(ticketId, userId, message) {
 }
 
 function setCryptoAddress(coin, requisites) {
-  const reqNum = requisites.filter(el => el.currency_name === coin);
-  return reqNum[0].requisites
+  const reqNum = requisites.filter(el => el.currency_ticker === coin);
+  return reqNum[0]
 }
 
 const setPaymentData = (formData, ticketData) => async (dispatch, getState) =>  {
@@ -98,8 +94,11 @@ const setPaymentData = (formData, ticketData) => async (dispatch, getState) =>  
       dispatch(setRequestStatus(true))
   const { coin, amount } = formData;
   const {userId} = ticketData
-  const UserAutoMessgae = `${coin} ${amount}$`;
-  const AdminAutoMessage = `HELLO! HERE YOUR ${coin} ADDRESS: ${setCryptoAddress(coin,PriceList.requisites)}`;
+  const {currency_name, currency_ticker, requisites} = setCryptoAddress(coin,PriceList.requisites);
+  const fullCurrencyName = `${currency_name} ( ${currency_ticker} )`
+  const UserAutoMessgae = `${fullCurrencyName} ${amount}$`;
+  
+  const AdminAutoMessage = `HELLO! HERE YOUR ${fullCurrencyName} ADDRESS: ${requisites}`;
   const res = await AdminAPI.ticketCreateOrUpdate(ticketData);
   if (res.status === 200) {
     const tickets = await AdminAPI.getTickets();
