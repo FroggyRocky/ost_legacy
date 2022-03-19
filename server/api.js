@@ -14,7 +14,7 @@ const data = require('./controllers/data'),
     accountAndBm = require('./controllers/accountAndBm'),
     other = require('./controllers/other'),
     ticket = require('./controllers/ticket');
-    priceList = require('./controllers/priceList.js')
+    requisites = require('./controllers/requisites.js')
 
 // Data
 router.post('/data', authentication.token, data.data);
@@ -86,8 +86,14 @@ router.post('/message', authentication.token, ticket.message);
 router.post('/get-creator-email', authentication.token, ticket.ticketCreatorId)
 router.post('/create-balance-message',authentication.token, ticket.balanceMessage);
 router.post('/ticket-balance-type-id',authentication.token, ticket.ticketBalanceTypeId)
-module.exports = router;
+
 
 ///Requisites 
-router.get('/requisites', priceList.requisites)
-router.post('/change-req', authentication.token, priceList.changeReq)
+router.get('/requisites', requisites.requisites);
+router.post('/change-req', authentication.token, requisites.changeReq);
+router.post('/create-req', authentication.token, requisites.createReq)
+router.post('/delete-req', authentication.token, requisites.deleteReq)
+
+module.exports = router;
+
+

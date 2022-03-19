@@ -47,15 +47,28 @@ dispatch(setDataState(true))
 }
 }
 
-const changeReq = async (newReq) => {
-    const res = await AdminAPI.changeReq(newReq);
-    if(res.status === 200) {
-        getRequisites();
-    }
+// const changeReq = async (changedReq) => {
+//     const res = await AdminAPI.changeReq(changedReq);
+//     if(res.status === 200) {
+//         getRequisites();
+//     }
 
+// }
+
+
+const addNewRequisites = (newReq) => async (dispatch) => {
+    const res = await AdminAPI.createReq(newReq);
+    if(res.status === 200) {
+        await getRequisites();
+    }
 }
  
-
+const deleteReq = (reqId) => async(dispatch) => {
+   const res =  await AdminAPI.deleteReq(reqId);
+   if(res.status === 200) {
+ await getRequisites();
+   }
+}
 
 export default priceList;
-export {setEditModeState, getRequisites,changeReq}
+export {setEditModeState, getRequisites, addNewRequisites,deleteReq}

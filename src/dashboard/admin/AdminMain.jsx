@@ -21,6 +21,7 @@ import AdminTicketTypes from "../tickets/AdminTicketTypes";
 import AdminEditTicketType from "../tickets/AdminEditTicketType";
 import CreateTicket from "../tickets/CreateTicket";
 import TicketChat from "../tickets/TicketChat";
+import AddReq from './Requisites/AddReq'
 
 const AdminMain = (props) => {
     return (
@@ -212,6 +213,15 @@ const AdminMain = (props) => {
                         bmTypeCreateOrUpdate={props.bmTypeCreateOrUpdate}
                         getUserData={props.getUserData}
                         setUserState={props.setUserState}
+                    />}
+                />}
+                      {props.user.admin && props.user.permission.price_list_update && <Route
+                    path='/dashboard/adminpricelist/addrequisites'
+                    render={(url) => <AddReq
+                        // countries={props.countries.find(country => (country.id.toString() === url.match.params.country))}
+                        // countryCreateOrUpdate={props.countryCreateOrUpdate}
+                        // getUserData={props.getUserData}
+                        // setUserState={props.setUserState}
                     />}
                 />}
                 <Route

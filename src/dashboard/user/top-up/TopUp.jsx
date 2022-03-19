@@ -35,7 +35,7 @@ export default function TopUp(props) {
     return <div key={index} className='top-up-drop-down--option-container'
       value={el.currency_ticker} onClick={setCrypto}>
       <div className="top-up-img--container">
-        <img className="top-up-currency-img" src={`/${el.currency_ticker}.svg`} alt='currency_logo'/>
+        <img className="top-up-currency-img" src={`/tickers/${el.currency_ticker}.svg`} alt='currency_logo'/>
         <span>{`${el.currency_name} ( ${el.currency_ticker} )`}</span>
       </div>
       <div>
@@ -48,7 +48,6 @@ export default function TopUp(props) {
       </div>
     </div>
   })
-
 
 
 
@@ -68,12 +67,15 @@ export default function TopUp(props) {
           id='select-coin'
         >
           <span className="top-up-form-placeholder">
-            Pay With:&nbsp;<span className="top-up-currency-name">{props.currency || 'BTC'}</span>
+            Pay With:&nbsp;
+            <span className="top-up-currency-name">
+            {props.currency || props.requisites?.currency_ticker && 'BTC' || 'No currencies'}
+            </span>
           </span>
-          <span className="top-up-select--arrow">
+        { props.requisites && <span className="top-up-select--arrow">
             <KeyboardArrowDownIcon className={props.isDropDownOpen ? 'top-up-select--arrow_up' : null}
               style={{ color: '#f2f2f3', fontSize: 30 }} />
-          </span>
+          </span> }
         </div>
         {props.isDropDownOpen && <div className='top-up--select-drop-down-container'>
           {currencyOptions}
