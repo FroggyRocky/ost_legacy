@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import AdminCountries from "./AdminCountries";
 import AdminBmType from "./AdminBmType";
 import '../admin/AdminPriceList.css'
 import ReqContainer from './Requisites/ReqContainer'
 
 const AdminPriceList = (props) => {
+
 
     return <div className='admin-price'>
         <div className='admin-price-header'>Price-list</div>

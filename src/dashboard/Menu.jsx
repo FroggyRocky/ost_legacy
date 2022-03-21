@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./Menu.css";
+import './Dashboard.css'
 import Manager from "./Manager";
 import { ReactComponent as Key } from "../img/key.svg";
 import { ReactComponent as Bag } from "../img/bag.svg";
@@ -20,11 +21,13 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
+
 const Menu = (props) => {
   const [smallMenuState, setSmallMenuState] = useState(true);
   const [isHovered, setHover] = useState(false);
   const [isSettingsHovered, setSettingsHover] = useState(false)
   const [isMenuExtended, setMenuState] = useState(false)
+
   function activateHover(stateFn) {
     stateFn(true);
   }
@@ -32,6 +35,11 @@ const Menu = (props) => {
     stateFn(false);
   }
 
+  function minimize() {
+    // .dashboard
+    props.dashboardRef.current.style.gridTemplateColumns = 'auto 1fr'
+    window.innerWidth > 960 && resizeMenu(false); setHover(false);
+  }
   async function fetchData() {
     const adminData = await props.getUserData();
     props.setUserState(adminData.data);
@@ -294,7 +302,7 @@ const Menu = (props) => {
           {smallMenuState ? (
             <div
               className="menu-minimize-container"
-              onClick={() => { window.innerWidth > 960 && resizeMenu(false); setHover(false);}}
+              onClick={minimize}
               onMouseOver={() => activateHover(setHover)}
               onMouseLeave={() => disableHover(setHover)}
             >

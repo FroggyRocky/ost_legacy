@@ -1,5 +1,6 @@
 const modules = require("../dbmodels");
 
+
 exports.requisites = async (req,res) => {
 try {
     const data = await modules.Requisites.findAll({
@@ -12,11 +13,17 @@ res.send(data)
 }
 
 
-exports.changeReq = async(req,res) => {
+exports.updateReq = async(req,res) => {
     try {
         if(req.admin === true) {
-    }
-} catch(e) {
+            const data = req.body
+            const key = Object.keys(data)[0];
+        const response = await modules.Requisites.update({requisites:data[key]}, {
+            where:{currency_ticker:key}
+        });
+        res.send(response);
+        }
+    } catch(e) {
         console.log(e);
         res.sendStatus(500)
     }

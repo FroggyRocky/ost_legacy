@@ -90,7 +90,7 @@ router.post('/ticket-balance-type-id',authentication.token, ticket.ticketBalance
 
 ///Requisites 
 router.get('/requisites', requisites.requisites);
-router.post('/change-req', authentication.token, requisites.changeReq);
+router.post('/update-req', authentication.token, requisites.updateReq);
 router.post('/create-req', authentication.token, requisites.createReq)
 router.post('/delete-req', authentication.token, requisites.deleteReq)
 

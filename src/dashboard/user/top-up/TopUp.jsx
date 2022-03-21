@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import './topUp.css';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-export default function TopUp(props) {
+export default function TopUp(props) { console.log(props)
 
   const [isRedirect, setRedirectState] = useState(false);
 
@@ -16,7 +16,9 @@ export default function TopUp(props) {
   }
 
   function toggleDropDown() {
+    if(props.requisites?.length) {
     setDropDownState((prev) => !prev)
+    }
   }
 
   useEffect(() => {
@@ -69,13 +71,13 @@ export default function TopUp(props) {
           <span className="top-up-form-placeholder">
             Pay With:&nbsp;
             <span className="top-up-currency-name">
-            {props.currency || props.requisites?.currency_ticker && 'BTC' || 'No currencies'}
+            {props.currency || props.requisites?.length && props.requisites[0].currency_ticker || 'No currencies'}
             </span>
           </span>
-        { props.requisites && <span className="top-up-select--arrow">
-            <KeyboardArrowDownIcon className={props.isDropDownOpen ? 'top-up-select--arrow_up' : null}
+      <span className={`top-up-select--arrow ${!props.requisites?.length && 'top-up-arrow-off'}`}>
+         <KeyboardArrowDownIcon className={props.isDropDownOpen && 'top-up-select--arrow_up'}
               style={{ color: '#f2f2f3', fontSize: 30 }} />
-          </span> }
+          </span> 
         </div>
         {props.isDropDownOpen && <div className='top-up--select-drop-down-container'>
           {currencyOptions}

@@ -1,50 +1,42 @@
 import { useState, useEffect } from 'react';
 import './Requisites.css'
-import { Field } from 'redux-form';
+import { Field, FormSection } from 'redux-form';
 import {NavLink} from 'react-router-dom';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
 import AddIcon from '@mui/icons-material/Add';
+import ClearIcon from '@mui/icons-material/Clear';
+import {Input} from '../../../Redux/FormValidators/CustomFields.js'
+import {minValue, maxValue} from '../../../Redux/FormValidators/FormValidators.js'
 
 
-export default function Requisites(props) {
+const minLength = minValue(5,'Wallet address')
+const maxLength = maxValue(200, 'Wallet address')
 
-    const [currentInput, setCurrentInput] = useState({});
-    const [isEditModeOn, setEditModeState] = useState(false);
-
-    useEffect(() => {
-        setCurrentInput(props.req)
-    }, [props.req])
+export default function Requisites(props) { 
 
 
 
-    function enableEditMode() {
-        setEditModeState(true)
-    }
-    function disableEditMode() {
-        setEditModeState(false)
-    }
+    const [isFieldOpen, setOpenedField] = useState({});
 
-    function detectInputChange(e) {
-
-    }
-
-    function setNewReq() {
-        // props.changeReq(currentInput);
-        disableEditMode();
+    function handleSubmit(e) {
+        setOpenedField({})
+        props.handleSubmit()
     }
 
     function deleteReq(e)  {
-      
         const reqId = e.currentTarget.getAttribute('id')
             props.deleteReq(reqId)
             window.location.reload(false);
     }
 
+
     const fields = () => {
 
-        return props.req.map((el, index) => <form key={index} className='priceList-coin-container' onSubmit={props.handleSubmit}>
+        return props.req.map((el, index) => { 
+            
+        return <form key={index} className='priceList-coin-container'  onSubmit={handleSubmit}>
             <div className='priceList-coin-content'>
                 <p className='priceList-currency_type'>Coin</p>
                 <div className='priceList-currency-name--container'>
@@ -53,29 +45,42 @@ export default function Requisites(props) {
                 </div>
                 <div className='priceList-delete--container'>
                     <span className='priceList-wallet-label'>Wallet address</span>
-                    <DeleteForeverIcon id={el.id} style={{ fontSize: 32, color: '#61646B' }} onClick={deleteReq}/>
+                    <DeleteForeverIcon id={el.id} style={{ fontSize: 32, color: '#61646B', cursor:'pointer' }}
+                     onClick={deleteReq} />
                 </div>
 
                 <div className='priceList-requisites'>
-                    {isEditModeOn ?
-                        <Field name={el.currency_name} component='input'
-                            onChange={detectInputChange} /> :
+                    {isFieldOpen[el.currency_ticker] === true ?
+                        <Field className='priceList-req-field' required={true} validate={[maxLength, minLength]}
+                         name={el.currency_ticker} component={Input}/> :
                         <div>{el.requisites}</div>
                     }
-                    {isEditModeOn ?
-                        <DoneIcon style={{ fontSize: 32 }} onClick={setNewReq} /> :
-                        <EditIcon style={{ fontSize: 32, color: '#61646B' }} className='priceList-edit-icon' onClick={enableEditMode} />}
+                    <div className='priceList-requisites-action-icons'>
+                    { isFieldOpen[el.currency_ticker] === true ? <>
+                    <button className={`priceList-req-btn`}>
+                       <DoneIcon key={el.id} style={{ fontSize: 32, color:!props.pristine ? '#f2f2f3' : '#767C89' }}/>
+        </button>
+            
+                        <ClearIcon style={{ fontSize: 32}} className='priceList-icon'
+                        onClick={() => setOpenedField({[el.currency_ticker]:false})} />
+                        </> :
+                        <EditIcon style={{ fontSize: 32}} className='priceList-icon priceList-edit-icon'
+                         onClick={() => setOpenedField({[el.currency_ticker]:true})} id={el.id}  /> 
+                         }
+                    </div>
                 </div>
             </div>
         </form>
-        )
+        })
     }
+
+
 
     return <div className="requisites-container">
         {fields()}
         <NavLink to='/dashboard/adminpricelist/addrequisites'>
             <div className='priceList-add-currency'>
-                <AddIcon className='priceList-add-requisites-icon' />
+                <AddIcon className='priceList-addReq-icon priceList-icon' />
             </div>
             </NavLink>
     </div>

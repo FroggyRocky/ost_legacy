@@ -163,10 +163,10 @@ function getRequisites() {
     return axios.get(`${serverURL}/requisites`)
 }  
 
-function changeReq(changedReq) {
+function updateReq(updatedReq) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
-    return axios.post(`${serverURL}/change-req`, changedReq, {headers: {Authorization: 'Bearer ' + token}})
+    return axios.post(`${serverURL}/update-req`, updatedReq, {headers: {Authorization: 'Bearer ' + token}})
 }
 
 function createReq(newReq) {
@@ -184,7 +184,7 @@ function deleteReq(reqId) {
 const adminApi = {faqCreateOrUpdate, adminUserUpdate, countryCreateOrUpdate, accCreateOrUpdate, faqDelete,
     bmTypeCreateOrUpdate, bmCreateOrUpdate, approveUser, accBulkCreate, bmBulkCreate, accountUUID, proxyData,
     ticketTypeCreateOrUpdate, getBalanceTicketTypeId, getTickets, ticketCreateOrUpdate, messageCreate,
-    setBalanceAutoMessage, skip, getRequisites, changeReq, createReq, deleteReq
+    setBalanceAutoMessage, skip, getRequisites, updateReq, createReq, deleteReq
 };
 
 export default adminApi;

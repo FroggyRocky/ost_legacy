@@ -233,5 +233,9 @@ transform: rotate(180deg);
     z-index: 5;
 }
 
+.top-up-arrow-off {
+    display: none;
+}
+
 
 

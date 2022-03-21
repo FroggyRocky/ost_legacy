@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import './Dashboard.css'
 import UserMain from './user/UserMain';
 import Menu from "./Menu";
@@ -10,8 +10,7 @@ import AdminMain from './admin/AdminMain'
 const Dashboard = (props) => {
     const [userState, setUserState] = useState(null);
     const [redirectState, setRedirectState] = useState(false);
-
-
+    const dashboard = useRef()
 
     function checkToken () {
         if (!localStorage.getItem('token') && !sessionStorage.getItem('token')) setRedirectState(true)
@@ -41,7 +40,7 @@ const Dashboard = (props) => {
     
 
     return (userState && userState.user.active) ? (
-        <div className='dashboard'>
+        <div ref = {dashboard} className='dashboard'>
             {/* {console.log(userState)} */}
             {redirectState && <div><Redirect to='/login' /></div>}
             <div className='dashboard-menu full'>
@@ -50,6 +49,7 @@ const Dashboard = (props) => {
                       getUserData={UserAPI.getUserData}
                       setUserState={setUserState}
                       user={userState.user}
+                      dashboardRef={dashboard}
                 />
             </div>
             {!userState.user.admin ?
