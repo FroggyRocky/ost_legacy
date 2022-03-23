@@ -4,7 +4,7 @@
   }
 
 .priceList-coin-container {
-    width: 516px;
+    max-width: 680px;
     min-height: 184px;
     background:#25272D;
     margin-top: 20px;
@@ -72,10 +72,11 @@ font-family: 'Proxima Nova Rg';
 .priceList-requisites {
     margin-top: 16px;
     font-family: 'Proxima Nova Rg';
+    word-break: break-all;
 }
 
 .priceList-add-currency {
-    max-width: 516px;
+    max-width: 680px;
     min-height: 44px;
     display: flex;
     align-items: center;

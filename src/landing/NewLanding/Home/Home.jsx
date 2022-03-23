@@ -13,7 +13,6 @@ export default function Home({setPopUpState, isPopUp_on}) {
 
 function toggleSignInPopUp() {
   setPopUpState(true,0)
-
 }
 
   return (

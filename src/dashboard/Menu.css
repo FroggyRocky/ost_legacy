@@ -323,21 +323,19 @@ margin-left: 5px;
 
 }
 
+
 .menu-minimize-text {
     font-weight: normal;
 font-size: 18px;
 line-height: 24px;
 }
 
-.dashboard-menu {
-    transition: 800ms ease-in-out;
-}
+
 
 .menu-toggle-container {
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;
-    
     margin-left: 32px;
 }
 

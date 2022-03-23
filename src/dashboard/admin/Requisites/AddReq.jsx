@@ -1,14 +1,21 @@
+import {useEffect} from 'react'
 import { connect } from "react-redux"
 import {reduxForm, Field} from 'redux-form'
 import './addReq.css'
-import {addNewRequisites} from '../../../Redux/Reducers/priceList.js'
+import {addNewRequisites,setCreationState} from '../../../Redux/Reducers/priceList.js'
+import { Redirect } from 'react-router-dom';
 
-function AddReq(props) {
+function AddReq(props) { 
+
+  function redirect() {
+    props.setCreationState(false)
+    return <Redirect to='/dashboard/adminpricelist' />
+  }
 
 
-
-
-    return <div className="addReq-container">
+if(props.isNewReqCreated) {
+  return redirect();
+} else return <div className="addReq-container">
         <form className="addReq-form" onSubmit={props.handleSubmit}>
         <label className="addReq-label">Full currency name</label>
         <Field
@@ -18,6 +25,7 @@ function AddReq(props) {
           type="text"
           placeholder="Full-name"
           required
+          autoComplete="off"
         />
           <label className="addReq-label">Currency Ticker</label>
         <Field
@@ -27,6 +35,7 @@ function AddReq(props) {
           type="text"
           placeholder="Ticker name"
           required
+          autoComplete="off"
         />
         <label className="addReq-label">Wallet Address</label>
         <Field
@@ -36,6 +45,7 @@ function AddReq(props) {
           type="text"
           placeholder="Wallet Address"
           required
+          autoComplete="off"
         />
         <button className="add-Req-button">Save</button>
         </form>
@@ -72,6 +82,6 @@ const WithReduxForm = reduxForm({form:'AddReq'})(AddReq)
 
 
 const mapStateToProps = (state) => ({
-  
+  isNewReqCreated:state.PriceList.isNewReqCreated
 })
-export default connect(mapStateToProps, {addNewRequisites})(AddReqFormContainer)
+export default connect(mapStateToProps, {addNewRequisites,setCreationState})(AddReqFormContainer)

@@ -2,7 +2,10 @@ import styles from "./footer.module.scss";
 import logo from "../assets/svgs/logo.svg";
 import NewsLetter from "./NewsLetter/NewsContainer";
 
-export default function Footer() {
+export default function Footer(props) {
+
+
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
@@ -27,10 +30,10 @@ export default function Footer() {
             <div className={styles.policies}>
               <h2>POLICIES</h2>
               <ul>
-                <a href="" className="link">
+                <a className="link" onClick={() => props.setTermsModalState(true)}>
                   Terms & Conditions
                 </a>
-                <a href="" className="link">
+                <a className="link" onClick={() => props.setPrivacyModalState(true)}>
                   Privacy policies
                 </a>
               </ul>

@@ -16,6 +16,7 @@ useEffect(() => {
 
 
   const loginWindowRef = useRef(null);
+  
   if (window.location.pathname === "/") {
     function handleClickOutside(event) {
       if (

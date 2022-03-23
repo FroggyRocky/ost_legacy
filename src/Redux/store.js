@@ -4,12 +4,16 @@ import {reducer as formReducer} from 'redux-form'
 import login from './Reducers/login'
 import settings from './Reducers/settings'
 import priceList from './Reducers/priceList'
+import landing from './Reducers/landing'
+
+
 
 const reducers = combineReducers({
     form:formReducer,
     Login:login,
     Settings:settings,
-    PriceList:priceList
+    PriceList:priceList,
+    Landing:landing
 })
 
 

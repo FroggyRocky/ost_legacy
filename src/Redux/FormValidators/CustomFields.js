@@ -1,9 +1,9 @@
 import styles from './customFields.module.scss'
 
-function Input({input,meta:{error, submitFailed}, ...props}) { 
+function Input({input,meta:{error, touched, ...meta}, ...props}) {
 return <div>
             <input {...input} {...props} ></input>
-        {submitFailed && error ? <div className={styles.error}>*{error}</div> : null}
+        {touched && error ? <div className={styles.error}>*{error}</div> : null}
 </div>
 }
 

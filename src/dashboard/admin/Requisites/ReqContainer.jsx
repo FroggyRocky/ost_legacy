@@ -26,6 +26,7 @@ const [initialValues, setInitialValues] = useState({})
 
 
    async function onSubmit(data) {
+       console.log(data)
            await updateReq(data)
     }
 
@@ -36,7 +37,7 @@ const [initialValues, setInitialValues] = useState({})
     return <div className='requisites-header'>
         <h2 className='requisites-header'>Wallets</h2>
         {isReqLoaded ? <WithReduxForm onSubmit={onSubmit} deleteReq = {deleteReq}
-         req={requisites} /> :
+         req={requisites} getRequisites={getRequisites} /> :
             <NavLink to='/dashboard/adminpricelist/addrequisites'>
             <div className='priceList-add-currency'>
                 <AddIcon className='priceList-add-requisites-icon' />
@@ -46,7 +47,7 @@ const [initialValues, setInitialValues] = useState({})
     </div>
 }
 
-const WithReduxForm = reduxForm({ form: 'newReq', destroyOnUnmount: false })(Requisites)
+const WithReduxForm = reduxForm({ form: 'reqForm', destroyOnUnmount: false })(Requisites)
 
 const mapStateToProps = (state) => ({
     requisites: state.PriceList.requisites,

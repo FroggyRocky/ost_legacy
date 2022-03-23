@@ -14,21 +14,21 @@ import {minValue, maxValue} from '../../../Redux/FormValidators/FormValidators.j
 const minLength = minValue(5,'Wallet address')
 const maxLength = maxValue(200, 'Wallet address')
 
-export default function Requisites(props) { 
+export default function Requisites(props) { console.log(props)
 
 
 
     const [isFieldOpen, setOpenedField] = useState({});
 
     function handleSubmit(e) {
+        e.preventDefault();
         setOpenedField({})
         props.handleSubmit()
     }
 
-    function deleteReq(e)  {
+    async function deleteReq(e)  {
         const reqId = e.currentTarget.getAttribute('id')
-            props.deleteReq(reqId)
-            window.location.reload(false);
+            await props.deleteReq(reqId);
     }
 
 
@@ -52,12 +52,13 @@ export default function Requisites(props) {
                 <div className='priceList-requisites'>
                     {isFieldOpen[el.currency_ticker] === true ?
                         <Field className='priceList-req-field' required={true} validate={[maxLength, minLength]}
-                         name={el.currency_ticker} component={Input}/> :
+                         name={el.currency_ticker} autoComplete="off" component={Input}/>  :
                         <div>{el.requisites}</div>
                     }
                     <div className='priceList-requisites-action-icons'>
                     { isFieldOpen[el.currency_ticker] === true ? <>
-                    <button className={`priceList-req-btn`}>
+                    <button className={`priceList-req-btn`} 
+                        disabled={props.pristine || props.submitting || props.invalid}>
                        <DoneIcon key={el.id} style={{ fontSize: 32, color:!props.pristine ? '#f2f2f3' : '#767C89' }}/>
         </button>
             
