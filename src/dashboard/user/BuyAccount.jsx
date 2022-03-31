@@ -6,6 +6,7 @@ import { ReactComponent as Buy } from "../../img/buy.svg";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import {Redirect} from 'react-router-dom';
+import sendMetrix from '../../common/sendMentrix.js'
 
 const BuyAccount = (props) => {
   
@@ -167,6 +168,7 @@ const BuyAccount = (props) => {
   }
 
   function handleClick() {
+    sendMetrix('Buy', 'BuyClick');
     if (buyState.qty > 0) {
       if (buyState.sum > props.balance) {
         window.addEventListener("keydown", (event) => {

@@ -8,7 +8,7 @@ import WhoWeAre from './WhoWeAre/WhoWeAre'
 import Footer from './Footer/Footer';
 import {connect} from 'react-redux'
 import {setPopUpState} from '../../Redux/Reducers/login'
-import {setTermsModalState, setPrivacyModalState} from '../../Redux/Reducers/landing.js'
+import {setTermsModalState, setPrivacyModalState} from '../../Redux/Reducers/landing'
 import Login from '../../login/Login'
 import Modal from '../../common/Modal'
 

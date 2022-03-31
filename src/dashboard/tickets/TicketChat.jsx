@@ -134,7 +134,7 @@ const TicketChat = (props) => {
 
   ///////COMPONENT'S RETURN/////
   return (
-    <div className="ticket-chat" id="2" onClick={blur}>
+    <div className="ticket-chat ym-hide-content" id="2" onClick={blur}>
       <div className="ticket-chat-header-container">
         <h2 className="ticket-chat-header">TICKET&nbsp;#{props.ticket?.id}</h2>
         <div className="ticket-chat-info--container">

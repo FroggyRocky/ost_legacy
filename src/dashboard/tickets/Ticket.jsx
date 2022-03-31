@@ -44,7 +44,7 @@ const Ticket = (props) => {
 
   ///////Component Return/////////
   return (
-    <div className="ticket-container">
+    <div className="ticket-container ym-hide-content">
       <div className="ticket__header">
         <h2 className="ticket__header--title">
         TICKET&nbsp;#{props.ticket.id}

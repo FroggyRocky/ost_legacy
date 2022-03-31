@@ -69,7 +69,7 @@ const AdminLog = (props) => {
     }
 
     return (
-        <div className='log'>
+        <div className='log ym-hide-content'>
             <div className='log-header-name'>
                 Log
             </div>

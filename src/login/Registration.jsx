@@ -7,10 +7,12 @@ import {ReactComponent as Telegram} from '../img/telegram.svg'
 import {ReactComponent as Globe} from '../img/globe.svg'
 import {ReactComponent as Cross} from "../img/cross.svg";
 import {ReactComponent as Left} from "../img/left.svg";
+import sendMetrix from '../common/sendMentrix.js'
 
 const Registration = ({setPopUpState}) => {
     const countries = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Rep', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Ivory Coast', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'Korea North', 'Korea South', 'Kosovo', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russian Federation', 'Rwanda', 'St Lucia', 'Samoa', 'San Marino', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tonga', 'Trinidad & Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe',];
     const [isSendingReq, setReqStatus] = useState(false)
+    const [isSubmitting, setSubmitState] = useState(false)
     const [registrationState, setRegistrationState] = useState({
         email: '',
         password: '',
@@ -30,24 +32,31 @@ const Registration = ({setPopUpState}) => {
 
     function handleNext(event) {
         event.preventDefault();
+        setSubmitState(true)
         if (registrationState.email === '') {
             window.addEventListener('keydown', (event) => {if (event.keyCode === 27) handleOkClick()});
+            setSubmitState(false)
             return setModalState({status: true, err: 'Please, enter email', login: false})
         } else if (registrationState.password === '') {
             window.addEventListener('keydown', (event) => {if (event.keyCode === 27) handleOkClick()});
+            setSubmitState(false)
             return setModalState({status: true, err: 'Please, enter password', login: false})
         } else if (registrationState.password !== registrationState.confirmPassword) {
             window.addEventListener('keydown', (event) => {if (event.keyCode === 27) handleOkClick()});
+            setSubmitState(false)
             return setModalState({status: true, err: 'ResetPassword confirmation doesnt match password', login: false})
         } else {
             setPageState(true);
+            setSubmitState(false)
         }
+        
     }
     function handleChange(event) {
         setRegistrationState({...registrationState, [event.target.name]: event.target.value})
     }
     function handleSubmit(event) {
         event.preventDefault();
+        sendMetrix('Create Account', 'Account Created');
         setReqStatus(true)
         const successful = <div><h3>Registration Successful!</h3>
             An email has been sent to your address confirming your participation
@@ -118,7 +127,9 @@ const Registration = ({setPopUpState}) => {
                     onChange={handleChange}
                     required
                 />
-                <button className='login-button' type='submit'>Next step</button>
+                <button className={`login-button ${isSubmitting && 'login-button-disabled'}`} type='submit' >
+                    {isSubmitting ? 'Processing' : 'Next step'}
+                    </button>
             </form>}
             {pageState && <>
                 <div className='registration-step'><span className='registration-step-back' onClick={() => setPageState(false)}><Left/></span> Step 2/2</div>

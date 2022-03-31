@@ -101,7 +101,7 @@ const AdminUserList = (props) => {
                     userCount={props.userCount}
                 />
             </div>
-            <table className='user-list-table'>
+            <table className='user-list-table ym-hide-content'>
                 <thead>
                 <tr>
                     <th>ID</th>

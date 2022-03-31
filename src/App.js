@@ -1,4 +1,4 @@
-import React from 'react';
+import {useEffect} from 'react';
 import './App.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Login from './login/Login';
@@ -10,7 +10,11 @@ import {connect} from 'react-redux'
 import NotFound from "./dashboard/NotFound";
 import {setPopUpState} from './Redux/Reducers/login'
 
+
 function App(props) {
+
+
+
     return (
         <BrowserRouter>
             <div className='app'>

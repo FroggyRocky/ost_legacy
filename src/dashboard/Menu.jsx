@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 import "./Menu.css";
 import './Dashboard.css'
 import Manager from "./Manager";
@@ -339,13 +339,9 @@ const Menu = (props) => {
               {props.user.balance}$
             </span>
           </div>
-          <div className="menu-user-settings">
-            <NavLink to="/dashboard/settings"
-              onMouseOver={() => activateHover(setSettingsHover)}
-              onMouseLeave={() => disableHover(setSettingsHover)}>
-              <SettingsIcon style={{color:isSettingsHovered ? 'white' : '#767c89'}} />
+            <NavLink className='menu-settingsLink' to="/dashboard/settings" >
+              <SettingsIcon className='menu-settingIcon' />
             </NavLink>
-          </div>
         </div>
       </nav>
     </div>

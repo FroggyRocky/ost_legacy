@@ -5,6 +5,7 @@ import {serverURL} from '../api/URL';
 import {ReactComponent as Cross} from '../img/cross.svg';
 import {ReactComponent as Activation} from '../img/activation.svg'
 
+
 const LoginForm = ({setPopUpState}) => {
 
     const [isSendingReq, setReqStatus] = useState(false)
@@ -171,7 +172,7 @@ const LoginForm = ({setPopUpState}) => {
                         </div>
                         <input
                             ref={inputRef}
-                            className='login-form-input fa'
+                            className='login-form-input fa ym-disable-keys'
                             type='text'
                             inputMode='numeric'
                             name='token'

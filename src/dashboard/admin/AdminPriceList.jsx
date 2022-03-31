@@ -7,7 +7,7 @@ import ReqContainer from './Requisites/ReqContainer'
 const AdminPriceList = (props) => {
 
 
-    return <div className='admin-price'>
+    return <div className='admin-price ym-hide-content'>
         <div className='admin-price-header'>Price-list</div>
         <div className='admin-price-category'>Accounts</div>
         <AdminCountries

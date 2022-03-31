@@ -8,8 +8,7 @@ export default function Modal(props) {
 function closeModal(e) {
     const target = e.target.className
     const currentTarget = e.currentTarget.id
-    console.log(currentTarget)
-    if(target === 'common-modal-container' || currentTarget === 'modal-close') { console.log('yo')
+    if(target === 'common-modal-container' || currentTarget === 'modal-close' || target === 'common-modal-gradient') {
         props.closeModal(false)
     }
 } 

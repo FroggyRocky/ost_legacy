@@ -127,7 +127,7 @@ const Statistics = (props) => {
     }
 
     const accountsList = props.accounts?.map((el) => {
-        return <tbody key={el.id}>
+        return <tbody key={el.id} className='ym-hide-content'>
             <tr>
                 <td className='acc-id alert-info' onClick={handleClick}
                     id={el.id}>a{el.id} {props.countries && TableAdditionalInfo.getValueById(props.countries, el.countryId)}</td>

@@ -1,6 +1,7 @@
 @media only screen and (max-width: 420px) {
     .pagination .pagination-area {
         padding: 0 !important;
+        
     }
     .pagination .pagination-area select {
         width: 100px !important;
@@ -15,6 +16,7 @@
     align-content: center;
     grid-template-columns: repeat(auto-fit, 160px);
     grid-gap: 15px;
+   
 }
 .pagination .pagination-text-input {
     display: grid;
@@ -93,12 +95,12 @@
 .pagination .pagination-area {
     position: absolute;
     bottom: 6px;
-    left: 0;
+    left: 20;
     display: grid;
     grid-auto-flow: column;
     align-items: center;
     grid-template-columns: 1fr min-content;
-    width: 100%;
+    width: 80%;
     padding: 0 40px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
