@@ -13,7 +13,17 @@ import {setPopUpState} from './Redux/Reducers/login'
 
 function App(props) {
 
-
+useEffect(() => {
+    function preventDrop(e) {
+        e.preventDefault();
+    }
+    window.addEventListener("dragover",preventDrop,false);
+    window.addEventListener("drop",preventDrop,false);
+    return () => {
+     window.removeEventListener("dragover",preventDrop,false);
+    window.removeEventListener("drop",preventDrop,false); 
+}
+},[])
 
     return (
         <BrowserRouter>

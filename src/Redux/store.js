@@ -5,7 +5,7 @@ import login from './Reducers/login'
 import settings from './Reducers/settings'
 import priceList from './Reducers/priceList'
 import landing from './Reducers/landing'
-
+import tickets from './Reducers/tickets'
 
 
 const reducers = combineReducers({
@@ -13,7 +13,8 @@ const reducers = combineReducers({
     Login:login,
     Settings:settings,
     PriceList:priceList,
-    Landing:landing
+    Landing:landing,
+    Tickets:tickets
 })
 
 

@@ -34,7 +34,6 @@ export default function Advantages() {
                 <p>High quality profiles</p>
               </div>
             </section>
-            <div className={styles.gradient_mob}></div>
             <section className={styles.advantages_secondGroup}>
             <div className={styles.advantage}>
               <img src={proxy} alt="icon" />

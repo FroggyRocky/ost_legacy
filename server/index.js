@@ -3,7 +3,9 @@ const express = require('express'),
     morgan = require('morgan'),
     app = express(),
     db = require('./dbconnection');
+    const fileupload = require("express-fileupload");
 
+app.use(fileupload());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(morgan('common'));

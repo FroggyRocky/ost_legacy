@@ -61,6 +61,7 @@
 }
 
 .send-message {
+
   &__button {
     margin-top: 10px;
     text-align: right;
@@ -73,6 +74,7 @@
     font-size: 16px;
     line-height: 24px;
     font-family: $font-proxima;
+    position: relative;
   }
 }
 
@@ -147,6 +149,71 @@
   color: #babdc6;
 }
 
+.tickets-attach-icon { 
+position: absolute;
+right: 15px;
+padding: 10px;
+transform: rotate(30deg);
+cursor: pointer;
+}
+
+.tickets-attach-icon:hover {
+  color: #f2f2f3;
+}
+
+///preview images
+
+
+.img-preview-section {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.imgs-preview-container {
+  position: relative;
+  margin-bottom: 15px;
+  margin-right: 16px;
+}
+
+.img-preview {
+  width:107px;
+  height: 90px;
+  border-radius: 5px;
+}
+.img-preview-close-icon {
+  position: absolute;
+  right:0;
+  margin: 5px;
+  cursor:pointer;
+}
+
+.ticket-chat-img {
+  max-width: 50%;
+  height: 250px;
+  margin-top:16px;
+}
+
+
+
+.img-loader-container {
+  margin-top:16px;
+  max-width: 50%;
+  background-color:rgba(0, 0, 0, 0.11);
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ticketsChat-textarea-container {
+  position: relative;
+}
+
+.ticketChat-loader {
+animation: rotation 1.5s infinite linear;
+color: #61646b;
+}
+
 @media (max-width: 445px) {
   .ticket-chat-info:nth-child(odd) {
     padding: 15px 0px;
@@ -154,5 +221,16 @@
   .ticket-chat-info--container {
     display: flex;
     flex-direction: column;
+  }
+}
+
+
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-359deg);
   }
 }

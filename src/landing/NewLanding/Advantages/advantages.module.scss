@@ -71,12 +71,21 @@ main {
 .achivements {
     display: none;
 }
-.gradient_mob {
-    display: none;
-}
 
-@media (max-width: 992px) {
-}
+
+
+    @media (max-width: 992px) {
+        .arrow_down {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            img {
+                transform: rotate(90deg);
+                margin-right: 50px;
+            }
+        }
+    }
+
 
 @media (max-width: 768px) {
 .content {
@@ -84,7 +93,8 @@ main {
     display: flex;
     justify-content: center;
     flex-direction: column;
-
+    background:url('../assets/svgs/fadeAdvMob.png');
+    background-position: 50% 200%;
     main {
         display: flex;
         justify-content: center;
@@ -121,17 +131,7 @@ main {
     }
     .info_container {
         position: relative;        
-    .gradient_mob {
-        display: inline-block;
-        position: absolute;
-        width: 100%;
-        height: 408px;
-        top: 80px;
-        background:-webkit-linear-gradient(274.02deg, #228de2 0%, #4252e6 50.52%, #4428b6 100%);
-        opacity: 0.3;
-        -webkit-filter:blur(150px);
-        display: none;
-    }}
+}
 }
 }
 

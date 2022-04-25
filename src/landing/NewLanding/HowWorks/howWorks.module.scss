@@ -144,12 +144,11 @@
     display: none;
 }
 
-.gradient_mob {
-    display: none;
-}
+
 
 
 @media (max-width: 992px) {
+
     .arrow_down {
         width: 100%;
         display: flex;
@@ -162,9 +161,14 @@
 }
 
 @media (max-width: 768px) {
+    .wrapper {
+        background: url('../assets/svgs/fadeWorksMob.png');
+        background-position: 50% -90%;
+        background-repeat: no-repeat;
+    }
     .content {
         margin: 56px 16px;
-
+     
         h1 {
             margin-bottom: 32px;
         }
@@ -212,34 +216,12 @@
         }
     }
 
-    main {
-        position: relative;
-        .gradient_mob {
-            // -webkit-filter:blur(105px);
-            // display: inline-block;
-            // position: absolute;
-            // width: 1060px;
-            // height: 288px;
-            // top: 55%;
-            // background:-webkit-linear-gradient(274.02deg, #228de2 0%, #4252e6 50.52%, #4428b6 100%);
-            // opacity: 0.3;
-            // transform: rotate(-90deg);   
-            display: none;
-        }
-    }
     .gears {
         display: none;
     }
     .box_withDollar {
         display: none;
     }
-    main {
-    
-        .gradient {
-           display: none;
-        }
-
-}
 
 }
 

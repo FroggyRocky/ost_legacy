@@ -335,7 +335,14 @@ const TicketTypes = db.define('ticketTypes', {
 const Message = db.define('message', {
     message: {
         type: DataTypes.STRING(600)
+    },
+    src:{
+        type: DataTypes.STRING(1000)
+    },
+    type: {
+        type:DataTypes.STRING(600)
     }
+
 });
 
 const Requisites = db.define('requisites', {

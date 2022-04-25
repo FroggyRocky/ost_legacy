@@ -270,20 +270,20 @@ exports.addProxyTraffic = async (req, res) => {
             attributes: ['balance']
         });
         if (sumOnAcc.balance - 4 >= 0) {
-            if (proxy_type === 'p') {
-                const result = await axios.get(`https://proxy6.net/api/${process.env.PROXY_TOKEN_P}/prolong?period=3&ids=${proxy_id}&nokey`);
-                if (result.data.status === 'yes') {
-                    await modules.Accounts.update({proxy_date: result.data.list[0].date_end}, {
-                        where: where
-                    });
-                    await modules.Users.update({balance: sumOnAcc.balance - 4}, {
-                        where: {
-                            id: req.id
-                        }
-                    });
-                    return res.sendStatus(200);
-                }
-            } else {
+            // if (proxy_type === 'p') {
+            //     const result = await axios.get(`https://proxy6.net/api/${process.env.PROXY_TOKEN_P}/prolong?period=3&ids=${proxy_id}&nokey`);
+            //     if (result.data.status === 'yes') {
+            //         await modules.Accounts.update({proxy_date: result.data.list[0].date_end}, {
+            //             where: where
+            //         });
+            //         await modules.Users.update({balance: sumOnAcc.balance - 4}, {
+            //             where: {
+            //                 id: req.id
+            //             }
+            //         });
+            //         return res.sendStatus(200);
+            //     }
+            // } else {
                 const result = await axios.post(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}/renew?token=${process.env.PROXY_TOKEN}&volume=0.1`,
                     {'volume': '0.1'},
                     {headers: {
@@ -300,7 +300,7 @@ exports.addProxyTraffic = async (req, res) => {
                     });
                     return res.sendStatus(200)
                 }
-            }
+            // }
         } else {
             res.sendStatus(405)
         }
@@ -313,13 +313,13 @@ exports.proxyData = async (req, res) => {
     try { 
         if (req.permission.acc_bm_update) { 
             let result;
-            if (req.body.data.type !== 'p') {
+            // if (req.body.data.type !== 'p') {
                 result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
                 return res.send(result.data.data);
-            } else {
-                result = await axios.get(`https://proxy6.net/api/${process.env.PROXY_TOKEN_P}/getproxy?state=active&nokey`);
-                return res.send(result.data);
-            }
+            // } else {
+            //     result = await axios.get(`https://proxy6.net/api/${process.env.PROXY_TOKEN_P}/getproxy?state=active&nokey`);
+            //     return res.send(result.data);
+            // }
         } else {
             return res.sendStatus(401)
             

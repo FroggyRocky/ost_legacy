@@ -140,6 +140,14 @@ async function messageCreate(data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
+
+async function updateMessage(data) {
+    let token = localStorage.getItem('token');
+    if (!token) token = sessionStorage.getItem('token');
+    return await axios.post(`${serverURL}/update-message`, {...data},
+    {headers: {Authorization: 'Bearer ' + token
+}})
+    }
 async function setBalanceAutoMessage(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
@@ -181,10 +189,12 @@ function deleteReq(reqId) {
     return axios.post(`${serverURL}/delete-req`, {id: reqId}, {headers: {Authorization: 'Bearer ' + token}})
 } 
 
+
+
 const adminApi = {faqCreateOrUpdate, adminUserUpdate, countryCreateOrUpdate, accCreateOrUpdate, faqDelete,
     bmTypeCreateOrUpdate, bmCreateOrUpdate, approveUser, accBulkCreate, bmBulkCreate, accountUUID, proxyData,
     ticketTypeCreateOrUpdate, getBalanceTicketTypeId, getTickets, ticketCreateOrUpdate, messageCreate,
-    setBalanceAutoMessage, skip, getRequisites, updateReq, createReq, deleteReq
+    setBalanceAutoMessage, skip, getRequisites, updateReq, createReq, deleteReq, updateMessage
 };
 
 export default adminApi;

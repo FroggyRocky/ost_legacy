@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import "./TicketChat.scss";
 import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
@@ -6,16 +6,27 @@ import Zoom from "@mui/material/Zoom";
 import { connect } from "react-redux";
 import { setPaymentTicketStatus } from "../../Redux/Reducers/settings";
 import UserAPI from "../../api/UserAPI";
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import ModalAttach from '../../common/ModalAttach'
+import {setAttachState, setImgsPreviewSrc, deleteImgPreview, sendFiles, unsetLoadedFile} from '../../Redux/Reducers/tickets'
+import LoopIcon from '@mui/icons-material/Loop';
 
-const TicketChat = (props) => {
+
+const TicketChat = (props) => { 
+
   const [isExpanded, setExpanded] = useState(false);
   const [messageState, setMessageState] = useState({
     ticketId: props.ticket?.id || props.createdTicketId,
     message: "",
+    type:'message'
   });
   const [creatorEmail, setCreatorEmail] = useState("");
   const chatPanel = useRef(null);
-  const [paragraph, setParagraph] = useState('')
+  const attachInput = useRef(null)
+
+useEffect(() => {
+  props.getTickets();
+}, [props.filesInLoad])
 
   useEffect(async () => {
     props.setPaymentTicketStatus(false);
@@ -26,12 +37,19 @@ const TicketChat = (props) => {
     }
   }, []);
 
-  function keyDown(e) {  console.log(messageState);
+  function keyDown(e) { 
     if (e.keyCode === 13 && !e.shiftKey) {
       e.preventDefault();
-      sendMessage();
+      handleMessageSend();
     } 
   }
+
+function attachFile() {
+  attachInput.current.click()
+}
+
+
+
 
   useCallback(() => {
     chatPanel.current.scrollIntoView({ behavior: "smooth" });
@@ -42,7 +60,10 @@ const TicketChat = (props) => {
     return () => clearInterval(interval);
   });
 
-  async function sendMessage() {
+  async function handleMessageSend() {
+    if(props.imgsPreviewSrc.length != 0) {
+      props.sendFiles(props.ticket?.id || props.createdTicketId);
+    }
     if (!messageState.message.length) return;
     const res = await props.messageCreate({ ...messageState });
     if (res.data === "OK") { 
@@ -108,6 +129,10 @@ const TicketChat = (props) => {
     }
   }
 
+  function onFileLoaded(id) {
+    props.unsetLoadedFile(id)
+  }
+
   const messages = props.ticket?.messages.map((el, index) => {
     return (
       <>
@@ -126,15 +151,67 @@ const TicketChat = (props) => {
               ? `Id: ${props.ticket?.userId}`
               : "Admin:"}
           </div>
-          <div className="messages__message--text">{el.message}</div>
+        {el.type === 'message' && <div className="messages__message--text">{el.message}</div>}
+        {props.filesInLoad.some((id) => id === el.id) && <div className="img-loader-container">
+          <LoopIcon className="ticketChat-loader" style={{fontSize:50}}  />
+        </div>}
+        {el.type === 'img' && 
+        <img className="ticket-chat-img"
+         style={{display:props.filesInLoad.some((id) => id === el.id) ? 'none' : 'initial'}}
+         src={el.src} alt="image" onLoad={() => onFileLoaded(el.id)} />}
         </div>
       </>
     );
   });
 
+
+
+  function imgsPreviews() { 
+    return props.imgsPreviewSrc.map((el) =>  {
+    return <div className="imgs-preview-container" key={el.id}>
+      <CloseIcon className='img-preview-close-icon' style={{fontSize:25}} onClick={deletePreviewImg} id={el.id} />
+      <img className="img-preview" src={el.src} alt="img_preview" draggable="false"/>
+  </div>
+    }
+      )
+}
+
+
+function deletePreviewImg(e) {
+  props.deleteImgPreview(e.target.id)
+ }
+
+function attachFiles(e) {
+    let files = e.target.files
+    for(let key in files) {
+      if(key === 'length') {
+          return 
+      } 
+       else {
+      previewFiles(files[key])
+      }
+  }
+}
+
+function previewFiles(file) {
+  const reader = new FileReader()
+  reader.readAsDataURL(file)
+  reader.onloadend = async function() {
+      const imgsSrc = await reader.result
+      props.setImgsPreviewSrc(imgsSrc, file)  
+    }
+}
+
   ///////COMPONENT'S RETURN/////
   return (
-    <div className="ticket-chat ym-hide-content" id="2" onClick={blur}>
+    <div 
+    className="ticket-chat ym-hide-content" 
+    id="2" 
+    onClick={blur} 
+    onDragEnter={() => {props.setAttachState(true)}}
+    >
+      {props.isAttaching && 
+      <ModalAttach setAttachState={props.setAttachState} setImgsPreviewSrc={props.setImgsPreviewSrc} /> }
       <div className="ticket-chat-header-container">
         <h2 className="ticket-chat-header">TICKET&nbsp;#{props.ticket?.id}</h2>
         <div className="ticket-chat-info--container">
@@ -185,13 +262,16 @@ const TicketChat = (props) => {
         </div>
       )}
 
-      <div className="send-message" ref={chatPanel}>
+      <div className="send-message" ref={chatPanel} >
+        <section className="img-preview-section">
+        {imgsPreviews()}
+        </section>
         {!props.ticket?.solved && (
-          <>
+          <div className="ticketsChat-textarea-container">
             <textarea
               className="input-text"
               rows="3"
-              placeholder="Write a message..."
+              placeholder="Write a message or Drop a file..."
               name="message"
               onChange={handleChange}
               value={messageState?.message}
@@ -200,14 +280,16 @@ const TicketChat = (props) => {
               onKeyDown={keyDown}
               onKeyPress={keyDown}
             />
-            <Zoom in={isExpanded}>
+            <AttachFileIcon className="tickets-attach-icon" onClick={attachFile} />
+            <input ref={attachInput} type="file" style={{display:'none'}} onChange={attachFiles} /> 
+            <Zoom in={isExpanded || props.imgsPreviewSrc.length != 0}>
               <div className="send-message__button">
-                <button className="button-standard" onClick={sendMessage}>
+                <button className="button-standard" onClick={handleMessageSend}>
                   Send
                 </button>
               </div>
             </Zoom>
-          </>
+          </div>
         )}
       </div>
     </div>
@@ -217,6 +299,11 @@ const TicketChat = (props) => {
 const mapStateToProps = (state) => ({
   createdTicketId: state.Settings.topUp.createdTicketId,
   creatorEmail: state.Settings.topUp.creatorEmail,
+  isAttaching:state.Tickets.isAttaching,
+  imgsPreviewSrc:state.Tickets.imgsPreviewSrc,
+  filesInLoad:state.Tickets.filesInLoad
+
 });
 
-export default connect(mapStateToProps, { setPaymentTicketStatus })(TicketChat);
+export default connect(mapStateToProps, { setPaymentTicketStatus, setAttachState,
+   setImgsPreviewSrc, deleteImgPreview, sendFiles, unsetLoadedFile})(TicketChat);

@@ -81,7 +81,7 @@ export default function HowWorks() {
           <div className={styles.arrow}>
             <img src={arrow} alt="arrow" />
           </div>
-<div className={styles.gradient_mob}></div>  
+
           <div className={styles.box}> 
             <div className={styles.box_content}>
               <div className={styles.box_header}>

@@ -99,6 +99,23 @@ async function getUserEmailById(data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
+
+
+async function uploadS3File(file) {
+    let token = localStorage.getItem('token');
+    if (!token) token = sessionStorage.getItem('token');
+    const fd = new FormData()
+    fd.append('file', file)
+    return await axios.post(`${serverURL}/upload-s3-file`, fd,
+    {headers: {Authorization: 'Bearer ' + token,  
+    'Content-Type': 'multipart/form-data'
+}}
+)
+}
+
+
+
+
 const userApi = {
     getUserData,
     patchUserData,
@@ -111,7 +128,8 @@ const userApi = {
     proxyTraffic,
     addProxyTraffic,
     checkBmLimit,
-    getUserEmailById
+    getUserEmailById,
+    uploadS3File,
 };
 
 export default userApi;

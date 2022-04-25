@@ -14,7 +14,8 @@ const data = require('./controllers/data'),
     accountAndBm = require('./controllers/accountAndBm'),
     other = require('./controllers/other'),
     ticket = require('./controllers/ticket');
-    requisites = require('./controllers/requisites.js')
+    requisites = require('./controllers/requisites.js');
+    s3 = require('./controllers/s3.js')
 
 // Data
 router.post('/data', authentication.token, data.data);
@@ -83,9 +84,13 @@ router.post('/ticket', authentication.token, ticket.ticket);
 router.post('/ticket-type', authentication.token, ticket.ticketType);
 router.post('/tickets', authentication.token, ticket.tickets);
 router.post('/message', authentication.token, ticket.message);
+router.post('/update-message', authentication.token, ticket.updateMessage)
 router.post('/get-creator-email', authentication.token, ticket.ticketCreatorId)
 router.post('/create-balance-message',authentication.token, ticket.balanceMessage);
 router.post('/ticket-balance-type-id',authentication.token, ticket.ticketBalanceTypeId)
+
+//S3
+router.post('/upload-s3-file', authentication.token, s3.uploadS3File)
 
 
 ///Requisites 

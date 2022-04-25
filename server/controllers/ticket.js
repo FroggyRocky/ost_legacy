@@ -132,14 +132,33 @@ exports.message = async (req, res) => {
       ticketId: req.body.data.ticketId,
       userId: req.id,
       message: req.body.data.message,
+      type:req.body.data.type || 'message', 
+      src:req.body.data.src
     };
-    await modules.Message.create({ ...data });
-    res.sendStatus(200);
+   const response =  await modules.Message.create({...data});
+    res.send({id:response.id})
   } catch (e) {
     console.log(e);
     res.sendStatus(500);
   }
 };
+
+
+exports.updateMessage = async (req,res) => {
+
+  try {
+    const data = {...req.body}
+    await modules.Message.update({src:data.src, message:data.message}, {
+      where: {
+        id:data.messageId
+      }
+    })
+    res.sendStatus(200)
+  } catch(e) {
+    console.log(e);
+    res.sendStatus(500)
+  }
+}
 
 ////Find email of user who created ticket////
 exports.ticketCreatorId = (req, res) => { debugger;
@@ -168,6 +187,7 @@ exports.balanceMessage = async (req, res) => {
       ticketId: req.body.data.ticketId,
       userId: req.body.data.userId,
       message: req.body.data.message,
+      type:'message'
     };
     await modules.Message.create({ ...data });
     res.sendStatus(200);

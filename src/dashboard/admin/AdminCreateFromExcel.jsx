@@ -31,7 +31,7 @@ const AdminCreateFromExcel = (props) => {
             workbook.SheetNames.forEach(sheet => {
                 rows = xlsx.utils.sheet_to_json(workbook.Sheets[sheet]);
             });
-            const res = await props.proxyData({type: 'p'});
+            // const res = await props.proxyData({type: 'p'});
             await Promise.all(rows.map(async el => {
                 if (el.proxy_id) {
                     const res = await props.proxyData({proxy_id: el.proxy_id});
@@ -40,14 +40,15 @@ const AdminCreateFromExcel = (props) => {
                     el.proxy_password = res.data.access.password;
                     el.proxy_traffic_total = res.data.traffic.total;
                     el.proxy_traffic_left = res.data.traffic.left;
-                } else {
-                    const address = el.proxy_ip.split(':');
-                    const proxy = res.data.list.find(proxy => proxy.host === address[0] && proxy.port === address[1]);
-                    el.proxy_id = `p${proxy.id}`;
-                    el.proxy_login = proxy.user;
-                    el.proxy_password = proxy.pass;
-                    el.proxy_date = proxy.date_end;
-                }
+                } 
+                // else {
+                //     const address = el.proxy_ip.split(':');
+                //     const proxy = res.data.list.find(proxy => proxy.host === address[0] && proxy.port === address[1]);
+                //     el.proxy_id = `p${proxy.id}`;
+                //     el.proxy_login = proxy.user;
+                //     el.proxy_password = proxy.pass;
+                //     el.proxy_date = proxy.date_end;
+                // }
                 return el
                 }
             )).then(result => {
@@ -70,7 +71,7 @@ const AdminCreateFromExcel = (props) => {
                         try {
                             el.countryId = getIdByValue(el.countryId, props.countries);
                         } catch (e) {
-                            alert('Проверь название страны в строке ' + (i + 1));
+                            alert('Check the country name in the line ' + (i + 1));
                             throw e;
                         }
                         return el
@@ -82,7 +83,7 @@ const AdminCreateFromExcel = (props) => {
                         try {
                             el.bmTypeId = getIdByValue(el.bmTypeId, props.bmTypes);
                         } catch (e) {
-                            alert('Проверь название БМа в строке ' + (i + 1));
+                            alert('Check BM name in the line ' + (i + 1));
                             throw e;
                         }
                         return el
@@ -95,7 +96,7 @@ const AdminCreateFromExcel = (props) => {
                     document.getElementById('file').value = null;
                 } else {
                     console.log(res.data);
-                    alert('Что-то пошло не так')
+                    alert('Something went wrong')
                 }
             } catch (e) {
                 console.log(e);
