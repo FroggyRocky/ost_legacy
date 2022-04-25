@@ -26,7 +26,7 @@ function arrangeFiles(files) {
         if(key === 'length') {
             return 
         } 
-         else {
+         else if(files[key].type.split('/')[0] === 'image') {
         previewFiles(files[key])
         }
     }

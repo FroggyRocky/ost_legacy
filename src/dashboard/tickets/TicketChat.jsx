@@ -49,6 +49,9 @@ function attachFile() {
 }
 
 
+function zoomImg(source, id) {
+console.log(source, id)
+}
 
 
   useCallback(() => {
@@ -133,50 +136,6 @@ function attachFile() {
     props.unsetLoadedFile(id)
   }
 
-  const messages = props.ticket?.messages.map((el, index) => {
-    return (
-      <>
-        <div
-          className={`messages__message ${
-            el.userId === props.user.id || el.user.admin === props.user.admin
-              ? "you"
-              : "other"
-          }`}
-          key={index}
-        >
-          <div className="messages__message--name" >
-            {el.userId === props.user?.id || el.user?.admin === props.user.admin
-              ? "You:"
-              : props.user.admin
-              ? `Id: ${props.ticket?.userId}`
-              : "Admin:"}
-          </div>
-        {el.type === 'message' && <div className="messages__message--text">{el.message}</div>}
-        {props.filesInLoad.some((id) => id === el.id) && <div className="img-loader-container">
-          <LoopIcon className="ticketChat-loader" style={{fontSize:50}}  />
-        </div>}
-        {el.type === 'img' && 
-        <img className="ticket-chat-img"
-         style={{display:props.filesInLoad.some((id) => id === el.id) ? 'none' : 'initial'}}
-         src={el.src} alt="image" onLoad={() => onFileLoaded(el.id)} />}
-        </div>
-      </>
-    );
-  });
-
-
-
-  function imgsPreviews() { 
-    return props.imgsPreviewSrc.map((el) =>  {
-    return <div className="imgs-preview-container" key={el.id}>
-      <CloseIcon className='img-preview-close-icon' style={{fontSize:25}} onClick={deletePreviewImg} id={el.id} />
-      <img className="img-preview" src={el.src} alt="img_preview" draggable="false"/>
-  </div>
-    }
-      )
-}
-
-
 function deletePreviewImg(e) {
   props.deleteImgPreview(e.target.id)
  }
@@ -201,6 +160,50 @@ function previewFiles(file) {
       props.setImgsPreviewSrc(imgsSrc, file)  
     }
 }
+  const messages = props.ticket?.messages.map((el, index) => {
+    return (
+      <>
+        <div
+          className={`messages__message ${
+            el.userId === props.user.id || el.user.admin === props.user.admin
+              ? "you"
+              : "other"
+          }`}
+          key={index}
+        >
+          <div className="messages__message--name" >
+            {el.userId === props.user?.id || el.user?.admin === props.user.admin
+              ? "You:"
+              : props.user.admin
+              ? `Id: ${props.ticket?.userId}`
+              : "Admin:"}
+          </div>
+        {el.type === 'message' && <div className="messages__message--text">{el.message}</div>}
+        {props.filesInLoad.some((id) => id === el.id) && <div className="img-loader-container">
+          <LoopIcon className="ticketChat-loader" style={{fontSize:50}}  />
+        </div>}
+        {el.type === 'img' && 
+        <img className="ticket-chat-img" onClick={() => zoomImg(el.src, el.id)}
+         style={{display:props.filesInLoad.some((id) => id === el.id) ? 'none' : 'initial'}}
+         src={el.src} alt="image" onLoad={() => onFileLoaded(el.id)} />}
+        </div>
+      </>
+    );
+  });
+
+
+
+  function imgsPreviews() { 
+    return props.imgsPreviewSrc.map((el) =>  {
+    return <div className="imgs-preview-container" key={el.id}>
+      <CloseIcon className='img-preview-close-icon' style={{fontSize:25}} onClick={deletePreviewImg} id={el.id} />
+      <img className="img-preview" src={el.src} alt="img_preview" draggable="false"/>
+  </div>
+    }
+      )
+}
+
+
 
   ///////COMPONENT'S RETURN/////
   return (
@@ -282,7 +285,7 @@ function previewFiles(file) {
             />
             <AttachFileIcon className="tickets-attach-icon" onClick={attachFile} />
             <input ref={attachInput} type="file" style={{display:'none'}} onChange={attachFiles} /> 
-            <Zoom in={isExpanded || props.imgsPreviewSrc.length != 0}>
+            <Zoom in={isExpanded || props.imgsPreviewSrc.length != 0} accept='img/*'>
               <div className="send-message__button">
                 <button className="button-standard" onClick={handleMessageSend}>
                   Send
@@ -302,7 +305,7 @@ const mapStateToProps = (state) => ({
   isAttaching:state.Tickets.isAttaching,
   imgsPreviewSrc:state.Tickets.imgsPreviewSrc,
   filesInLoad:state.Tickets.filesInLoad
-
+  
 });
 
 export default connect(mapStateToProps, { setPaymentTicketStatus, setAttachState,

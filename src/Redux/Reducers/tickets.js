@@ -11,7 +11,9 @@ const initialState = {
     isAttaching: false,
     imgsPreviewSrc: [],
     filesInLoad: [],
-    isFileMessageCreating: false
+    isFileMessageCreating: false, 
+    isZoomedModeOn:true,
+    ticketImgsArr:[]
 }
 
 export default function tickets(state = initialState, action) {
