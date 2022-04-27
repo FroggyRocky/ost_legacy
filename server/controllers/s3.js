@@ -8,10 +8,9 @@ const metaParams = { Bucket: bucketParams.Bucket, Key: '073af81d-ddc7-4a95-a149-
 
 
 
-console.log('Создание клиента')
 const s3 = new S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY, // <--- заменить
-  secretAccessKey: process.env.AWS_SECRET_KEY, // <--- заменить
+  accessKeyId: process.env.AWS_ACCESS_KEY, 
+  secretAccessKey: process.env.AWS_SECRET_KEY, 
   endpoint: 'https://s3.timeweb.com',
   s3ForcePathStyle: true,
   region: process.env.AWS_REGION,

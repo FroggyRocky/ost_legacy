@@ -7,15 +7,16 @@ const DELETE_IMG_PREVIEW = 'Reducers/tickets/DELETE_IMG_PREVIEW'
 const SET_FILES_IN_LOAD = 'Reducers/tickets/SET_FILES_IN_LOAD'
 const CLEAR_IMGS_PREVIEW = 'Reducers/tickets/CLEAR_IMGS_PREVIEW'
 const UNSET_LOADED_FILE = 'Reducers/tickets/UNSET_LOADED_FILES'
+const SET_IMG_ZOOM_STATE = 'Reducers/tickets/SET_IMG_ZOOM_STATE'
+
+
 const initialState = {
     isAttaching: false,
     imgsPreviewSrc: [],
     filesInLoad: [],
     isFileMessageCreating: false, 
-    isZoomedModeOn:true,
-    ticketImgsArr:[]
+    zoomedImg:null
 }
-
 export default function tickets(state = initialState, action) {
     switch (action.type) {
         case SET_ATTACH_STATE:
@@ -54,7 +55,11 @@ export default function tickets(state = initialState, action) {
                 ...state,
                 imgsPreviewSrc: [],
             }
-
+        case SET_IMG_ZOOM_STATE:
+            return {
+                ...state, 
+                zoomedImg:action.src
+            }
         default:
             return {
                 ...state
@@ -68,6 +73,9 @@ const setFilesInLoad = (loadingItemId) => ({ type: SET_FILES_IN_LOAD, loadingIte
 const deleteImgPreview = (id) => ({ type: DELETE_IMG_PREVIEW, id })
 const clearImgsPreview = () => ({ type: CLEAR_IMGS_PREVIEW })
 const unsetLoadedFile = (id) => ({ type: UNSET_LOADED_FILE, id })
+const setImgZoomState = (src) => ({type:SET_IMG_ZOOM_STATE, src})
+
+
 
 const sendFiles = (ticketId) => async (dispatch, getState) => {
 
@@ -101,4 +109,4 @@ const sendFiles = (ticketId) => async (dispatch, getState) => {
 }
 
 
-export { setAttachState, setImgsPreviewSrc, deleteImgPreview, sendFiles, unsetLoadedFile }
+export { setAttachState, setImgsPreviewSrc, deleteImgPreview, sendFiles, unsetLoadedFile, setImgZoomState }

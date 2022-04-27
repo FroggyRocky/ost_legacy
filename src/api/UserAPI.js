@@ -107,7 +107,8 @@ async function uploadS3File(file) {
     const fd = new FormData()
     fd.append('file', file)
     return await axios.post(`${serverURL}/upload-s3-file`, fd,
-    {headers: {Authorization: 'Bearer ' + token,  
+    {headers: {
+    Authorization: 'Bearer ' + token,  
     'Content-Type': 'multipart/form-data'
 }}
 )
