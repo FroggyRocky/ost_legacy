@@ -150,6 +150,7 @@ exports.user = async (req, res) => {
 
 };
 
+
 exports.addAdmin = async (req, res) => {
     try {
         const adminInfo = {

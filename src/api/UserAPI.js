@@ -114,6 +114,11 @@ async function uploadS3File(file) {
 )
 }
 
+async function getReferralData() {
+    let token = localStorage.getItem('token');
+    if (!token) token = sessionStorage.getItem('token');
+    return await axios.get(`${serverURL}/get-referral-data`, {headers: {Authorization: 'Bearer ' + token}})
+}
 
 
 
@@ -131,6 +136,7 @@ const userApi = {
     checkBmLimit,
     getUserEmailById,
     uploadS3File,
+    getReferralData
 };
 
 export default userApi;

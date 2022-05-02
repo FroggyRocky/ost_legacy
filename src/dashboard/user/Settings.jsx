@@ -10,6 +10,7 @@ import TopUp from './top-up/TopUpContainer';
 import {setDropDownState} from '../../Redux/Reducers/settings'
 import { connect } from 'react-redux';
 import {getRequisites} from '../../Redux/Reducers/priceList'
+import Referral from './referral/Referral'
 
 const Settings = (props) => {
 
@@ -168,6 +169,7 @@ const Settings = (props) => {
                     </div>
                 </div>
             </div>
+            <Referral /> 
             {props.user.admin && <div className='settings-section'>
                 <div className='settings-section-name'>
                     Other

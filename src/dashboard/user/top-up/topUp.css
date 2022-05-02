@@ -38,19 +38,27 @@ background:linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
     flex-direction: column;
     max-width: 320px;
     position: relative;
+    font-family: 'Proxima Nova Rg';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+color: #61646B;
 }
 
 .top-up--select-coin, .top-up--amount {
     height: 35px;
-    color: #F2F2F3;
     background-color: #25272C;
     border: none;
-    font-weight: normal;
-font-size: 15px;
-line-height: 64px;
-color: #babdc6;
+    font-family: 'Proxima Nova Rg';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+color: #61646B;
 padding-left:18px;
 border-radius: 4px;
+
 }
 
 
@@ -58,6 +66,15 @@ border-radius: 4px;
     margin: 20px 0 18px 0;
 }
 
+.top-up--amount::placeholder {
+    font-family: 'Proxima Nova Rg';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+color: #61646B;
+opacity: 1;
+}
 .top-up--button {
     height: 48px;
     color: #F2F2F3;
@@ -109,12 +126,13 @@ cursor: pointer;
 
 
 .top-up-form-placeholder {
-font-family: 'Proxima Nova Rg';
-font-weight: 400;
-font-size: 16px;
-line-height: 24px;
-cursor:default;
+    font-family: 'Proxima Nova Rg';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
 color: #61646B;
+cursor:default;
 }
 
 .top-up-select--arrow {
@@ -184,7 +202,6 @@ transform: rotate(180deg);
 .top-up--select-drop-down-container::-webkit-scrollbar {
     width: 6px;
     overflow-y: none;
-
   }
 
   .top-up--select-drop-down-container::-webkit-scrollbar-track {
@@ -194,12 +211,9 @@ transform: rotate(180deg);
 
   .top-up--select-drop-down-container::-webkit-scrollbar-thumb {
     box-shadow: inset 5px 5px 90px #767c8948;
-    
   }
 
   .top-up--radio {
-    /* width: 16px;
-    height: 16px; */
     appearance: none;
     background-color: #2F3137;
     margin: 0;

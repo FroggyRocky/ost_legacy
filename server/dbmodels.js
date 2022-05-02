@@ -359,6 +359,21 @@ const Requisites = db.define('requisites', {
     
 })
 
+const Referrals = db.define('referrals', {
+    invited_referrals: {
+        type:DataTypes.INTEGER
+    },
+    referral_revenue: {
+        type:DataTypes.INTEGER
+    },
+    referral_level: {
+        type:DataTypes.INTEGER
+    }
+})
+
+Users.hasOne(Referrals);
+Referrals.belongsTo(Users)
+
 BmTypes.hasMany(Bms);
 Bms.belongsTo(BmTypes);
 
@@ -409,5 +424,6 @@ module.exports = {
     TicketTypes,
     Tickets,
     Message,
-    Requisites
+    Requisites,
+    Referrals
 };

@@ -13,9 +13,10 @@ const data = require('./controllers/data'),
     country = require('./controllers/country'),
     accountAndBm = require('./controllers/accountAndBm'),
     other = require('./controllers/other'),
-    ticket = require('./controllers/ticket');
-    requisites = require('./controllers/requisites.js');
-    s3 = require('./controllers/s3.js')
+    ticket = require('./controllers/ticket'),
+    requisites = require('./controllers/requisites.js'),
+    s3 = require('./controllers/s3.js'),
+    referrals = require('./controllers/referrals')
 
 // Data
 router.post('/data', authentication.token, data.data);
@@ -92,8 +93,10 @@ router.post('/ticket-balance-type-id',authentication.token, ticket.ticketBalance
 //S3
 router.post('/upload-s3-file', authentication.token, s3.uploadS3File)
 
+//Refferal Data 
+router.get('/get-referral-data',  authentication.token, referrals.getReferralData)
 
-///Requisites 
+//Requisites 
 router.get('/requisites', requisites.requisites);
 router.post('/update-req', authentication.token, requisites.updateReq);
 router.post('/create-req', authentication.token, requisites.createReq)

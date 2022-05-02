@@ -1,10 +1,10 @@
-import { useState, useEffect, isValidElement } from "react";
+import { useState, useEffect } from "react";
 import { Field } from "redux-form";
 import { Redirect } from 'react-router-dom';
 import './topUp.css';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-export default function TopUp(props) { console.log(props)
+export default function TopUp(props) { 
 
   const [isRedirect, setRedirectState] = useState(false);
 
@@ -89,7 +89,7 @@ export default function TopUp(props) { console.log(props)
           name="amount"
           component="input"
           type="text"
-          placeholder="AMOUNT (USD)"
+          placeholder="Amount (USD)"
           required
           pattern="[0-9]+"
         />
@@ -97,7 +97,7 @@ export default function TopUp(props) { console.log(props)
         <button
           className={`top-up--button ${props.isRequestSending && 'top-up--button-disabled'}`}
           disabled={props.isRequestSending}>
-          {props.isRequestSending ? 'Processing...' : 'TOP UP'}
+          {props.isRequestSending ? 'Processing...' : 'Top up'}
         </button>
       </form>
     </div>
