@@ -90,6 +90,7 @@ const AdminCreateAcc = (props) => {
 
     function handleClick (event) {
         event.preventDefault();
+        console.log(accountState)
         async function postAcc () {
             const res = await props.accCreateOrUpdate(accountState);
             const adminData = await props.getUserData();

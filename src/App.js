@@ -8,7 +8,7 @@ import Email from "./login/Email";
 import ResetPassword from "./login/ResetPassword";
 import {connect} from 'react-redux'
 import NotFound from "./dashboard/NotFound";
-import {setPopUpState} from './Redux/Reducers/login'
+import {setPopUpState, setReferralIdParams} from './Redux/Reducers/login'
 
 
 function App(props) {
@@ -33,10 +33,18 @@ useEffect(() => {
                       exact
                       path='/'
                       render={()=> <Landing />}
-                  />
+                  /> 
+                    <Route
+                      path='/landing/:referral_id'
+                      render={()=> <Landing referralId={props.referralId} />}
+                  /> 
                     <Route
                         path='/login'
-                        render={()=> <Login setPopUpState={props.setPopUpState} page={props.loginPage}/>}
+                        render={()=> <Login setPopUpState={props.setPopUpState} page={props.loginPage} setReferralIdParams={props.setReferralIdParams} />}
+                    />
+                     <Route
+                        path='/registration/:referral_id?'
+                        render={()=> <Login referralId={props.referralId} setPopUpState={props.setPopUpState} page={props.loginPage} setReferralIdParams={props.setReferralIdParams}/>}
                     />
                     <Route
                         path='/dashboard'
@@ -64,7 +72,8 @@ useEffect(() => {
 
 const mapStateToProps = (state) => ({
     isPopUp_on:state.Login.isPopUp_on,
-    loginPage:state.Login.loginPage
+    loginPage:state.Login.loginPage,
+    referralId:state.Login.referralId
   })
 
-export default connect(mapStateToProps, {setPopUpState})(App);
+export default connect(mapStateToProps, {setPopUpState, setReferralIdParams})(App);

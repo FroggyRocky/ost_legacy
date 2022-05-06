@@ -16,9 +16,9 @@ function closeModal(e) {
 
     return <div className="common-modal-container" onClick={closeModal}>
     <img className="common-modal-gradient" src={gradient} alt="gradient" />
-        <div className="common-modal-content">
+        <div className={props.smallModal ? 'common-smallModal' : 'common-modal-content'}>
             <CloseIcon className='common-modal-closeIcon' id='modal-close' style={{fontSize:'30'}} onClick={closeModal} />
-            <main className="common-modal-info">
+            <main className= {props.smallModal ? 'common-smallModal-info' : 'common-modal-info'}>
                 <h2 className='common-modal-header'>{props.header}</h2>
                 <p className='common-modal-text'>{props.text}</p>
             </main>

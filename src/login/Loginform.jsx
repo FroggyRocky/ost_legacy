@@ -38,7 +38,7 @@ const LoginForm = ({setPopUpState}) => {
 
     function handleSubmit(event) {
         event.preventDefault();
-        
+        console.log(formState)
         if (formState.email === '') {
             return setLoginState({status: true, err: 'Please, enter email'})
         } else if (formState.password === '') {

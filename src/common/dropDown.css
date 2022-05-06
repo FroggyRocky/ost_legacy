@@ -32,7 +32,7 @@
     font-size: 16px;
     line-height: 16px;
     color: #61646B;
-    padding-left:18px;
+    padding-left:8px;
     border-radius: 4px;
     display: flex;
     justify-content: space-between;
@@ -40,21 +40,20 @@
 }
 
 .select-placeholder {
-    font-family: 'Proxima Nova Rg';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 16px;
-    color: #61646B;
+  font-family: 'Proxima Nova Rg';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
     opacity: 1;
+    color: #E5E5E5;;
 }
 
 
 
 .select-arrow {
-    margin-top: 5px;
     cursor: pointer;
-    padding: 8px 18px 5px 8px;
+    margin-right:5px;
     }
     
     .selectArrow-up {
@@ -135,4 +134,8 @@
         margin-left: 4.35px;
         position: absolute;
         z-index: 5;
+    }
+
+    .select-options-container:hover {
+      color: #61646B
     }

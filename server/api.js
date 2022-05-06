@@ -95,6 +95,7 @@ router.post('/upload-s3-file', authentication.token, s3.uploadS3File)
 
 //Refferal Data 
 router.get('/get-referral-data',  authentication.token, referrals.getReferralData)
+router.get('/get-invited-emails', authentication.token, referrals.getInvitedEmails )
 
 //Requisites 
 router.get('/requisites', requisites.requisites);

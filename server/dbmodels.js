@@ -293,6 +293,9 @@ const Users = db.define('users', {
     approved: {
         type: DataTypes.BOOLEAN,
         defaultValue: 0
+    },
+    referred_user_id:{
+        type: DataTypes.INTEGER, //id of the user who invited you
     }
 });
 
@@ -359,15 +362,15 @@ const Requisites = db.define('requisites', {
     
 })
 
-const Referrals = db.define('referrals', {
-    invited_referrals: {
+const Referrals = db.define('referrals', { // referral data of the user
+    users_invited: {
         type:DataTypes.INTEGER
     },
     referral_revenue: {
-        type:DataTypes.INTEGER
+        type:DataTypes.DECIMAL
     },
     referral_level: {
-        type:DataTypes.INTEGER
+        type:DataTypes.INTEGER //percentage
     }
 })
 

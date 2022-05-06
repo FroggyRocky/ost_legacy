@@ -41,6 +41,7 @@
         grid-row: 1 / span 2 !important;
     }
 }
+
 .accounts .accounts-header {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -90,7 +91,7 @@
     border-collapse: collapse;
 }
 .accounts .accounts-table th:first-child{
-    width: 129px
+    width: 205px;
 }
 .accounts .accounts-table .accounts-table-center {
     display: grid;

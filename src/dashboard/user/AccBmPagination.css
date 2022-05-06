@@ -93,7 +93,7 @@
     color: white;
 }
 .pagination .pagination-area {
-    position: absolute;
+    position: fixed;
     bottom: 6px;
     left: 20;
     display: grid;

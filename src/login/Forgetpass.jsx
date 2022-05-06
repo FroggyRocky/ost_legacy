@@ -59,7 +59,7 @@ const ForgetPass = ({setPopUpState}) => {
                     onChange={handleChange}
                     required
                 />
-                <button type='submit' className={`login-button ${isSendingReq && 'login-button-disabled'}`}
+                <button type='submit' className={`login-button forgetPass-button ${isSendingReq && 'login-button-disabled'}`}
              disabled={isSendingReq}>{isSendingReq ? 'Processing' : 'Send email'}</button>
             </form>
             <div className='change-page' onClick={() => setPopUpState(true,0)}>

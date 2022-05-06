@@ -4,7 +4,7 @@ const modules = require('../dbmodels'),
     axios = require('axios');
     require('dotenv').config();
 
-exports.account = async (req, res) => {
+exports.account = async (req, res) => { 
     if (req.permission.acc_bm_update) {
         try {
             const data = {
@@ -30,6 +30,7 @@ exports.account = async (req, res) => {
                 token: req.body.data.token,
                 archived: req.body.data.archived || false
             };
+            console.log(data)
             if (req.body.data.id) {
                 const currentAcc = await modules.Accounts.findByPk(req.body.data.id, {
                     attributes: ['userId', 'creator']

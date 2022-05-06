@@ -1,7 +1,8 @@
 import AdminAPI from "../../api/AdminAPI";
 import UserAPI from '../../api/UserAPI'
 import {webURL} from '../../api/URL'
-import {setPopUpState} from './login'
+
+
 
 const SET_TOP_UP_DATA = "Reducers/settings/SET_TOP_UP_DATA";
 const SET_PAYMENT_TICKET_STATUS = "Reducers/settings/SET_PAYMENT_TICKET_STATUS";
@@ -9,6 +10,8 @@ const SET_PAYMENT_REQUEST_STATUS = 'Reducers/settings/SET_PAYMENT_REQUEST_STATUS
 const SET_DROP_DOWN_STATE = 'Reducers/settings/SET_DROP_DOWN_STATE'
 const SET_REFERRAL_DATA = 'Reducers/settings/SET_REFERRAL_DATA'
 const SET_REFERRAL_LINK = 'Reducers/settings/SET_REFERRAL_LINK'
+const SET_INVITED_EMAILS = 'Reducers/settings/SET_INVITED_EMAILS'
+
 
 const initialState = {
   topUp: {
@@ -20,12 +23,13 @@ const initialState = {
     isRequestSending:false
   },
   isDropDownOpen:false, // top-up drop down
-  invitedReferrals:null,
+  usersInvited:null,
   referralRevenue:null,
   referralLevel:null,
   userId:null, // userReferral Id
-  linkTypes:['login', 'registration'],
-  referralLink:null
+  linkTypes:['Landing', 'Registration'],
+  referralLink:null,
+  invitedEmails:[]
 };
 
 export default function settings(state = initialState, action) {
@@ -65,7 +69,7 @@ export default function settings(state = initialState, action) {
         case SET_REFERRAL_DATA: 
         return {
           ...state,
-          invitedReferrals:action.invitedReferrals,
+          usersInvited:action.usersInvited,
           referralRevenue:action.referralRevenue,
           referralLevel:action.referralLevel,
           userId:action.userId
@@ -75,9 +79,15 @@ export default function settings(state = initialState, action) {
             ...state,
             referralLink:action.link
           }
+          case SET_INVITED_EMAILS:
+            return {
+              ...state,
+              invitedEmails:[...action.emails]
+            }
     default:
       return {
         ...state,
+        referralId:action.id
       };
   }
 }
@@ -98,8 +108,8 @@ const setPaymentTicketStatus = (status) => ({
 
 const setRequestStatus = (status) => ({type:SET_PAYMENT_REQUEST_STATUS, status})
 
-const setReferralData = (invitedReferrals,referralRevenue,referralLevel, userId ) => 
-({type:SET_REFERRAL_DATA,invitedReferrals,referralRevenue,referralLevel, userId })
+const setReferralData = (usersInvited,referralRevenue,referralLevel, userId ) => 
+({type:SET_REFERRAL_DATA,usersInvited,referralRevenue,referralLevel, userId })
 
 const setReferralLink = (link) => ({type:SET_REFERRAL_LINK, link})
 
@@ -145,21 +155,31 @@ const setPaymentData = (formData, ticketData) => async (dispatch, getState) =>  
     }
   }
 };
+const setInvitedEmails = (emails) => ({type:SET_INVITED_EMAILS, emails})
 
 
 const getRefferalData = () => async (dispatch) => {
   const res = await UserAPI.getReferralData()
-  const {invited_referrals,referral_revenue,referral_level, userId } = res.data
-  dispatch(setReferralData(invited_referrals,referral_revenue, referral_level, userId))
+  const res2 = await UserAPI.getInvitedEmails()
+  
+  if(res.status === 200 && res2.status === 200) {
+    const invitedEmails = res2.data.map((el) => {
+      return el.email
+    })
+    dispatch(setInvitedEmails(invitedEmails))
+  const {users_invited,referral_revenue,referral_level, userId } = res.data
+  dispatch(setReferralData(users_invited,referral_revenue, referral_level, userId))
+  }
 }
 
 const createReferralLink = (linkType) => async (dispatch,getState) => {
   const settingsState = await getState().Settings
-  const link = `${webURL}/${linkType}?referral_id=${settingsState.userId}`
-  dispatch(setReferralLink(link))
+    const link = `${webURL}/${linkType.toLowerCase()}/referral_id=${settingsState.userId}`
+    dispatch(setReferralLink(link))
+  }
   
 
-}
 
 
-export { setPaymentData, setPaymentTicketStatus, setDropDownState, getRefferalData, createReferralLink };
+
+export { setPaymentData, setPaymentTicketStatus, setDropDownState, getRefferalData, createReferralLink};

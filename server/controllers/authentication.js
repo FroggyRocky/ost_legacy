@@ -67,7 +67,7 @@ exports.reset = async (req, res) => {
                 subject: 'New password at OST PRODUCT',
                 html: `<div style="width:100%;background:#404040;text-align:center;font-family:Arial,sans-serif">
                         <div style="max-width:600px;margin-left:auto;margin-right:auto">
-                            <div style="padding: 40px 30px 30px 30px"><a href="http://${req.get('host')}"><img src="cid:logo" style="width:165px"></a></div>
+                            <div style="padding: 40px 30px 30px 30px"><a href="https://${req.get('host')}"><img src="cid:logo" style="width:165px"></a></div>
                             <div style="background:#ffffff;padding:30px">
                                 <div style="margin-top:0;margin-bottom:16px;font-size:26px;line-height:32px;font-weight:bold;letter-spacing:-0.02em;text-align:left">
                                     New password
@@ -78,7 +78,7 @@ exports.reset = async (req, res) => {
                                     You can change it to your own in your account settings. 
                                 </div>
                                 <br>
-                                <a href="http://${req.get('host')}" 
+                                <a href="https://${req.get('host')}" 
                                 style="background:linear-gradient(274.02deg,#228de2,#4252e6 50.52%,#4428b6);width:100%;padding:10px 0;display:block;border-radius:8px;color:white;font-size:26px;font-weight:600;cursor:pointer;text-decoration:none">
                                     Go to main page
                                 </a>
@@ -198,7 +198,7 @@ exports.forget = async (req, res) => {
                 subject: 'Reset password at OST PRODUCT',
                 html: `<div style="width:100%;background:#404040;text-align:center;font-family:Arial,sans-serif">
                         <div style="max-width:600px;margin-left:auto;margin-right:auto">
-                            <div style="padding: 40px 30px 30px 30px"><a href="http://${req.get('host')}"><img src="cid:logo" style="width:165px"></a></div>
+                            <div style="padding: 40px 30px 30px 30px"><a href="https://${req.get('host')}"><img src="cid:logo" style="width:165px"></a></div>
                             <div style="background:#ffffff;padding:30px">
                                 <div style="margin-top:0;margin-bottom:16px;font-size:26px;line-height:32px;font-weight:bold;letter-spacing:-0.02em;text-align:left">
                                     Forgot your password?
@@ -210,7 +210,7 @@ exports.forget = async (req, res) => {
                                     To update your password, click the link below :
                                 </div>
                                 <br>
-                                <a href="http://${req.get('host')}/reset/${jwt.sign(user.email, process.env.FORGET_PASSWORD)}" 
+                                <a href="https://${req.get('host')}/reset/${jwt.sign(user.email, process.env.FORGET_PASSWORD)}" 
                                 style="background:linear-gradient(274.02deg,#228de2,#4252e6 50.52%,#4428b6);width:100%;padding:10px 0;display:block;border-radius:8px;color:white;font-size:26px;font-weight:600;cursor:pointer;text-decoration:none">
                                     Confirm
                                 </a>
@@ -252,7 +252,8 @@ exports.registration = async (req, res) => {
             telegram: req.body.telegram,
             skype: req.body.skype,
             mla: req.body.mla,
-            country: req.body.country
+            country: req.body.country,
+            referred_user_id:req.body.referredUserId
         };
         const user = await modules.Users.findOne({
             where: {
@@ -262,18 +263,32 @@ exports.registration = async (req, res) => {
         if (!user) {
             userInfo.password = bcrypt.hashSync(userInfo.password, 10);
             await modules.Users.create(userInfo);
+         
             const user = await modules.Users.findOne({
                 attributes: ['id'],
                 where: {
                     email: req.body.email
                 }
-            });
+            }); 
+              await modules.Referrals.increment('users_invited', {by:1,
+                where:{
+                    userId:req.body.referredUserId
+                }}
+            )
+            const userReferralData = {
+                referral_revenue:0,
+                referral_level:5,
+                userId:user.id,
+                users_invited:0
+            }
+            await modules.Referrals.create(userReferralData)
             await modules.Log.create({
                 owner: user.id,
                 receiver: user.id,
                 operation: 5,
                 description: `Registered user: ${user.id}`,
             });
+            
             const img = [{filename: 'registration.png', path: './img/registration.png', cid: 'registration'}].concat(images);
             const mailOptions = {
                 from: 'info@ostproduct.com',
@@ -281,7 +296,7 @@ exports.registration = async (req, res) => {
                 subject: 'Registration at OST PRODUCT',
                 html: `<div style="width:100%;background:#404040;text-align:center;font-family:Arial,sans-serif">
                         <div style="max-width:600px;margin-left:auto;margin-right:auto">
-                            <div style="padding: 40px 30px 30px 30px"><a href="http://${req.get('host')}"><img src="cid:logo" style="width:165px"></a></div>
+                            <div style="padding: 40px 30px 30px 30px"><a href="https://${req.get('host')}"><img src="cid:logo" style="width:165px"></a></div>
                             <div style="background:#ffffff;padding:30px">
                                 <div style="margin-top:0;margin-bottom:16px;font-size:26px;line-height:32px;font-weight:bold;letter-spacing:-0.02em;text-align:left">
                                     Registration Successful
@@ -292,7 +307,7 @@ exports.registration = async (req, res) => {
                                     Please click here to confirm your email address by clicking the link below:
                                 </div>
                                 <br>
-                                <a href="http://${req.get('host')}/email/${jwt.sign(userInfo.email, process.env.FORGET_PASSWORD)}" 
+                                <a href="https://${req.get('host')}/email/${jwt.sign(userInfo.email, process.env.FORGET_PASSWORD)}" 
                                 style="background:linear-gradient(274.02deg,#228de2,#4252e6 50.52%,#4428b6);width:100%;padding:10px 0;display:block;border-radius:8px;color:white;font-size:26px;font-weight:600;cursor:pointer;text-decoration:none">
                                     Confirm
                                 </a>
@@ -365,7 +380,7 @@ exports.approve = async (req, res) => {
                     subject: 'Your account was approved at OST PRODUCT',
                     html: `<div style="width:100%;background:#404040;text-align:center;font-family:Arial,sans-serif">
                         <div style="max-width:600px;margin-left:auto;margin-right:auto">
-                            <div style="padding: 40px 30px 30px 30px"><a href="http://${req.get('host')}"><img src="cid:logo" style="width:165px"></a></div>
+                            <div style="padding: 40px 30px 30px 30px"><a href="https://${req.get('host')}"><img src="cid:logo" style="width:165px"></a></div>
                             <div style="background:#ffffff;padding:30px">
                                 <div style="margin-top:0;margin-bottom:16px;font-size:26px;line-height:32px;font-weight:bold;letter-spacing:-0.02em;text-align:left">
                                     You have been approved by OST Team
@@ -375,7 +390,7 @@ exports.approve = async (req, res) => {
                                     Congratulations, your application with us has been approved!
                                 </div>
                                 <br>
-                                <a href="http://${req.get('host')}" 
+                                <a href="https://${req.get('host')}" 
                                 style="background:linear-gradient(274.02deg,#228de2,#4252e6 50.52%,#4428b6);width:100%;padding:10px 0;display:block;border-radius:8px;color:white;font-size:26px;font-weight:600;cursor:pointer;text-decoration:none">
                                     Go to main page
                                 </a>

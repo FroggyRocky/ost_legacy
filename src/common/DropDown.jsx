@@ -5,13 +5,14 @@ import './dropDown.css'
 export default function DropDown(props) {
 
     const [isDropDownOpen, setDropDownState] = useState(false)
-
+    const [checkedOption, setCheckedOption] = useState(props.placeholder || null)
     function toggleDropDown () {
         setDropDownState(prev => !prev)
     }
 
     function selectOption(e) {
         const option = e.currentTarget.getAttribute('name')
+        setCheckedOption(option)
         setDropDownState(false)
         props.selectOption(option)
     }
@@ -22,7 +23,7 @@ export default function DropDown(props) {
             <span>{el}</span>
           <div>
             <input className="select-radio" type="radio" checked={null}/>
-              <div  className='radio-circle--checked radio-circle'></div>
+            {checkedOption === el &&  <div  className='radio-circle--checked radio-circle'></div> }
           </div>
         </div>
       })
@@ -40,7 +41,7 @@ id={props.id}
 
 <span className={`select-arrow ${!props.dropDownOptions?.length && 'selectArrow-off'}`}>
 <KeyboardArrowDownIcon className={isDropDownOpen && 'selectArrow-up'}
-    style={{ color: '#f2f2f3', fontSize: 30 }} />
+    style={{ color: '#f2f2f3', fontSize: 28 }} />
 </span> 
 </div>
 {isDropDownOpen && 

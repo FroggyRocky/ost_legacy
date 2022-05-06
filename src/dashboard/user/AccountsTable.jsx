@@ -630,7 +630,7 @@ const AccountsTable = (props) => {
             <table className='accounts-table'>
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th className='accounts-id-column'>ID</th>
                     <th>Purchase</th>
                     {props.user.admin && <th>User</th>}
                     {props.user.admin && <th className='create-date'>Created</th>}

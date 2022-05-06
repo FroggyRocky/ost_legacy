@@ -19,8 +19,8 @@
 font-weight: 600;
 font-size: 24px;
 line-height: 64px;
-  font-family: "Montserrat sBold", sans-serif;
-  color: #F2F2F3;
+font-family: "Montserrat sBold", sans-serif;
+color: #F2F2F3;
 }
 
 .top-up--balance {
@@ -252,5 +252,7 @@ transform: rotate(180deg);
     display: none;
 }
 
-
+.top-up-drop-down--option-container:hover {
+    color: #61646B;
+}
 

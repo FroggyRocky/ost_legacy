@@ -39,19 +39,39 @@ border-radius: 25px;
     cursor: pointer;
 }
 
+.common-smallModal {
+width: 328px;
+min-height: 365px;
+background-color: #1c1d22;
+position: relative;
+border-radius: 25px;
+padding: 14px 20px;
+
+}
 
 .common-modal-closeIcon:hover {
     color: #f2f2f3;
+    
 }
 
 
 .common-modal-info {
-    padding: 3%;
+    padding: 0 0 0 3%;
     overflow-y: scroll; 
     scrollbar-width: 0;
     overflow-y: none;
     color: #f2f2f3;
 }
+
+
+.common-smallModal-info {
+  padding: 0 0 0 3%;
+  overflow-y: scroll; 
+  scrollbar-width: 0;
+  overflow-y:hidden;
+  color: #f2f2f3;
+}
+
 
 .common-modal-info::-webkit-scrollbar {
     width: 6px;

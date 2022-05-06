@@ -5,15 +5,27 @@ import Registration from "./Registration";
 import LoginForm from "./Loginform";
 import { ReactComponent as Cross } from "../img/cross.svg";
 import gradient from '../landing/NewLanding/assets/svgs/fadeRobot.png'
+import {useParams} from 'react-router-dom'
 
-const Login = ({ setPopUpState, page}) => {
+const Login = ({ setPopUpState, page, setReferralIdParams, referralId, ...props }) => {
+
+
+  const {referral_id} = useParams()
+  const referredUserId = referral_id?.split('=')[1];
+
 
 useEffect(() => {
+  if(referredUserId) {
+  setReferralIdParams(referredUserId)
+  }
   if(window.location.pathname === '/login') {
   setPopUpState(true,0)
   }
+    console.log(window.location.pathname.split('/')[1])
+  if(window.location.pathname.split('/')[1] === 'registration') {
+    setPopUpState(true,2)
+  }
 }, [])
-
 
   const loginWindowRef = useRef(null);
   
@@ -46,7 +58,7 @@ useEffect(() => {
         )}
         {page === 0 && <LoginForm setPopUpState={setPopUpState} />}
         {page === 1 && <ForgetPass setPopUpState={setPopUpState} />}
-        {page === 2 && <Registration setPopUpState={setPopUpState} />}
+        {page === 2 && <Registration referralId={referralId} setPopUpState={setPopUpState} />}
       </div>
     </div>
   );

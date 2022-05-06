@@ -120,7 +120,11 @@ async function getReferralData() {
     return await axios.get(`${serverURL}/get-referral-data`, {headers: {Authorization: 'Bearer ' + token}})
 }
 
-
+async function getInvitedEmails() {
+    let token = localStorage.getItem('token');
+    if (!token) token = sessionStorage.getItem('token');
+    return await axios.get(`${serverURL}/get-invited-emails`, {headers: {Authorization: 'Bearer ' + token}})
+}
 
 const userApi = {
     getUserData,
@@ -136,7 +140,8 @@ const userApi = {
     checkBmLimit,
     getUserEmailById,
     uploadS3File,
-    getReferralData
+    getReferralData,
+    getInvitedEmails
 };
 
 export default userApi;

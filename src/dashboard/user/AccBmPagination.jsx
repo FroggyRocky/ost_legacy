@@ -83,7 +83,7 @@ const AccBmPagination = (props) => {
                 maxLength="6"
             />
         </div>}
-        {props.userCount &&
+        
         <label className='pagination-check-input'>
             <input
                 type='checkbox'
@@ -94,7 +94,7 @@ const AccBmPagination = (props) => {
             <span className='pagination-check-input-text'>
                 Users approved
             </span>
-        </label>}
+        </label>
         <div className='pagination-text-input'>
             <div className='pagination-text-input-icon'>
                 <Calendar/>

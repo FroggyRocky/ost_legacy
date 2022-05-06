@@ -293,6 +293,11 @@ padding-bottom: 32px;
         }
     }
 }
+
+.forgetPass-button {
+    margin-top: 0;
+}
+
 @media only screen and (max-width: 813px) and (max-height: 420px) and (orientation: landscape) {
     .login {
         &-gradient {

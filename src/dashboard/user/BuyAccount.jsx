@@ -7,6 +7,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import {Redirect} from 'react-router-dom';
 import sendMetrix from '../../common/sendMentrix.js'
+import DropDown from "../../common/DropDown";
 
 const BuyAccount = (props) => {
   
@@ -15,17 +16,13 @@ const BuyAccount = (props) => {
   const [balanceModalState, setBalanceModalState] = useState(false);
   const [isBuying, setBuyingState] = useState(false);
   const [isRedirect, setRedirect] = useState(false)
-  const listOfCountries = props.freeAccounts?.map((el) => {
-    return (
-      <option key={el.id} value={el.id}>{`${el.name} - ${el.price}$`}</option>
-    );
-  });
 
-  const listOfBmTypes = props.freeBms?.map((el) => {
-    return (
-      <option key={el.id} value={el.id}>{`${el.name} - ${el.price}$`}</option>
-    );
-  });
+  const listOfCountries = props.freeAccounts?.map((el) =>  `${el.name} - ${el.price}$`);
+
+
+  const listOfBmTypes = props.freeBms?.map((el) => `${el.name} - ${el.price}$`);
+
+
 
   useEffect(() => {
     setBuyState({
@@ -104,13 +101,19 @@ const BuyAccount = (props) => {
     setBuyState(getStateFromProps(event.target.id));
   }
 
-  function handleCountryChange(event) {
+  function handleCountryChange(option) {
+  
+    const countryOption = option.split('-')[0].trim()
     const currentCountry = props.freeAccounts?.find(
-      (country) => country.id === +event.target.value
+      (country) =>  {
+        return country.name.trim() === countryOption
+      }
     );
+    console.log(currentCountry)
+    
     setBuyState({
       ...buyState,
-      [event.target.name]: +event.target.value,
+      country: currentCountry.id,
       countryName: currentCountry.name,
       countryPrice: currentCountry.price,
       countryCount: currentCountry.count,
@@ -125,13 +128,17 @@ const BuyAccount = (props) => {
     });
   }
 
-  function handleBmTypeChange(event) {
+  function handleBmTypeChange(option) {
+    const bmOption = option.split('-')[0].trim()
     const currentBm = props.freeBms?.find(
-      (country) => country.id === +event.target.value
+      (bm) => {
+        return bm.name.trim() === bmOption
+      }
     );
+    console.log(currentBm)
     setBuyState({
       ...buyState,
-      [event.target.name]: +event.target.value,
+      bmType: currentBm.id,
       bmName: currentBm.name,
       description: currentBm.description,
       bmTypePrice: currentBm.price,
@@ -369,15 +376,9 @@ function handleModalKeyNo() {
                 (buyState.type === "ab" && props.freeBms?.length === 0)
               }
             >
-              <select
-                className="text-input"
-                name="country"
-                onChange={handleCountryChange}
-                required
-                value={buyState.country}
-              >
-                {listOfCountries}
-              </select>
+              <DropDown defaultPlaceholder='Choose a country' selectOption={handleCountryChange}
+               placeholder={`${buyState.countryName} - ${buyState.countryPrice}$`} 
+               dropDownOptions = {listOfCountries} /> 
             </div>
             {(buyState.type === "b" ||
               props.freeAccounts?.length === 0 ||
@@ -398,15 +399,9 @@ function handleModalKeyNo() {
               }
             >
             <div className="icon-input-container">
-              <select
-                className="text-input"
-                name="bmType"
-                onChange={handleBmTypeChange}
-                required
-                value={buyState.bmType}
-              >
-                {listOfBmTypes}
-              </select>
+              <DropDown defaultPlaceholder='Choose BM type' selectOption={handleBmTypeChange}
+               placeholder={`${buyState.bmName} - ${buyState.bmTypePrice}$`} 
+               dropDownOptions = {listOfBmTypes} /> 
               {!(
                 buyState.type === "a" ||
                 (buyState.type === "ab" && props.freeAccounts?.length === 0)
