@@ -57,6 +57,7 @@ const AdminMain = (props) => {
                         page={props.user.page}
                         bmBulkCreate={props.bmBulkCreate}
                         user={props.user}
+                        countries={props.countries}
                     />}
                 />}
                 {props.user.admin && props.user.permission.acc_bm_update && <Route

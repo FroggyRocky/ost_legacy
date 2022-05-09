@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import './CreateTicket.scss';
 import {NavLink} from "react-router-dom";
+import { connect } from 'react-redux';
+import {setProblemTicket, setTicketModalState} from '../../Redux/Reducers/tickets'
 
 const CreateTicket = (props) => {
 
@@ -20,8 +22,14 @@ const CreateTicket = (props) => {
     function handleChange (event) {
         setTicketState({...ticketState, [event.target.name]: event.target.value});
     }
-    function handleClick (event) {
+
+    async function handleClick (event) {
         event.preventDefault();
+        if(props.isCreateTicketModalOn) {
+            await props.setProblemTicket(props.dataState.id, props.dataState.type);
+            props.setTicketModalState(false)
+            await props.getTickets();
+        }
         async function saveTicket () {
             const res = await props.ticketCreateOrUpdate(ticketState);
             if (res.data === 'OK') {
@@ -79,6 +87,7 @@ const CreateTicket = (props) => {
                     Title
                 </div>
                 <div className='row-standard__data full-width'>
+                    {props.isCreateTicketModalOn ? <div className='input-text modal-title-text'>{ticketState.title}</div> :
                     <input
                         className='input-text'
                         type='text'
@@ -89,6 +98,7 @@ const CreateTicket = (props) => {
                         required
                         maxLength="100"
                     />
+                    }
                 </div>
             </div>
             <div className='row-standard'>
@@ -104,6 +114,7 @@ const CreateTicket = (props) => {
                         value={ticketState.description}
                         onChange={handleChange}
                         required
+                        style={{resize:'none'}}
                     />
                 </div>
             </div>
@@ -122,4 +133,10 @@ const CreateTicket = (props) => {
     );
 };
 
-export default CreateTicket;
+
+    const mapStateToProps = (state) => ({
+        isCreateTicketModalOn:state.Tickets.isCreateTicketModalOn
+    })
+
+
+export default connect(mapStateToProps, {setTicketModalState, setProblemTicket})(CreateTicket);

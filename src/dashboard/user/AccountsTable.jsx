@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import TableAdditionalInfo from "../../modules/TableAdditionalInfo";
 import ReactTooltip from "react-tooltip";
 import {NavLink} from "react-router-dom";
 import './AccountsTable.scss'
 import AccBmPagination from "./AccBmPagination";
 import axios from "axios";
+import { connect } from 'react-redux';
 import AdminCreateFromExcel from "../admin/AdminCreateFromExcel";
 import CreateTicket from "../tickets/CreateTicket";
+import {setTicketModalState} from '../../Redux/Reducers/tickets'
 import {ReactComponent as Plus} from '../../img/plus.svg';
 import {ReactComponent as Down} from '../../img/down.svg';
 import {ReactComponent as Cross} from '../../img/cross.svg';
@@ -36,6 +38,10 @@ const AccountsTable = (props) => {
     const [addTrafficState, setAddTrafficState] = useState(null);
     const [bmIdState, setBmIdState] = useState(props.freeUserBms?.length !== 0 && !props.user.admin && !props.archive ? props.freeUserBms[0].id : null);
     const [dataState, setDataState] = useState(null);
+
+    useEffect(() => {
+        props.setTicketModalState(modalAddTicketState.active)
+    }, [modalAddTicketState.active])
 
     useEffect(() => {
         ReactTooltip.rebuild();
@@ -141,8 +147,8 @@ const AccountsTable = (props) => {
                                     <Refresh/>
                                 </div>
                                 :
-                                <div className='accounts-table-limited-icon no-cursor'>
-                                    <Forever/>
+                                <div className='accounts-table-limited-icon' onClick={getTraffic}>
+                                <Refresh/>
                                 </div>
                              }
                         </div>
@@ -402,6 +408,7 @@ const AccountsTable = (props) => {
         } else {
             id = event.target;
         }
+        console.log(id)
         setDataState({id: id.dataset.id, type: id.dataset.name});
         window.addEventListener('keydown', (event) => {if (event.keyCode === 27) handleProblemModalNoClick()});
         setModalProblemState(true);
@@ -502,17 +509,15 @@ const AccountsTable = (props) => {
 
     function handleProblemModalYesClick() {
         async function sendProblem () {
-            const res = await props.iHaveAProblem({id: dataState.id, type: dataState.type});
             const adminData = await props.getUserData();
             props.setUserState(adminData.data);
-            if (res.data === 'OK') {
+            const accountCountryId= adminData.data.accounts[0].countryId
+            const countryName = adminData.data.countries.filter(country => {
+                return country.id === accountCountryId
+            }).map(el => el.name)
                 await props.getTickets();
                 setModalProblemState(false);
-                setModalAddTicketState({active: true, title: `${dataState.type === 'a' ? 'Account' : 'BM'}: ${dataState.id}`})
-            } else {
-                setModalProblemState(false);
-                alert('There is an error...')
-            }
+                setModalAddTicketState({active: true, title: `${dataState.type === 'a' ? 'Account' : 'BM'}: ${dataState.id} ${countryName}`})
         }
         sendProblem().then();
     }
@@ -718,6 +723,7 @@ const AccountsTable = (props) => {
                             ticketTypes={props.ticketTypes}
                             ticketCreateOrUpdate={props.ticketCreateOrUpdate}
                             getTickets={props.getTickets}
+                            dataState={dataState}
                         />
                     </div>
                 </div>
@@ -726,4 +732,9 @@ const AccountsTable = (props) => {
     );
 };
 
-export default AccountsTable;
+
+const mapStateToProps = (state) => ({
+    
+})
+
+export default connect(mapStateToProps, {setTicketModalState})(AccountsTable);

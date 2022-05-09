@@ -125,7 +125,7 @@
     vertical-align: middle !important;
 }
 .log .log-operation {
-    text-align: left;
+    text-align: center;
 }
 .log table td .log-roles {
     width: 172px;

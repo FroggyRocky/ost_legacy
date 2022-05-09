@@ -4,7 +4,7 @@ const modules = require('../dbmodels'),
     axios = require('axios');
     require('dotenv').config();
 
-exports.account = async (req, res) => { 
+exports.account = async (req, res) => {
     if (req.permission.acc_bm_update) {
         try {
             const data = {
@@ -85,6 +85,13 @@ exports.account = async (req, res) => {
                             description: `Account ${req.body.data.id} was ${text} ${receiver}`,
                         });
                     }
+                    if(data.proxy_id && !data.proxy_ip || !data.proxy_login || !data.proxy_password) {
+                        const result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
+                        const {node, access} = result.data.data
+                        data.proxy_ip = node.ip;
+                        data.proxy_login = access.login
+                        data.proxy_password = access.password
+                    }
                     await modules.Accounts.update({...data}, {
                         where: {
                             id: req.body.data.id
@@ -142,7 +149,7 @@ exports.userAccount = async (req, res) => {
     }
 };
 
-exports.accounts = async (req, res) => { console.log(req.body.data)
+exports.accounts = async (req, res) => { 
     if (req.permission.acc_bm_update) {
         try {
             await modules.Accounts.bulkCreate(req.body.data);
@@ -162,7 +169,7 @@ exports.uuid = async (req, res) => {
                 uuid: req.body.data.uuid,
                 id: req.body.data.id
             };
-            console.log(data);
+           
             await modules.Accounts.update({uuid: data.uuid}, {
                 where: {
                     id: data.id
@@ -229,6 +236,7 @@ exports.proxyTraffic = async (req, res) => {
         };
         if (req.admin && req.permission.acc_bm_update) {
             const result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
+
             await modules.Accounts.update({proxy_traffic_left: result.data.data.traffic.left, proxy_traffic_total: result.data.data.traffic.total}, {
                 where: where
 
@@ -311,7 +319,7 @@ exports.addProxyTraffic = async (req, res) => {
     }
 };
 exports.proxyData = async (req, res) => {
-    try { 
+    try { console.log(req.permission.acc_bm_update)
         if (req.permission.acc_bm_update) { 
             let result;
             // if (req.body.data.type !== 'p') {

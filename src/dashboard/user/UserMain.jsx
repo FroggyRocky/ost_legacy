@@ -61,6 +61,7 @@ const UserMain = (props) => {
                         ticketTypes={props.ticketTypes}
                         ticketCreateOrUpdate={props.ticketCreateOrUpdate}
                         getTickets={props.getTickets}
+                        countries={props.countries}
                     />}
                 />
                 <Route

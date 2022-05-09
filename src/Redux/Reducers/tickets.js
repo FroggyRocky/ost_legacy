@@ -8,6 +8,8 @@ const SET_FILES_IN_LOAD = 'Reducers/tickets/SET_FILES_IN_LOAD'
 const CLEAR_IMGS_PREVIEW = 'Reducers/tickets/CLEAR_IMGS_PREVIEW'
 const UNSET_LOADED_FILE = 'Reducers/tickets/UNSET_LOADED_FILES'
 const SET_IMG_ZOOM_STATE = 'Reducers/tickets/SET_IMG_ZOOM_STATE'
+const SET_TICKET_MODAL_STATE = 'Reducers/tickets/SET_TICKET_MODAL_STATE'
+const SET_PROBLEM_TICKET = 'Reducers/tickets/SET_PROBLEM_TICKET'
 
 
 const initialState = {
@@ -15,7 +17,8 @@ const initialState = {
     imgsPreviewSrc: [],
     filesInLoad: [],
     isFileMessageCreating: false, 
-    zoomedImg:null
+    zoomedImg:null,
+    isCreateTicketModalOn:false
 }
 export default function tickets(state = initialState, action) {
     switch (action.type) {
@@ -60,6 +63,12 @@ export default function tickets(state = initialState, action) {
                 ...state, 
                 zoomedImg:action.src
             }
+        case SET_TICKET_MODAL_STATE: 
+        return {
+            ...state,
+            isCreateTicketModalOn:action.state
+            
+        }
         default:
             return {
                 ...state
@@ -74,6 +83,7 @@ const deleteImgPreview = (id) => ({ type: DELETE_IMG_PREVIEW, id })
 const clearImgsPreview = () => ({ type: CLEAR_IMGS_PREVIEW })
 const unsetLoadedFile = (id) => ({ type: UNSET_LOADED_FILE, id })
 const setImgZoomState = (src) => ({type:SET_IMG_ZOOM_STATE, src})
+const setTicketModalState = (state) => ({type:SET_TICKET_MODAL_STATE, state})
 
 
 
@@ -109,4 +119,16 @@ const sendFiles = (ticketId) => async (dispatch, getState) => {
 }
 
 
-export { setAttachState, setImgsPreviewSrc, deleteImgPreview, sendFiles, unsetLoadedFile, setImgZoomState }
+const setProblemTicket = (accountId, problemType) => async (dispatch) => {
+try {
+   const res = await UserAPI.iHaveAProblem({id: accountId, type: problemType});
+   if (res.status === 200) {
+
+    dispatch(setTicketModalState(false))
+   }
+} catch(e) {
+    console.log(e)
+}
+}
+
+export { setAttachState, setImgsPreviewSrc, deleteImgPreview, sendFiles, unsetLoadedFile, setImgZoomState, setTicketModalState, setProblemTicket }

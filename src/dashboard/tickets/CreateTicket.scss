@@ -1,6 +1,6 @@
 .ticket-create {
   select.input-text {
-    width: 240px;
+    width: 400px;
   }
   .row-long {
     display: grid;
@@ -16,4 +16,8 @@
   textarea {
     height: unset;
   }
+}
+
+.modal-title-text {
+  text-align: start;
 }

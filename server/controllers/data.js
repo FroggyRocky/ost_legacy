@@ -172,7 +172,7 @@ exports.data = async function (req, res) {
                         where: where,
                         include: {
                             model: modules.Accounts,
-                            attributes: ['id']
+                            attributes: ['id', 'countryId']
                         },
                     });
                 } else {
@@ -185,7 +185,7 @@ exports.data = async function (req, res) {
                         ],
                         include: {
                             model: modules.Accounts,
-                            attributes: ['id']
+                            attributes: ['id', 'countryId']
                         },
                         offset: req.body.data && (req.body.data.b ? req.body.data.b * userData.user.page - userData.user.page : 0),
                         limit: userData.user.page
@@ -432,7 +432,7 @@ exports.data = async function (req, res) {
                             where: where,
                             include: {
                                 model: modules.Accounts,
-                                attributes: ['id']
+                                attributes: ['id', 'countryId']
                             }
                         });
                     } else {
@@ -446,7 +446,7 @@ exports.data = async function (req, res) {
                             ],
                             include: {
                                 model: modules.Accounts,
-                                attributes: ['id']
+                                attributes: ['id', 'countryId']
                             },
                             offset: req.body.data && (req.body.data.b ? req.body.data.b * userData.user.page - userData.user.page : 0),
                             limit: userData.user.page

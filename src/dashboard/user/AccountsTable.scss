@@ -395,7 +395,16 @@
 .modal-window.modal-window--create-ticket {
     width: 100%;
     height: 100%;
+    
 }
+
+.modal-window-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 
 .fa-text {
     color: white;

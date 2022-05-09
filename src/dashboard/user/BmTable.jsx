@@ -12,6 +12,7 @@ import {ReactComponent as Folder} from "../../img/folder.svg";
 import {ReactComponent as Error} from "../../img/exclamation.svg";
 import AdminCreateFromExcel from "../admin/AdminCreateFromExcel";
 import CreateTicket from "../tickets/CreateTicket";
+import { ConstructionOutlined } from '@mui/icons-material';
 
 const AdminBmList = (props) => {
 
@@ -26,9 +27,13 @@ const AdminBmList = (props) => {
     useEffect(() => {
         ReactTooltip.rebuild();
     });
-
     const bmList = props.bms?.map(el => {
+ 
+            const country = props.countries.filter(country => {
+            return country.id === el.account?.countryId
+        }).map(el => el.name)
         if ((!props.archive && !el.archived) || (props.archive && el.archived)) {
+            console.log(country)
             return <tbody key={el.id}>
             <tr>
                 <td>
@@ -63,7 +68,9 @@ const AdminBmList = (props) => {
                 <td><div className='bm-table-copy'>{el.link1 ? <div className='bm-table-copy-icon' data-tip='Copied' id={el.link1}><Clipboard/></div> : <div className='accounts-table-center'><Cross/></div>}</div></td>
                 <td className='link2'><div className='bm-table-copy'>{el.link2 ? <div className='bm-table-copy-icon' data-tip='Copied' id={el.link2}><Clipboard/></div> : <div className='accounts-table-center'><Cross/></div>}</div></td>
                 <td className='link3'><div className='bm-table-copy'>{el.link3 ? <div className='bm-table-copy-icon' data-tip='Copied' id={el.link3}><Clipboard/></div> : <div className='accounts-table-center'><Cross/></div>}</div></td>
+                {country ? <td className='white'>{el.account ? `${el.account.id} ${country}` : <div className='accounts-table-center'><Cross/></div>}</td> :
                 <td className='white'>{el.account ? el.account.id : <div className='accounts-table-center'><Cross/></div>}</td>
+            }
                 {!props.user.admin && !props.archive &&
                 <td className='white'>
                     <div className='bm-table-edit'>
