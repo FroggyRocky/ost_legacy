@@ -16,7 +16,8 @@ const data = require('./controllers/data'),
     ticket = require('./controllers/ticket'),
     requisites = require('./controllers/requisites.js'),
     s3 = require('./controllers/s3.js'),
-    referrals = require('./controllers/referrals')
+    referrals = require('./controllers/referrals'),
+    mail = require('./controllers/mail')
 
 // Data
 router.post('/data', authentication.token, data.data);
@@ -102,6 +103,12 @@ router.get('/requisites', requisites.requisites);
 router.post('/update-req', authentication.token, requisites.updateReq);
 router.post('/create-req', authentication.token, requisites.createReq)
 router.post('/delete-req', authentication.token, requisites.deleteReq)
+
+
+//Mail 
+router.post('/send-general-mail', authentication.token, mail.sendGeneralMail)
+router.post('/send-optional-mail', authentication.token, mail.sendOptionalMail)
+router.get('/get-users-mail-data', authentication.token, mail.getUsersMailData)
 
 module.exports = router;
 

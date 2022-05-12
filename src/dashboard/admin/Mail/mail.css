@@ -1,3 +1,28 @@
 .mail-textarea {
     margin-top: 25px;
 }
+
+.mail-checkbox-container {
+    
+}
+
+.mail-checkbox-content {
+    display:flex;
+}
+
+.mail-checkbox {
+    width: 16px;
+    height: 16px;
+    background-color:#767c89;
+    background: #767c89;
+    -webkit-filter:invert(0.5);
+    margin-right:10px
+}
+
+.mail-checkbox:checked {
+    color: white;
+    background-color: linear-gradient(274.02deg, #228de2 0%, #4252e6 50.52%, #4428b6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-filter:none;
+}

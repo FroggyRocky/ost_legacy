@@ -189,12 +189,30 @@ function deleteReq(reqId) {
     return axios.post(`${serverURL}/delete-req`, {id: reqId}, {headers: {Authorization: 'Bearer ' + token}})
 } 
 
+function sendGeneralMail(mailSubject) {
+    let token = localStorage.getItem('token');
+    if (!token) token = sessionStorage.getItem('token');
+    return axios.post(`${serverURL}/send-general-mail`, {mailSubject}, {headers: {Authorization: 'Bearer ' + token}})
+}
+
+function sendOptionalMail(users, mailSubject) {
+    let token = localStorage.getItem('token');
+    if (!token) token = sessionStorage.getItem('token');
+    return axios.post(`${serverURL}/send-optional-mail`, {users:users, mailSubject:mailSubject}, {headers: {Authorization: 'Bearer ' + token}})
+}
+
+function getUsersMailData() {
+    let token = localStorage.getItem('token');
+    if (!token) token = sessionStorage.getItem('token');
+    return axios.get(`${serverURL}/get-users-mail-data`, {headers: {Authorization: 'Bearer ' + token}})
+}
 
 
 const adminApi = {faqCreateOrUpdate, adminUserUpdate, countryCreateOrUpdate, accCreateOrUpdate, faqDelete,
     bmTypeCreateOrUpdate, bmCreateOrUpdate, approveUser, accBulkCreate, bmBulkCreate, accountUUID, proxyData,
     ticketTypeCreateOrUpdate, getBalanceTicketTypeId, getTickets, ticketCreateOrUpdate, messageCreate,
-    setBalanceAutoMessage, skip, getRequisites, updateReq, createReq, deleteReq, updateMessage
+    setBalanceAutoMessage, skip, getRequisites, updateReq, createReq, deleteReq, updateMessage, sendGeneralMail, 
+    sendOptionalMail, getUsersMailData
 };
 
 export default adminApi;

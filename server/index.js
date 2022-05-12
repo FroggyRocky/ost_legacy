@@ -3,10 +3,11 @@ const express = require('express'),
     morgan = require('morgan'),
     app = express(),
     db = require('./dbconnection');
-    const fileupload = require("express-fileupload");
+    
+const fileupload = require("express-fileupload");
 
 app.use(fileupload());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('common'));
 app.use((req, res, next) => {
@@ -29,4 +30,4 @@ db.authenticate()
 app.use('/api', require('./api'));
 
 // for ost app.listen(3000,'localhost', () => console.log('Server has been started...'));
-app.listen(3000,'localhost', () => console.log('Server has been started...'));
+app.listen(3000, 'localhost', () => console.log('Server has been started...'));

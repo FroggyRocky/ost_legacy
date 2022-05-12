@@ -1,37 +1,66 @@
-const SET_MAIL_OPTION = '/Reducers/mail/SET_MAIL_OPTION'
+import { Dispatch } from "redux"
+import AdminAPI from '../../api/AdminAPI'
+
+const SET_USERS_DATA = 'Reducers/mail/SET_USERS_DATA'
+
+type usersData = {
+    id:number,
+    email:string
+}
 
 const initialState = {
-    mailOption:null as string | null, 
-    mailOptions:[] as Array<string>
 
+    selectedUsers:[] as Array<string>,
+    users:[] as Array<usersData>
 }
 
 type initialStateType = typeof initialState
 
 
-const mail = (state = initialState, action:ActionType):initialStateType => {
+const mail = (state = initialState, action:ActionsType):initialStateType => {
 
     switch(action.type) {
-        case SET_MAIL_OPTION:
+        case SET_USERS_DATA:
             return {
                 ...state,
-                mailOption:action.option
+                users:[...state.users, ...action.users]
             }
-
         default:
             return state
     }
 
 }
 
-type ActionType = setMailOptionType
 
-type setMailOptionType = {
-type: typeof SET_MAIL_OPTION,
-option:string
+type ActionsType = setUsersDataType
+
+type setUsersDataType = {
+type:typeof SET_USERS_DATA,
+users:Array<usersData>
 }
 
-const setMailOption = (option:string):setMailOptionType => ({type:SET_MAIL_OPTION, option})
+const setUsersData = (users:Array<usersData>):setUsersDataType => ({type:SET_USERS_DATA, users})
 
-export {setMailOption}
+const getUsersData = () => async (dispatch:Dispatch<setUsersDataType>) => {
+
+const res = await AdminAPI.getUsersMailData()
+console.log(res)
+
+
+}
+
+
+const sendMail = (users?:Array<string>, mailSubject?:string, mailText?:string) => async (dispatch:Dispatch<any>) => {
+    if(!users) {
+    const res = await AdminAPI.sendGeneralMail(mailSubject='No Subject')
+    console.log(res)
+    } if (users) {
+        const res = await AdminAPI.sendOptionalMail(users, mailSubject)
+        if(res.status === 200) {
+            dispatch(setUsersData(res.data))
+        }
+    }
+}
+
+export {sendMail, getUsersData}
 export default mail
