@@ -6,15 +6,17 @@ const SET_PRIVACY_MODAL_STATE = 'Reducers/landing/SET_PRIVACY_MODAL_STATE'
 
 type Action = {
     type:string,
-    state?:boolean
+    state:boolean
 }
 
 const initialState = {
-    termsModalState:false,
-    privacyModalState:false,
+    termsModalState:false as boolean,
+    privacyModalState:false as boolean,
 }
 
-export default function landing(state=initialState, action:Action) {
+type initialStateType = typeof initialState
+
+export default function landing(state=initialState, action:Action):initialStateType {
     switch(action.type) {
         case SET_TERMS_MODAL_STATE: 
         return {

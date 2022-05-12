@@ -112,7 +112,7 @@ const AdminEditUser = (props) => {
                 window.addEventListener('keydown', (event) => {if (event.keyCode === 27) handleOkModalClick()});
                 setOkModalState(true);
             } else {
-                alert('Что-то пошло не так...')
+                alert('Something went wrong')
             }
         }
         /*console.log(permissionsState)*/

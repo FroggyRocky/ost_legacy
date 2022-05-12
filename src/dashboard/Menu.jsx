@@ -17,6 +17,7 @@ import { ReactComponent as Basket } from "../img/basket.svg";
 import { ReactComponent as Burger } from "../img/burger.svg";
 import { ReactComponent as Cross } from "../img/cross.svg";
 import { ReactComponent as Ticket } from "../img/ticket.svg";
+import EmailIcon from '@mui/icons-material/Email';
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -271,6 +272,20 @@ const Menu = (props) => {
                   <Journal />
                 </span>
                 <span className="menu-name">Journal</span>
+                <span className="menu-left-span"></span>
+              </NavLink>
+            )}
+            {props.user.admin && props.user.permission.log && (
+              <NavLink
+                className="menu-link"
+                activeClassName="menuActive"
+                to="/dashboard/mail"
+                onClick={fetchData}
+              >
+                <span className="menu-icon">
+                  <EmailIcon />
+                </span>
+                <span className="menu-name">Mail</span>
                 <span className="menu-left-span"></span>
               </NavLink>
             )}

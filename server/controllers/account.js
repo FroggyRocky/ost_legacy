@@ -84,19 +84,25 @@ exports.account = async (req, res) => {
                             operation: 4,
                             description: `Account ${req.body.data.id} was ${text} ${receiver}`,
                         });
+                    } 
+                    if(data.proxy_id) {
+                        try {    
+                            const result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
+                            const {node, access} = result.data.data
+                            data.proxy_ip = node.ip;
+                            data.proxy_login = access.login
+                            data.proxy_password = access.password
+                         } catch(e) {
+                        console.log(e)
                     }
-                    if(data.proxy_id && !data.proxy_ip || !data.proxy_login || !data.proxy_password) {
-                        const result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
-                        const {node, access} = result.data.data
-                        data.proxy_ip = node.ip;
-                        data.proxy_login = access.login
-                        data.proxy_password = access.password
-                    }
-                    await modules.Accounts.update({...data}, {
+                        }
+
+        await modules.Accounts.update({...data}, {
                         where: {
                             id: req.body.data.id
                         }
                     })
+                   
                 }
             } else {
                 await modules.Accounts.create({...data, creator: req.id})

@@ -33,7 +33,6 @@ const AdminBmList = (props) => {
             return country.id === el.account?.countryId
         }).map(el => el.name)
         if ((!props.archive && !el.archived) || (props.archive && el.archived)) {
-            console.log(country)
             return <tbody key={el.id}>
             <tr>
                 <td>

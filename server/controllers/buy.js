@@ -81,7 +81,8 @@ exports.buy = async (req, res) => {
                             });
                             res.sendStatus(200);
                         } else {
-                            res.send('Operation is not possible to fulfil under the data you filled in')
+                            res.sendStatus(500)
+                            
                         }
                     }
                 } catch (e) { 

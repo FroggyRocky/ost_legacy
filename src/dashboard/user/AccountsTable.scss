@@ -190,6 +190,7 @@
 }
 .accounts .accounts-table .accounts-table-limited .accounts-table-limited-bar .accounts-table-limited-bar-label:hover .label-mb {
     display: inline;
+    cursor: default;
 }
 .accounts .accounts-table .accounts-table-limited .accounts-table-limited-bar .accounts-table-limited-bar-label .label-mb {
     display: none;
@@ -206,6 +207,7 @@
     display: grid;
     grid-auto-flow: column;
     grid-column-gap: 5px;
+    position: relative;
 }
 .accounts .accounts-table .accounts-table-limited .accounts-table-limited-icon {
     width: 32px;
@@ -217,7 +219,51 @@
     justify-content: center;
     cursor: pointer;
 }
-.accounts .accounts-table .accounts-table-limited .accounts-table-limited-traffic .accounts-table-limited-icon:first-child:hover path {
+
+.accounts-table-bubble {
+    position: absolute;
+    background-color: #2F3137;
+    width: 100px;
+    height: 20px;
+    color: #f2f2f3;
+    top: -33px;
+    font-family: 'Proxima Nova Rg';
+    font-size: 16px;
+    line-height: 16px;
+    border-radius: 8px;
+    display: none;
+}
+
+.accounts-table-limited-icon:hover .accounts-table-bubble {
+   display: block;
+}
+.accounts-table-limited-icon:hover .accounts-table-bubble::before  {
+    content: '';
+    width: 0;
+    height: 0;
+    top: 15px;
+    left: 45px;
+    position: absolute;
+    border-top: 9px solid transparent;
+    border-right: 10px solid #2F3137;
+    border-bottom: 9px solid transparent;
+    transform: rotate(-90deg)
+}
+
+.refresh-bubble {
+    left: 0px;
+}
+
+.plus-bubble {
+    right: 3px;
+}
+
+                                 
+.accounts .accounts-table .accounts-table-limited .accounts-table-limited-traffic .accounts-table-limited-icon:hover:first-child:hover path{
+    stroke: white;
+}
+
+.account-plus-icon:hover path {
     stroke: white;
 }
 .accounts .accounts-table .accounts-table-limited .accounts-table-limited-icon:not(.no-cursor):hover path {

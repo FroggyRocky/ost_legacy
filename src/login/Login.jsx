@@ -21,7 +21,7 @@ useEffect(() => {
   if(window.location.pathname === '/login') {
   setPopUpState(true,0)
   }
-    console.log(window.location.pathname.split('/')[1])
+
   if(window.location.pathname.split('/')[1] === 'registration') {
     setPopUpState(true,2)
   }

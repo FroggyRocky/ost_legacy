@@ -79,8 +79,6 @@
     grid-template-columns: 40px auto;
 }
 .settings .settings-section .settings-section-tr.long .settings-section-td-data label span {
-    height: 40px;
-    width: 40px;
     background-color: #2F3137;
     border-radius: 4px;
     display: grid;
@@ -103,11 +101,13 @@
     column-gap: 16px;
 }
 .settings .settings-section .settings-section-tr .settings-section-td-data .text-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     max-width: 324px;
-    height: 40px;
+    height: 35px;
     background-color: #25272D;
     border: none;
-    border-radius: 4px;
     padding: 12px;
     font-size: 14px;
     color: white;
@@ -116,6 +116,7 @@
     box-sizing: border-box;
     outline: none;
     font-family: inherit;
+    border-radius: 4px;
 }
 .settings .settings-section .settings-section-tr .settings-section-td-data .text-input::placeholder {
     color: #61646B;

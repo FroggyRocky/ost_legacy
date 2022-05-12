@@ -193,23 +193,24 @@ const BuyAccount = (props) => {
       elem.focus();
     }
   }
-  function handleModalYesClick() { debugger;
+  function handleModalYesClick() {
+   
     async function buyAcc() {
       setBuyingState(true)
       const res = await props.buyAccount(buyState);
-      const adminData = await props.getUserData();
+      console.log(res)
+      if (res.status === 200) {
+        const adminData = await props.getUserData();
       props.setUserState(adminData.data);
-      if (res.data === "OK") {
         setRedirect(true)
         setBuyModalState(false);
         setBuyingState(false)
       } else {
         setBuyModalState(false);
-        alert(res.data);
-        console.log(res.data);
+        alert('Something is wrong, Check your purchase');
         setBuyingState(false)
       }
-    }
+    } 
     buyAcc().then();
   }
 

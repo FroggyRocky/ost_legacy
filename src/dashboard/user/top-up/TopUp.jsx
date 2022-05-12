@@ -69,7 +69,7 @@ export default function TopUp(props) {
           id='select-coin'
         >
           <span className="top-up-form-placeholder">
-            Pay With:&nbsp;
+            Pay with:&nbsp;
             <span className="top-up-currency-name">
             {props.currency || props.requisites?.length && props.requisites[0].currency_ticker || 'No currencies'}
             </span>

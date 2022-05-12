@@ -6,21 +6,25 @@ import settings from './Reducers/settings'
 import priceList from './Reducers/priceList'
 import landing from './Reducers/landing'
 import tickets from './Reducers/tickets'
+import mail from './Reducers/mail'
 
-
-const reducers = combineReducers({
+const RootReducer = combineReducers({
     form:formReducer,
     Login:login,
     Settings:settings,
     PriceList:priceList,
     Landing:landing,
-    Tickets:tickets
+    Tickets:tickets,
+    Mail:mail
 })
 
+type RootStoreType = typeof RootReducer
+export type AppStateType = ReturnType<RootStoreType>
+
+const store = createStore(RootReducer, applyMiddleware(thunkMiddleWare))
 
 
-const store = createStore(reducers, applyMiddleware(thunkMiddleWare))
-
+// @ts-ignore
 window.store = store
 
 export default store

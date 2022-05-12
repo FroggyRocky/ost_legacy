@@ -22,6 +22,7 @@ import AdminEditTicketType from "../tickets/AdminEditTicketType";
 import CreateTicket from "../tickets/CreateTicket";
 import TicketChat from "../tickets/TicketChat";
 import AddReq from './Requisites/AddReq'
+import Mail from './Mail/Mail'
 
 const AdminMain = (props) => {
     return (
@@ -43,6 +44,11 @@ const AdminMain = (props) => {
                         userCount={props.userCount}
                         approveUser={props.approveUser}
                     />}
+                />}
+                 {props.user.admin && props.user.permission.users !== 0 && <Route
+                    exact
+                    path='/dashboard/mail'
+                    render={() => <Mail />}
                 />}
                 {props.user.admin && props.user.permission.acc_bm !== 0 && <Route
                     exact

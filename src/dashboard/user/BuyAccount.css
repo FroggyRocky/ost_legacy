@@ -35,6 +35,7 @@
     margin-top: 32px;
 }
 .buy-account .buy-account-section-td-data .text-input {
+    height: 33px;
     width: 100%;
     background-color: #25272D;
     border: none;

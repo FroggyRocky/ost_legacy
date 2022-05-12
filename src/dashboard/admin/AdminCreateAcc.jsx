@@ -1,10 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './AdminCreateAcc.css'
 import {ReactComponent as Cross} from "../../img/cross.svg";
 
-const AdminCreateAcc = (props) => {
 
-    function setDefaultValues(statusId, countryId) {
+const AdminCreateAcc = (props) => { 
+
+useEffect(() => {
+    setAccountState(props.account)
+
+}, [props.account])
+
+
+    function setDefaultValues(statusId, countryId) {  
         return {
             statusId: statusId,
             countryId: countryId,
@@ -90,7 +97,6 @@ const AdminCreateAcc = (props) => {
 
     function handleClick (event) {
         event.preventDefault();
-        console.log(accountState)
         async function postAcc () {
             const res = await props.accCreateOrUpdate(accountState);
             const adminData = await props.getUserData();
@@ -99,9 +105,10 @@ const AdminCreateAcc = (props) => {
                 window.addEventListener('keydown', (event) => {if (event.keyCode === 27) handleModalClick()});
                 setAccModalState(true);
                 accountState.id || setAccountState(setDefaultValues(accountState.statusId, accountState.countryId))
+                
             } else {
-                console.log(res.data);
-                alert(res.data)
+            
+                alert('Something went wrong')
             }
         }
         postAcc().then();
@@ -109,11 +116,12 @@ const AdminCreateAcc = (props) => {
 
     const [accModalState, setAccModalState] = useState(false);
 
+
     function handleSwitchChange(event) {
         setAccountState({...accountState, [event.target.id]: event.target.checked});
     }
 
-    function handleModalClick () {
+    async function handleModalClick () {
         window.removeEventListener('keydown', (event) => {if (event.keyCode === 27) handleModalClick()});
         setAccModalState(false);
     }
@@ -123,6 +131,7 @@ const AdminCreateAcc = (props) => {
     }
 
     function handleRadioChange(event) {
+        
         setAccountState({...accountState, [event.target.name]: event.target.id});
     }
     
