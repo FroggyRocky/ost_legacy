@@ -26,6 +26,13 @@ exports.sendGeneralMail = async (req, res) => {
     
 }
 
+
+exports.sendOptionalMail = async(req, res) => {
+   
+        console.log(req.body)
+    
+}
+
 exports.getUsersMailData = async(req,res) => {
     try{
     const data = await modules.Users.findAll({
@@ -39,8 +46,3 @@ exports.getUsersMailData = async(req,res) => {
 }
 
 
-exports.sendOptionalMail = async(req, res) => {
-   
-        console.log(req.body)
-    
-}

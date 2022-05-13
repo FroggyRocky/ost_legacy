@@ -1,13 +1,114 @@
+@font-face {
+    font-family: Proxima Nova Rg;
+    src: url(../../../fonts/ProximaNova-Regular.ttf);
+  }
+  @font-face {
+    font-family: Montserrat sBold;
+    src: url(../../../fonts/Montserrat-SemiBold.ttf);
+  }
+
+
+.mail-container {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+
+.mail-search-container {
+    margin: 10px 0;
+}
+.mail-selectedUsers-container {
+    margin: 10px 0;
+    height: 50px;
+    width: 30%;
+    color: #f2f2f3;
+}
+.mail-selectedUsers-content {
+    display: flex;
+    align-items: center;
+}
+.mail-userSearch {
+    height: 30px;
+    width: 100%;
+    background-color: #25272C;
+    font-family: 'Proxima Nova Rg';
+    font-style: normal;
+    font-size: 16px;
+    color: #61646B;
+    border-radius: 4px;
+    color: #f2f2f3;
+    margin: 0;
+    border: none;
+    padding: 5px;
+    border-radius: 8px;
+    position: relative;
+}
+.mail-userSearch:focus {
+    outline: none !important;
+}
+
+
+.mail-search-dropDown {
+    margin-top: 10px;
+    height: 20%;
+    width: 100%;
+    background-color: #25272C;
+    overflow-y: scroll;
+}
+
+.mail-selectedUsers-content:nth-child(1) {
+    border-top: 1px solid #f2f2f3;
+}
+
+.mail-info-container {
+margin: 10px 0;
+}
+
+.mail-subject {
+height: 40px;
+width: 100%;
+background-color: #25272C;
+font-family: 'Proxima Nova Rg';
+font-style: normal;
+font-size: 16px;
+color: #61646B;
+border-radius: 4px;
+color: #f2f2f3;
+margin: 0;
+border: none;
+border-bottom: 1px solid #767c89;
+padding: 5px;
+border-radius: 8px;
+}
+
 .mail-textarea {
-    margin-top: 25px;
+    padding: 5px;
+    padding-top: 13px;
+    width: 100%;
+    resize: none;
+    font-family: 'Proxima Nova Rg';
+    font-style: normal;
+    font-size: 16px;
+    color: #f2f2f3;
+    background-color: #25272C;
+    border: none;
+    border-radius: 8px;
+}
+.mail-textarea:focus, .mail-subject:focus { 
+    outline: none !important;
+    border-color: #719ECE;
+    box-shadow: 0 0 10px #719ECE;
 }
 
 .mail-checkbox-container {
-    
+    display: flex;
 }
 
 .mail-checkbox-content {
     display:flex;
+    margin:10px
 }
 
 .mail-checkbox {
@@ -25,4 +126,19 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     -webkit-filter:none;
+}
+
+
+.mail-button {
+    height: 48px;
+    width: 140px;
+    border-radius: 4px;
+    background: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    justify-self: end;
+    font-family: "Proxima Nova Rg", sans-serif;
 }

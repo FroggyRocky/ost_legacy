@@ -1,5 +1,5 @@
-import {AppStateType} from '../../../Redux/store'
-import {sendMail, getUsersData} from '../../../Redux/Reducers/mail'
+
+import {sendMail, getUsersData, selectUser, deleteSelectedUser, clearSelectedUsers} from '../../../Redux/Reducers/mail'
 import { connect } from "react-redux"
 import { reduxForm } from 'redux-form';
 import Mail from './Mail';
@@ -7,7 +7,8 @@ import Mail from './Mail';
 function MailContainer(props) {
 
 function onSubmit(formData) {
-    console.log(formData)
+  const {mailText, mailSubject}  = formData
+  props.sendMail(mailText, mailSubject)
 }
 
 return <WithReduxForm {...props} onSubmit={onSubmit}/>
@@ -19,12 +20,16 @@ return <WithReduxForm {...props} onSubmit={onSubmit}/>
 const WithReduxForm = reduxForm({form:'mail'})(Mail)
 
 const mapStateProps = (state) => ({
-    selectedUsers:state.Mail.selectedUsers
+    selectedUsers:state.Mail.selectedUsers,
+    users:state.Mail.users
 })
 
 const mapDispatchProps = {
     sendMail,
-    getUsersData
+    getUsersData,
+    selectUser,
+    deleteSelectedUser,
+    clearSelectedUsers
 }
 
 export default connect(mapStateProps, mapDispatchProps)(MailContainer)
