@@ -20,14 +20,15 @@
     margin: 10px 0;
 }
 .mail-selectedUsers-container {
-    margin: 10px 0;
-    height: 50px;
-    width: 30%;
     color: #f2f2f3;
+    padding: 10px 0;
 }
 .mail-selectedUsers-content {
+    width: 100%;
     display: flex;
     align-items: center;
+    font-size: 18px;
+    font-family: 'Proxima Nova Rg';
 }
 .mail-userSearch {
     height: 30px;
@@ -49,18 +50,22 @@
     outline: none !important;
 }
 
-
+.mail-searchOption-container {
+    padding: 10px 3px;
+    cursor: pointer;
+}
+.mail-searchOption-container:hover {
+    background-color: #151515b9;
+    color: #f2f2f3;
+}
 .mail-search-dropDown {
-    margin-top: 10px;
+    border-top: 1px solid #767c89;
     height: 20%;
-    width: 100%;
     background-color: #25272C;
     overflow-y: scroll;
 }
 
-.mail-selectedUsers-content:nth-child(1) {
-    border-top: 1px solid #f2f2f3;
-}
+
 
 .mail-info-container {
 margin: 10px 0;
@@ -107,8 +112,11 @@ border-radius: 8px;
 }
 
 .mail-checkbox-content {
+    color: #f2f2f3;
     display:flex;
-    margin:10px
+    margin:10px;
+    font-size: 18px;
+    font-family: 'Proxima Nova Rg';
 }
 
 .mail-checkbox {
@@ -128,6 +136,19 @@ border-radius: 8px;
     -webkit-filter:none;
 }
 
+.mail-button--disabled {
+    height: 48px;
+    width: 140px;
+    border-radius: 4px;
+    background: #767c89;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: default;
+    outline: none;
+    justify-self: end;
+    font-family: "Proxima Nova Rg", sans-serif;
+}
 
 .mail-button {
     height: 48px;
@@ -136,7 +157,7 @@ border-radius: 8px;
     background: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
     border: none;
     color: white;
-    font-size: 16px;
+    font-size: 18px;
     cursor: pointer;
     outline: none;
     justify-self: end;

@@ -11,6 +11,7 @@
   grid-template-columns: 4px 1fr;
   grid-template-rows: 56px;
   grid-template-areas: "color last";
+  position: relative;
 
   &__color {
     grid-area: color;
@@ -67,4 +68,11 @@
 }
 .ticket-header-info {
   color: #babdc6;
+}
+.ticket_unRead-message {
+  position: absolute;
+  right: 0;
+  top: 33%;
+  margin-right: 10px;
+  color: #E13E3E;
 }

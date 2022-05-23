@@ -9,7 +9,7 @@ import UserAPI from "../../api/UserAPI";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import ModalAttach from '../../common/ModalAttach'
 import ZoomedImg from '../../common/ZoomedImg'
-import {setAttachState, setImgsPreviewSrc, deleteImgPreview, sendFiles, unsetLoadedFile, setImgZoomState} from '../../Redux/Reducers/tickets'
+import {setAttachState, setImgsPreviewSrc, deleteImgPreview, sendFiles, unsetLoadedFile, setImgZoomState, readMessages} from '../../Redux/Reducers/tickets'
 import LoopIcon from '@mui/icons-material/Loop';
 
 
@@ -28,6 +28,11 @@ const TicketChat = (props) => {
 useEffect(() => {
   props.getTickets();
 }, [props.filesInLoad])
+
+
+  useEffect(() => {
+    props.readMessages(props.user.id, props.ticket.id)
+  }, [])
 
   useEffect(async () => {
     props.setPaymentTicketStatus(false);
@@ -158,7 +163,7 @@ function previewFiles(file) {
   reader.readAsDataURL(file)
   reader.onloadend = async function() {
       const imgsSrc = await reader.result
-      props.setImgsPreviewSrc(imgsSrc, file)  
+      props.setImgsPreviewSrc(imgsSrc, file, props.ticket.id)  
     }
 }
   const messages = props.ticket?.messages.map((el, index) => {
@@ -199,9 +204,10 @@ function previewFiles(file) {
 
 
   function imgsPreviews() { 
-    return props.imgsPreviewSrc.map((el) =>  {
+    return props.imgsPreviewSrc.filter(el => el.ticketId == props.ticket.id)
+      .map((el) =>  {
     return <div className="imgs-preview-container" key={el.id}>
-      <CloseIcon className='img-preview-close-icon' style={{fontSize:25}} onClick={deletePreviewImg} id={el.id} />
+      <CloseIcon className='img-preview-close-icon' style={{fontSize:20}} onClick={deletePreviewImg} id={el.id} />
       <img className="img-preview" src={el.src} alt="img_preview" draggable="false"/>
   </div>
     }
@@ -219,7 +225,7 @@ function previewFiles(file) {
     onDragEnter={() => {props.setAttachState(true)}}
     >
       {props.isAttaching && 
-      <ModalAttach setAttachState={props.setAttachState} setImgsPreviewSrc={props.setImgsPreviewSrc} /> }
+      <ModalAttach setAttachState={props.setAttachState} ticketId = {props.ticket.id} setImgsPreviewSrc={props.setImgsPreviewSrc} /> }
       {props.zoomedImg && <ZoomedImg imgSrc={props.zoomedImg} setImgZoomState={props.setImgZoomState} />}
       <div className="ticket-chat-header-container">
         <h2 className="ticket-chat-header">TICKET&nbsp;#{props.ticket?.id}</h2>
@@ -291,9 +297,9 @@ function previewFiles(file) {
             />
             <AttachFileIcon className="tickets-attach-icon" onClick={attachFile} />
             <input ref={attachInput} type="file" style={{display:'none'}} onChange={attachFiles} /> 
-            <Zoom in={isExpanded || props.imgsPreviewSrc.length != 0} accept='img/*'>
+            <Zoom in={true} accept='img/*'>
               <div className="send-message__button">
-                <button className="button-standard" onClick={handleMessageSend}>
+                <button className="button-standard" disabled={props.imgsPreviewSrc.length != 0}  onClick={handleMessageSend}>
                   Send
                 </button>
               </div>
@@ -315,4 +321,4 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { setPaymentTicketStatus, setAttachState,
-   setImgsPreviewSrc, deleteImgPreview, sendFiles, unsetLoadedFile, setImgZoomState})(TicketChat);
+   setImgsPreviewSrc, deleteImgPreview, sendFiles, unsetLoadedFile, setImgZoomState, readMessages})(TicketChat);

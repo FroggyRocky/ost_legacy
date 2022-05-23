@@ -9,7 +9,7 @@ import ResetPassword from "./login/ResetPassword";
 import {connect} from 'react-redux'
 import NotFound from "./dashboard/NotFound";
 import {setPopUpState, setReferralIdParams} from './Redux/Reducers/login'
-
+import {getUnreadTickets} from './Redux/Reducers/tickets'
 
 function App(props) {
 
@@ -48,7 +48,7 @@ useEffect(() => {
                     />
                     <Route
                         path='/dashboard'
-                        render={()=> <Dashboard setPopUpState={props.setPopUpState} />}
+                        render={()=> <Dashboard setPopUpState={props.setPopUpState} getUnreadTickets={props.getUnreadTickets} />}
                     />
                     <Route
                         path='/email'
@@ -76,4 +76,4 @@ const mapStateToProps = (state) => ({
     referralId:state.Login.referralId
   })
 
-export default connect(mapStateToProps, {setPopUpState, setReferralIdParams})(App);
+export default connect(mapStateToProps, {setPopUpState, setReferralIdParams, getUnreadTickets})(App);

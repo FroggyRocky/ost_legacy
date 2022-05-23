@@ -40,6 +40,8 @@ const AccountsTable = (props) => {
     const [dataState, setDataState] = useState(null);
 
 
+   
+
     useEffect(() => {
         props.setTicketModalState(modalAddTicketState.active)
     }, [modalAddTicketState.active])
@@ -613,7 +615,7 @@ const AccountsTable = (props) => {
 
     return (
         <div className='accounts'>
-            {!props.accArchivedCount && !props.bmArchivedCount && <div className='accounts-header'>
+            {!props.archivePage && <div className='accounts-header'>
                 <div className='accounts-header-name'>
                     Accounts
                 </div>
@@ -672,7 +674,7 @@ const AccountsTable = (props) => {
                         <Cross />
                     </div>
                     <div className='modal-window-data'>
-                        Doy you really have problems with that account or BM?
+                        Do you really have problems with that account or BM?
                     </div>
                     <div className='modal-window-yes-no'>
                         <button onClick={handleProblemModalNoClick}>NO</button>
@@ -686,8 +688,8 @@ const AccountsTable = (props) => {
                         <Cross />
                     </div>
                     <div className='modal-window-data'>
-                        {props.archive ? 'Do you really want to remove that account from archive?' :
-                            'Do you really want to move that account to archive?'}
+                        {props.archive ? 'Do you want to activate this account?' :
+                            'Do you want to add this account into the archive?'}
                     </div>
                     <div className='modal-window-yes-no'>
                         <button onClick={handleModalNoClick}>NO</button>

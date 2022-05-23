@@ -118,7 +118,7 @@ const CreateTicket = (props) => {
                     />
                 </div>
             </div>
-            <button className='button-standard' type='submit' onClick={handleClick}>Save</button>
+            <button className='button-standard createTicket-button' type='submit' onClick={handleClick}>Save</button>
             {ticketModalState && <div className='modal'>
                 <div className='modal-window'>
                     <div className='modal-window-data'>

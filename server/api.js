@@ -1,6 +1,6 @@
 const express = require('express'),
     router = express.Router();
-    require('dotenv').config();
+require('dotenv').config();
 
 const data = require('./controllers/data'),
     facebook = require('./controllers/facebook'),
@@ -68,8 +68,8 @@ router.post('/faq-delete', authentication.token, faq.faqDelete);
 router.post('/reset', authentication.reset);
 router.post('/login', authentication.login);
 router.post('/forget', authentication.forget);
-router.post ('/registration', authentication.registration);
-router.post ('/approve', authentication.token, authentication.approve);
+router.post('/registration', authentication.registration);
+router.post('/approve', authentication.token, authentication.approve);
 router.post('/email', authentication.confirmEmail);
 
 // Country
@@ -88,15 +88,16 @@ router.post('/tickets', authentication.token, ticket.tickets);
 router.post('/message', authentication.token, ticket.message);
 router.post('/update-message', authentication.token, ticket.updateMessage)
 router.post('/get-creator-email', authentication.token, ticket.ticketCreatorId)
-router.post('/create-balance-message',authentication.token, ticket.balanceMessage);
-router.post('/ticket-balance-type-id',authentication.token, ticket.ticketBalanceTypeId)
+router.post('/create-balance-message', authentication.token, ticket.balanceMessage);
+router.post('/ticket-balance-type-id', authentication.token, ticket.ticketBalanceTypeId)
+router.post('/read-messages', authentication.token, ticket.readMessages)
 
 //S3
 router.post('/upload-s3-file', authentication.token, s3.uploadS3File)
 
 //Refferal Data 
-router.get('/get-referral-data',  authentication.token, referrals.getReferralData)
-router.get('/get-invited-emails', authentication.token, referrals.getInvitedEmails )
+router.get('/get-referral-data', authentication.token, referrals.getReferralData)
+router.get('/get-invited-emails', authentication.token, referrals.getInvitedEmails)
 
 //Requisites 
 router.get('/requisites', requisites.requisites);

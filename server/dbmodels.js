@@ -344,7 +344,10 @@ const Message = db.define('message', {
     },
     type: {
         type:DataTypes.STRING(600)
-    }
+    },
+isRead: {
+    type:DataTypes.BOOLEAN
+}
 
 });
 

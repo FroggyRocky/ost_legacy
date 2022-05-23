@@ -7,7 +7,8 @@ import AdminAPI from '../api/AdminAPI'
 import {Redirect} from 'react-router-dom'
 import AdminMain from './admin/AdminMain'
 
-const Dashboard = (props) => {
+
+const Dashboard = (props) => { 
     const [userState, setUserState] = useState(null);
     const [redirectState, setRedirectState] = useState(false);
     const dashboard = useRef()
@@ -15,11 +16,15 @@ const Dashboard = (props) => {
     function checkToken () {
         if (!localStorage.getItem('token') && !sessionStorage.getItem('token')) setRedirectState(true)
     }
-
     const getTickets = useCallback(async () => {
         const tickets = await AdminAPI.getTickets();
         return setUserState(state => ({...state, ...tickets.data}));
     }, []);
+
+
+useEffect(() => {
+    props.getUnreadTickets(userState?.tickets, userState?.user.id)
+}, [userState?.tickets])
 
     useEffect( () => {
         checkToken();
@@ -31,16 +36,17 @@ const Dashboard = (props) => {
                 setRedirectState(true);
             } else {
                 const tickets = await AdminAPI.getTickets();
+                // props.getUnreadTickets(tickets.data.tickets, res.data.user.id)
                 setUserState({...res.data, ...tickets.data});
             }
         }
         fetchData().then();
     }, [getTickets]);
 
-    
 
     return (userState && userState.user.active) ? (
         <div ref = {dashboard} className='dashboard'>
+            
             {/* {console.log(userState)} */}
             {redirectState && <div><Redirect to='/login' /></div>}
             <div className='dashboard-menu full'>

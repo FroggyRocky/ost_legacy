@@ -39,7 +39,7 @@ function previewFiles(file) {
     reader.readAsDataURL(file)
     reader.onloadend = async function() {
         const imgsSrc = await reader.result
-        props.setImgsPreviewSrc(imgsSrc, file)  
+        props.setImgsPreviewSrc(imgsSrc, file, props.ticketId)  
       }
 }
 

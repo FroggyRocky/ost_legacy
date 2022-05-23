@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const modules = require("../dbmodels");
 
 exports.ticketType = async (req, res) => {
@@ -133,7 +134,8 @@ exports.message = async (req, res) => {
       userId: req.id,
       message: req.body.data.message,
       type:req.body.data.type || 'message', 
-      src:req.body.data.src
+      src:req.body.data.src,
+      isRead:false
     };
    const response =  await modules.Message.create({...data});
     res.send({id:response.id})
@@ -187,7 +189,8 @@ exports.balanceMessage = async (req, res) => {
       ticketId: req.body.data.ticketId,
       userId: req.body.data.userId,
       message: req.body.data.message,
-      type:'message'
+      type:'message',
+      isRead:false
     };
     await modules.Message.create({ ...data });
     res.sendStatus(200);
@@ -213,4 +216,26 @@ exports.ticketBalanceTypeId = async (req,res) => {
   res.sendStatus(500)
   console.log(e)
 }
+}
+
+
+exports.readMessages = async (req,res) => {
+  console.log('YOOOOO')
+  try {
+    const {userId, ticketId} = await req.body
+    console.log(userId, ticketId)
+    const response = await modules.Message.update(
+      {isRead:true},
+      {
+        where:{
+          ticketId:ticketId,
+          userId: {[Op.ne]: userId}
+          }
+      }
+    )
+    res.send(response).status(200)
+  } catch(e) {
+    console.log(e)
+    res.sendStatus(500)
+  }
 }

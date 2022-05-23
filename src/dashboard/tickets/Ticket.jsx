@@ -1,7 +1,9 @@
 import React from "react";
 import "./Ticket.scss";
+import CircleIcon from '@mui/icons-material/Circle'; 
+import { connect } from "react-redux";
 
-const Ticket = (props) => { 
+const Ticket = (props) => {
 
   const lastMessage = props.ticket?.messages[props.ticket?.messages?.length - 1];
   
@@ -21,7 +23,7 @@ const Ticket = (props) => {
           </div>
         </div>
       } else if(props.ticket.description) {
-          return<div className="ticket__last-message">
+          return <div className="ticket__last-message">
           <div className="ticket__last-message--name">
             {props.ticket.userId === props.user?.id 
               ? "You:"
@@ -69,9 +71,15 @@ const Ticket = (props) => {
           }`}
         ></div>
         {isThereIsMessages()}
+      {props.unReadTickets.find(e => e.id === props.ticket.id) && <CircleIcon style={{fontSize:15}} className="ticket_unRead-message" /> }
       </div>
     </div>
   );
 };
 
-export default Ticket;
+
+const mapState = (state) => ({
+  unReadTickets:state.Tickets.unReadTickets
+})
+
+export default connect(mapState, {})(Ticket) 

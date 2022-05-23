@@ -33,6 +33,7 @@ const Archive = (props) => {
                     exact
                     path='/dashboard/archive/accounts'
                     render={() => <AccountsTable
+                        archivePage={true}
                         archive={true}
                         accounts={props.archivedAccounts}
                         statuses={props.statuses}
@@ -53,6 +54,7 @@ const Archive = (props) => {
                     exact
                     path='/dashboard/archive/bms'
                     render={() => <BmTable
+                        archivePage={true}
                         archive={true}
                         bms={props.archivedBms}
                         statuses={props.statuses}

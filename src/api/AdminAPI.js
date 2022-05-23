@@ -195,7 +195,7 @@ function sendGeneralMail(mailText, mailSubject) {
     return axios.post(`${serverURL}/send-general-mail`, {mailText, mailSubject}, {headers: {Authorization: 'Bearer ' + token}})
 }
 
-function sendOptionalMail(emails, mailSubject, mailText) {
+function sendOptionalMail(emails, mailText, mailSubject) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return axios.post(`${serverURL}/send-optional-mail`, {emails, mailSubject, mailText}, {headers: {Authorization: 'Bearer ' + token}})

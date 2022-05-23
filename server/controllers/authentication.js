@@ -66,7 +66,7 @@ exports.reset = async (req, res) => {
                 to: userEmail,
                 subject: 'New password at OST PRODUCT',
                 html: `<div style="width:100%;background:#404040;text-align:center;font-family:Arial,sans-serif">
-                        <div style="max-width:600px;margin-left:auto;margin-right:auto">
+                        <div style="max-width:600px;margin-left:auto;margin-right:auto;">
                             <div style="padding: 40px 30px 30px 30px"><a href="https://${req.get('host')}"><img src="cid:logo" style="width:165px"></a></div>
                             <div style="background:#ffffff;padding:30px">
                                 <div style="margin-top:0;margin-bottom:16px;font-size:26px;line-height:32px;font-weight:bold;letter-spacing:-0.02em;text-align:left">

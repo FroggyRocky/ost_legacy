@@ -29,7 +29,7 @@ const AdminBmList = (props) => {
     });
     const bmList = props.bms?.map(el => {
  
-            const country = props.countries.filter(country => {
+            const country = props.countries?.filter(country => {
             return country.id === el.account?.countryId
         }).map(el => el.name)
         if ((!props.archive && !el.archived) || (props.archive && el.archived)) {
@@ -172,7 +172,7 @@ const AdminBmList = (props) => {
 
     return (
         <div className='bm'>
-            {!props.accArchivedCount && !props.bmArchivedCount && <div className='bm-header'>
+            {!props.archivePage && <div className='bm-header'>
                 <div className='bm-header-name'>
                     BMs
                 </div>

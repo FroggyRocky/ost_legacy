@@ -356,6 +356,16 @@ padding: 0 24px 24px 24px;
     color: #f2f2f3;
 }
 
+.menu_unRead-message {
+    margin-right: 15px;
+    color: #E13E3E;
+}
+
+.menu_unRead-message--smallMenu {
+    position: absolute;
+    margin-left:5px;
+    color: #E13E3E;
+}
 
 @media (max-width:960px) {
     .menu-toggle-container {

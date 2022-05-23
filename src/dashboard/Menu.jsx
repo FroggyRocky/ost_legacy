@@ -21,13 +21,14 @@ import EmailIcon from '@mui/icons-material/Email';
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import CircleIcon from '@mui/icons-material/Circle'; 
+import { connect } from "react-redux";
 
 
-const Menu = (props) => {
+const Menu = (props) => { 
   const [smallMenuState, setSmallMenuState] = useState(true);
-  const [isHovered, setHover] = useState(false);
-  const [isSettingsHovered, setSettingsHover] = useState(false)
-  const [isMenuExtended, setMenuState] = useState(false)
+  const [isHovered, setHover] = useState(false); //get rid of it, do it through css
+  const [isMenuExpanded, setMenuState] = useState(false)
 
   function activateHover(stateFn) {
     stateFn(true);
@@ -78,7 +79,7 @@ const Menu = (props) => {
           </>
         )}
       </div>
-      <div className={`menu-logo ${!isMenuExtended && 'menu-small-logo'}`}>
+      <div className={`menu-logo ${!isMenuExpanded && 'menu-small-logo'}`}>
         <LogoMin className="small" />
         <LogoSm className="big" />
       </div>
@@ -172,6 +173,8 @@ const Menu = (props) => {
                 <Ticket />
               </span>
               <span className="menu-name">Tickets</span>
+              {props.unReadTickets.length !== 0 && <CircleIcon style={{fontSize:15}} 
+              className={isMenuExpanded ? "menu_unRead-message" : 'menu_unRead-message--smallMenu'} /> }
               <span className="menu-left-span"></span>
             </NavLink>
             <div></div>
@@ -309,6 +312,8 @@ const Menu = (props) => {
                 <Ticket />
               </span>
               <span className="menu-name">Tickets</span>
+              {props.unReadTickets.length !== 0 && <CircleIcon 
+              className={isMenuExpanded ? 'menu_unRead-message--smallMenu' :"menu_unRead-message"} /> }
               <span className="menu-left-span"></span>
             </NavLink>
           </>
@@ -363,4 +368,9 @@ const Menu = (props) => {
   );
 };
 
-export default Menu;
+
+const mapState = (state) => ({
+  unReadTickets:state.Tickets.unReadTickets
+})
+
+export default connect(mapState, {})(Menu) 

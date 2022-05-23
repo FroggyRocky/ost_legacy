@@ -126,6 +126,13 @@ async function getInvitedEmails() {
     return await axios.get(`${serverURL}/get-invited-emails`, {headers: {Authorization: 'Bearer ' + token}})
 }
 
+
+async function readMessages(userId, ticketId) {
+    let token = localStorage.getItem('token');
+    if (!token) token = sessionStorage.getItem('token');
+    return await axios.post(`${serverURL}/read-messages`, {userId, ticketId},  {headers: {Authorization: 'Bearer ' + token}})
+}
+
 const userApi = {
     getUserData,
     patchUserData,
@@ -141,7 +148,8 @@ const userApi = {
     getUserEmailById,
     uploadS3File,
     getReferralData,
-    getInvitedEmails
+    getInvitedEmails,
+    readMessages
 };
 
 export default userApi;

@@ -27,7 +27,6 @@ const AccBmPagination = (props) => {
         }
         sendPage().then();
     }
-
     function handleChange(event) {
         if (event.target.name === 'id') {
             setDataState({...dataState, searchId: event.target.value});
