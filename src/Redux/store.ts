@@ -7,7 +7,7 @@ import priceList from './Reducers/priceList'
 import landing from './Reducers/landing'
 import tickets from './Reducers/tickets'
 import mail from './Reducers/mail'
-
+import pagination from './Reducers/pagination'
 const RootReducer = combineReducers({
     form:formReducer,
     Login:login,
@@ -15,7 +15,9 @@ const RootReducer = combineReducers({
     PriceList:priceList,
     Landing:landing,
     Tickets:tickets,
-    Mail:mail
+    Mail:mail,
+    Pagination:pagination
+
 })
 
 type RootStoreType = typeof RootReducer

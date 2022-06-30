@@ -3,10 +3,27 @@ import TableAdditionalInfo from "../../modules/TableAdditionalInfo";
 import './Statistics.css'
 import AccBmPagination from "./AccBmPagination";
 import CircularProgress from '@mui/material/CircularProgress';
-
+import {connect} from 'react-redux'
 
 function Statistics(props) {
       const [isLoading, setLoaderState] = useState({id:null,state:null})
+    const [accounts, setAccounts] = useState()
+
+    useEffect(() => {
+        const {page, id} = props.searchedId
+        if(page === 'a' && id !== 0) {
+           const searchedAccounts = props.accounts.filter(el => {
+            const accountId = el.id + '';
+            if(accountId.includes(id)) {
+                return el
+            }
+           })
+           
+           setAccounts(searchedAccounts)
+        } else {
+            setAccounts(props.accounts)
+        }
+    }, [props.accounts])
 
     async function handleClick (event) {
         if(isLoading.state === true) return;
@@ -138,7 +155,7 @@ function Statistics(props) {
     }
 
 
-    const accountsList = props.accounts?.map((el) => { 
+    const accountsList = accounts?.map((el) => { 
         return <tbody key={el.id} className='ym-hide-content'>
             <tr>
                 <td className='acc-id alert-info' onClick={handleClick} 
@@ -195,4 +212,9 @@ function Statistics(props) {
     );
 };
 
-export default Statistics;
+
+const mapStateProps = (state) => ({
+    searchedId:state.Pagination.searchedId
+})
+
+export default connect(mapStateProps, {})(Statistics)

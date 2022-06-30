@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 
 
 (async () => {
-	await redis.connect()
+	// await redis.connect()
     await db.authenticate()
     .then(() => console.log('Database connected!!!'))
     .catch(err => console.log('Error:' + err));

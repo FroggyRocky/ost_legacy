@@ -269,7 +269,8 @@ exports.data = async function (req, res) {
                     return 1;
                 } else {
                     if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between] : [req.body.data.from, req.body.data.to]};
-                    if (type === 'a') {
+                
+                    if (type === 'a') {   
                         return await modules.Accounts.count({
                             where: where
                         });
@@ -314,7 +315,7 @@ exports.data = async function (req, res) {
             async function userList() {
                 if (req.permission.users !== 0) {
                     let where = {};
-                    if (req.permission.users === 1) where.managerId = req.id;
+                      if (req.permission.users === 1) where.managerId = req.id;
                     if (req.body.data && req.body.data.searchId && req.body.data.searchId.u) {
                         where.id = req.body.data.searchId.u;
                         return await modules.Users.findAll({
@@ -352,6 +353,7 @@ exports.data = async function (req, res) {
                     if (req.body.data && req.body.data.searchId && req.body.data.searchId.u) {
                         return 1;
                     } else {
+                        console.log('HERE')
                         let where = {};
                         if (req.permission.users === 1) where.managerId = req.id;
                         if (req.body.data && req.body.data.approved) where.approved = false;
@@ -398,6 +400,7 @@ exports.data = async function (req, res) {
                     if (req.permission.acc_bm === 1) where.creator = req.id;
                     if (req.body.data && req.body.data.searchId && req.body.data.searchId.a) {
                         where.id = req.body.data.searchId.a;
+                        console.log('HERE')
                         return await modules.Accounts.findAll({
                             where: where,
                             include: {
@@ -551,6 +554,7 @@ exports.data = async function (req, res) {
                         if (req.body.data && req.body.data.userId) where.userId = req.body.data.userId;
                         if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between] : [req.body.data.from, req.body.data.to]};
                         if (type === 'a') {
+                            
                             return await modules.Accounts.count({
                                 where: where
                             });

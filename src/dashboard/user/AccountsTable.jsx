@@ -37,6 +37,7 @@ const AccountsTable = (props) => {
         title: ''
     });
     const [addTrafficState, setAddTrafficState] = useState(null);
+    const [accounts, setAccounts] = useState()
     const [bmIdState, setBmIdState] = useState(props.freeUserBms?.length !== 0 && !props.user.admin && !props.archive ? props.freeUserBms[0].id : null);
     const [dataState, setDataState] = useState(null);
     const [dropDownState, setDropDownState] = useState('500 MB - 4$') // drop down to choose traffic top up
@@ -45,6 +46,23 @@ const AccountsTable = (props) => {
     function handleTrafficTopUpChange(value) {
         setDropDownState(value)
     }
+
+
+useEffect(() => {
+const {page, id} = props.searchedId
+if(page === 'a' && id !== 0) {
+   const searchedAccounts = props.accounts.filter(el => {
+    const accountId = el.id + '';
+    if(accountId.includes(id)) {
+        return el
+    }
+   })
+   
+   setAccounts(searchedAccounts)
+} else {
+    setAccounts(props.accounts)
+}
+}, [props.accounts])
 
 useEffect(() => {
     if(props.freeUserBms?.length !== 0 && !props.user.admin && !props.archive) {
@@ -76,7 +94,7 @@ useEffect(() => {
 
 
 
-    const accountsList = props.accounts?.map((el) => {
+    const accountsList = accounts?.map((el) => {
         const accountName = `${el.id} ${props.countries && TableAdditionalInfo.getValueById(props.countries, el.countryId)}`;
         let percentForBar;
         let daysTotal;
@@ -778,7 +796,7 @@ useEffect(() => {
 
 
 const mapStateToProps = (state) => ({
-
+searchedId:state.Pagination.searchedId
 })
 
 export default connect(mapStateToProps, { setTicketModalState })(AccountsTable);

@@ -6,6 +6,8 @@ import { ReactComponent as Human } from '../../img/human.svg';
 import { ReactComponent as Left } from '../../img/left.svg';
 import { ReactComponent as Right } from '../../img/right.svg';
 import { ReactComponent as Calendar } from '../../img/calendar.svg';
+import { connect } from 'react-redux';
+import {setSeacrhedId} from '../../Redux/Reducers/pagination'
 import './AccBmPagination.css'
 
 const AccBmPagination = (props) => {
@@ -22,7 +24,8 @@ const AccBmPagination = (props) => {
     let pages = Math.ceil((props.bmCount || props.accCount || props.accArchivedCount || props.bmArchivedCount || props.userCount) / dataState.page);
     function setItemsPerPage(number, page, searchId, problem, userId, approved, from, to) {
         async function sendPage() {
-            const adminData = await props.getUserData({ [props.paginationType]: number, page: page, searchId: { [props.paginationType]: searchId }, problem: problem, userId: userId, approved: approved, from: from, to: to });
+            props.setSeacrhedId(props.paginationType, +searchId)
+            const adminData = await props.getUserData({ [props.paginationType]: number, page: page, problem: problem, userId: userId, approved: approved, from: from, to: to });
             props.setUserState(adminData.data);
         }
         sendPage().then();
@@ -163,4 +166,9 @@ const AccBmPagination = (props) => {
     </div>
 };
 
-export default AccBmPagination;
+
+const mapStateProps = (state) => ({
+
+})
+
+export default connect(mapStateProps, {setSeacrhedId})(AccBmPagination)

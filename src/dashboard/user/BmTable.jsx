@@ -19,11 +19,28 @@ const AdminBmList = (props) => {
 
     const [modalState, setModalState] = useState(false);
     const [modalProblemState, setModalProblemState] = useState(false);
+    const [bms, setBms] = useState();
     const [modalAddTicketState, setModalAddTicketState] = useState({
         active: false,
         title: ''
     });
     const [dataState, setDataState] = useState(null);
+
+
+useEffect(() => {
+const {page, id} = props.searchedId
+if(page === 'b' && id !== 0) {
+    const searchedBms = props.bms.filter(el => {
+        const elId = el.id + ''
+        if(elId.includes(id)) {
+            return el
+        }
+    })
+    setBms(searchedBms)
+} else {
+    setBms(props.bms)
+}
+},[props.bms])
 
 useEffect(() => {
     props.setTicketModalState(modalAddTicketState.active)
@@ -32,7 +49,7 @@ useEffect(() => {
     useEffect(() => {
         ReactTooltip.rebuild();
     });
-    const bmList = props.bms?.map(el => {
+    const bmList = bms?.map(el => {
  
             const country = props.countries?.filter(country => {
             return country.id === el.account?.countryId
@@ -283,7 +300,7 @@ useEffect(() => {
 
 
 const mapStateToProps = (state) => ({
-
+searchedId: state.Pagination.searchedId
 })
 
 export default connect(mapStateToProps, { setTicketModalState })(AdminBmList);
