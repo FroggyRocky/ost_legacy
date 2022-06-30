@@ -19,7 +19,7 @@ exports.adminUser = async (req, res) => {
                             owner: req.id,
                             receiver: req.body.data.id,
                             operation: 1,
-                            description: `Изменил баланс с ${user.balance} на ${data.balance}`,
+                            description: `Changed balance from ${user.balance} to ${data.balance}`,
                             amount: data.balance - user.balance
                         });
                     }
@@ -35,7 +35,7 @@ exports.adminUser = async (req, res) => {
                             owner: req.id,
                             receiver: req.body.data.id,
                             operation: 5,
-                            description: `Админ ${req.id} ${data.manager ? 'сделал менеджером' : 'разжаловал менеджера'} ${req.body.data.id}`,
+                            description: `Admin ${req.id} ${data.manager ? 'stated a manager' : 'dismiss as a manager'} ${req.body.data.id}`,
                         });
                     }
                     if (user.managerId !== data.managerId) {
@@ -51,14 +51,33 @@ exports.adminUser = async (req, res) => {
                             owner: req.id,
                             receiver: req.body.data.id,
                             operation: 5,
-                            description: `Изменил email с ${user.email} на ${data.email}`,
+                            description: `Changed email from ${user.email} to ${data.email}`,
                         });
                     }
-                    const userPermissions = await modules.Permissions.findOne({
+                    let userPermissions = await modules.Permissions.findOne({
                         where: {
                             userId: req.body.data.id
                         }
                     });
+                    if(!userPermissions) {
+                        const data = {
+                            acc_bm:req.body.data.permissions.acc_bm,
+                            acc_bm_update:req.body.data.permissions.acc_bm_update,
+                            users:req.body.data.permissions.users,
+                            user_update:req.body.data.permissions.user_update,
+                            user_balance: req.body.data.permissions.user_balance,
+                            user_active:req.body.data.permissions.user_active,
+                            user_roles:req.body.data.permissions.user_roles,
+                            statistics:req.body.data.permissions.statistics,
+                            price_list:req.body.data.permissions.price_list,
+                            price_list_update:req.body.data.permissions.price_list_update,
+                            log: req.body.data.permissions.log,
+                            faq_update:req.body.data.permissions.faq_update,
+                            userId:req.body.data.id
+                        }
+                        userPermissions = await modules.Permissions.create({...data}, {raw:true});
+                        userPermissions = userPermissions.dataValues
+                    }
                     if (userPermissions) {
                         let dataDescription = '';
                         if (userPermissions.acc_bm !== req.body.data.permissions.acc_bm) dataDescription += `<div>Acc-BM read</div><div>${(userPermissions.acc_bm === 0 && '') || (userPermissions.acc_bm === 1 && 'Own') || (userPermissions.acc_bm === 2 && 'All')}</div><div>${(req.body.data.permissions.acc_bm === 0 && '-') || (req.body.data.permissions.acc_bm === 1 && 'Own') || (req.body.data.permissions.acc_bm === 2 && 'All')}</div>`;
@@ -88,7 +107,7 @@ exports.adminUser = async (req, res) => {
                         }
                     }
                 }
-                await modules.Users.update({...data}, {
+                await modules.Users.update({ ...data }, {
                     where: {
                         id: req.body.data.id
                     }
@@ -181,7 +200,7 @@ exports.addAdmin = async (req, res) => {
             faq_update: true,
             userId: admin.id
         });
-        await modules.Statuses.bulkCreate([{name: 'Ready'},{name: 'In process'},{name: 'Problem'}, {name: 'Replaced'}]);
+        await modules.Statuses.bulkCreate([{ name: 'Ready' }, { name: 'In process' }, { name: 'Problem' }, { name: 'Replaced' }]);
         res.send('Admin added')
     } catch (e) {
         res.send(e)

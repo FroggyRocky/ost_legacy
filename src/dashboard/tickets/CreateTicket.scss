@@ -1,7 +1,5 @@
 .ticket-create {
-  select.input-text {
-    width: 400px;
-  }
+  text-align: start;
   .row-long {
     display: grid;
     grid-auto-flow: column;
@@ -17,11 +15,18 @@
     height: unset;
   }
 }
-
+.createTicket-dropDown {
+  width: 300px;
+}
+.createTicket-id {
+max-width: 350px;
+}
 .modal-title-text {
   text-align: start;
 }
-
+.createTicket-type-container {
+  width: 350px;
+}
 .createTicket-button:hover {
   background: linear-gradient(274.02deg, #228de2 0%, #4252e6 50.52%, #4428b6 100%);
 }

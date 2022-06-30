@@ -1,36 +1,87 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import './CreateTicket.scss';
-import {NavLink} from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
-import {setProblemTicket, setTicketModalState} from '../../Redux/Reducers/tickets'
+import { setProblemTicket, setTicketModalState } from '../../Redux/Reducers/tickets'
+import DropDown from '../../common/DropDown';
 
-const CreateTicket = (props) => {
 
-    const [ticketState, setTicketState] = useState( {
+const CreateTicket = (props) => { console.log(props)
+
+
+useEffect(() => {
+    async function checkExistingTicket() {
+        const existingTicket = props.tickets?.find(el => el.title === ticketState.title)
+        if(props.isCreateTicketModalOn && existingTicket) {
+            const res = await props.ticketCreateOrUpdate({
+                id: existingTicket.id,
+                solved: false,
+              }); if (res.data === "OK") {
+                await props.setProblemTicket(props.dataState.id, props.dataState.type);
+            setredirectToExistingTicketState({
+                redirect:true,
+                ticketId:existingTicket.id
+            })
+        }
+        }
+    } 
+    checkExistingTicket().then()
+}, [props.isCreateTicketModalOn])
+
+    useEffect(() => {
+      async function sendToFoundTicket() {  
+        const location = window.location.pathname.split('/')[2]
+        let foundTicketType;
+        if (location === 'accounts') {
+            foundTicketType = props.ticketTypes.find(el => el.name == 'Account')
+        } else if (location === 'bm') {
+            foundTicketType = props.ticketTypes.find(el => el.name == 'BM')
+        }
+        if (foundTicketType) {
+            
+            setTicketState(prev => ({ ...prev, ticketTypeId: foundTicketType.id }))
+        }
+    await props.getTickets()
+ 
+    }
+    
+    sendToFoundTicket().then()
+    }, [])
+
+    const [ticketState, setTicketState] = useState({
         ticketTypeId: 1,
         userId: '',
         title: props?.title || '',
         description: ''
     });
+    const [currentOption, setCurrentOption] = useState()
+    const [ticketModalState, setTicketModalState] = useState(false); // modal for successfull creation of the ticket
+    const [isRedirectToExistingTicket, setredirectToExistingTicketState] = useState({
+        redirect:false,
+        ticketId:null
+    })
+    const options = props.ticketTypes?.map(el => el.name)
 
-    const [ticketModalState, setTicketModalState] = useState(false);
-
-    const listOfTypes = props.ticketTypes?.map((el) => {
-        return el.active && <option key={el.id} value={el.id}>{el.name}</option>
-    });
-
-    function handleChange (event) {
-        setTicketState({...ticketState, [event.target.name]: event.target.value});
+    function handleChange(event) {
+        setTicketState({ ...ticketState, [event.target.name]: event.target.value });
     }
 
-    async function handleClick (event) {
+    function handleTypeChange(option) {
+        const foundOption = props.ticketTypes?.find(el => el.name == option)
+        setCurrentOption(option)
+        setTicketState({ ...ticketState, ticketTypeId: foundOption.id });
+    }
+
+    async function handleClick(event) {
         event.preventDefault();
-        if(props.isCreateTicketModalOn) {
+
+  if (props.isCreateTicketModalOn) {
             await props.setProblemTicket(props.dataState.id, props.dataState.type);
             props.setTicketModalState(false)
             await props.getTickets();
-        }
-        async function saveTicket () {
+        } 
+
+    async function saveTicket() {
             const res = await props.ticketCreateOrUpdate(ticketState);
             if (res.data === 'OK') {
                 await props.getTickets();
@@ -38,12 +89,16 @@ const CreateTicket = (props) => {
             } else {
                 alert('Something went wrong!')
             }
-        }
-        saveTicket().then();
+        } 
+
+    saveTicket().then();
+
     }
+    
 
     return (
         <form className='ticket-create'>
+            {isRedirectToExistingTicket.redirect && <Redirect to={`/dashboard/tickets/ticket/${isRedirectToExistingTicket.ticketId}`} />}
             {/*{console.log(ticketState)}*/}
             <div className='header-standard'>
                 Create Ticket
@@ -53,16 +108,14 @@ const CreateTicket = (props) => {
                     <div className='row-standard__name'>
                         Type
                     </div>
-                    <div className='row-standard__data'>
-                        <select
-                            className='input-text'
-                            name='ticketTypeId'
-                            onChange={handleChange}
-                            required
-                            defaultValue={ticketState.ticketTypeId}
-                        >
-                            {listOfTypes}
-                        </select>
+                    <div className='createTicket-type-container'>
+                        {props.isCreateTicketModalOn ?
+                            <div className='createTicket-id'>
+                                <div className='input-text modal-title-text'>{ticketState.title.split(':')[0]}</div>
+                            </div> :
+                            <div className='createTicket-dropDown'>
+                                <DropDown placeholder={currentOption} defaultPlaceholder='Select Type' dropDownOptions={options} selectOption={handleTypeChange} />
+                            </div>}
                     </div>
                 </div>
                 {props.admin && <div className='row-standard'>
@@ -86,18 +139,18 @@ const CreateTicket = (props) => {
                 <div className='row-standard__name'>
                     Title
                 </div>
-                <div className='row-standard__data full-width'>
+                <div className='createTicket-id'>
                     {props.isCreateTicketModalOn ? <div className='input-text modal-title-text'>{ticketState.title}</div> :
-                    <input
-                        className='input-text'
-                        type='text'
-                        name='title'
-                        placeholder='Title'
-                        value={ticketState.title}
-                        onChange={handleChange}
-                        required
-                        maxLength="100"
-                    />
+                        <input
+                            className='input-text'
+                            type='text'
+                            name='title'
+                            placeholder='Title'
+                            value={ticketState.title}
+                            onChange={handleChange}
+                            required
+                            maxLength="100"
+                        />
                     }
                 </div>
             </div>
@@ -114,7 +167,7 @@ const CreateTicket = (props) => {
                         value={ticketState.description}
                         onChange={handleChange}
                         required
-                        style={{resize:'none'}}
+                        style={{ resize: 'none' }}
                     />
                 </div>
             </div>
@@ -134,9 +187,9 @@ const CreateTicket = (props) => {
 };
 
 
-    const mapStateToProps = (state) => ({
-        isCreateTicketModalOn:state.Tickets.isCreateTicketModalOn
-    })
+const mapStateToProps = (state) => ({
+    isCreateTicketModalOn: state.Tickets.isCreateTicketModalOn
+})
 
 
-export default connect(mapStateToProps, {setTicketModalState, setProblemTicket})(CreateTicket);
+export default connect(mapStateToProps, { setTicketModalState, setProblemTicket })(CreateTicket);

@@ -67,7 +67,7 @@ const Tickets = (props) => {
       return createTicketWithCheckedType(el);
     } else if (el.messages.length > 0 && !el.solved) {
       for (let i = 0; i < el.messages.length; i++) {
-        if (!el.messages[i].user.admin === true) {
+        if (!el.messages[i].user?.admin === true) {
           return createTicketWithCheckedType(el);
         }
       }

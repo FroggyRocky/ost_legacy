@@ -13,7 +13,7 @@ import {setAttachState, setImgsPreviewSrc, deleteImgPreview, sendFiles, unsetLoa
 import LoopIcon from '@mui/icons-material/Loop';
 
 
-const TicketChat = (props) => { 
+const TicketChat = (props) => {  console.log(props)
 
   const [isExpanded, setExpanded] = useState(false);
   const [messageState, setMessageState] = useState({
@@ -24,14 +24,14 @@ const TicketChat = (props) => {
   const [creatorEmail, setCreatorEmail] = useState("");
   const chatPanel = useRef(null);
   const attachInput = useRef(null)
-
+  const [isMessageSending, setMessageSendingState] = useState(false)
 useEffect(() => {
   props.getTickets();
 }, [props.filesInLoad])
 
 
   useEffect(() => {
-    props.readMessages(props.user.id, props.ticket.id)
+    props?.readMessages(props.user.id, props.ticket.id)
   }, [])
 
   useEffect(async () => {
@@ -70,16 +70,22 @@ props.setImgZoomState(src)
   });
 
   async function handleMessageSend() {
+    console.log(props.imgsPreviewSrc.length)
     if(props.imgsPreviewSrc.length != 0) {
-      props.sendFiles(props.ticket?.id || props.createdTicketId);
+      setMessageSendingState(true)
+      await props.sendFiles(props.ticket?.id || props.createdTicketId);
+      setMessageSendingState(false)
     }
     if (!messageState.message.length) return;
+    setMessageSendingState(true)
     const res = await props.messageCreate({ ...messageState });
     if (res.status === 200) { 
       await props.getTickets();
       setMessageState({ ...messageState, message: "" });
+      setMessageSendingState(false)
     } else {
       alert("Something goes wrong!");
+      setMessageSendingState(false)
     }
   }
 
@@ -166,19 +172,20 @@ function previewFiles(file) {
       props.setImgsPreviewSrc(imgsSrc, file, props.ticket.id)  
     }
 }
+
   const messages = props.ticket?.messages.map((el, index) => {
     return (
       <>
         <div
           className={`messages__message ${
-            el.userId === props.user.id || el.user.admin === props.user.admin
+            el.userId === props.user?.id || el.user?.admin === props.user?.admin
               ? "you"
               : "other"
           }`}
           key={index}
         >
           <div className="messages__message--name" >
-            {el.userId === props.user?.id || el.user?.admin === props.user.admin
+            {el.userId === props.user?.id || el.user?.admin === props.user?.admin
               ? "You:"
               : props.user.admin
               ? `Id: ${props.ticket?.userId}`
@@ -299,8 +306,10 @@ function previewFiles(file) {
             <input ref={attachInput} type="file" style={{display:'none'}} onChange={attachFiles} /> 
             <Zoom in={true} accept='img/*'>
               <div className="send-message__button">
-                <button className="button-standard" disabled={props.imgsPreviewSrc.length != 0}  onClick={handleMessageSend}>
-                  Send
+                <button className={`button-standard ${isMessageSending && 'button-standard--disabled'}`} 
+                disabled={props.imgsPreviewSrc.length == 0 || isMessageSending}
+                  onClick={handleMessageSend}>
+                {isMessageSending ? 'Sending...' : 'Send'}
                 </button>
               </div>
             </Zoom>

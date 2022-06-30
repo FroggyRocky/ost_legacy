@@ -26,6 +26,7 @@ const UserMain = (props) => {
                 <Route
                     path='/dashboard/accounts/'
                     render={() => <AccountsTable
+                        tickets={props.tickets}
                         accounts={props.accounts}
                         statuses={props.statuses}
                         countries={props.countries}
@@ -49,6 +50,7 @@ const UserMain = (props) => {
                 <Route
                     path='/dashboard/bm/'
                     render={() => <BmTable
+                        tickets={props.tickets}
                         bms={props.bms}
                         statuses={props.statuses}
                         bmTypes={props.bmTypes}

@@ -1,3 +1,4 @@
+
 .user .user-header-name {
     font-family: "Montserrat sBold", sans-serif;
     font-size: 48px;
@@ -53,6 +54,10 @@
 .user .user-section .user-section-tr .user-section-td {
     display: grid;
     grid-auto-flow: row;
+}
+.editUser__dropDown {
+    width: 100%;
+    display:block;
 }
 .user .user-section .user-section-tr .user-section-td-name {
     color: white;

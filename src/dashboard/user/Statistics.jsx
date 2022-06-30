@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TableAdditionalInfo from "../../modules/TableAdditionalInfo";
 import './Statistics.css'
 import AccBmPagination from "./AccBmPagination";
+import CircularProgress from '@mui/material/CircularProgress';
 
-const Statistics = (props) => {
+
+function Statistics(props) {
+      const [isLoading, setLoaderState] = useState({id:null,state:null})
 
     async function handleClick (event) {
+        if(isLoading.state === true) return;
         event.persist();
+        setLoaderState({id:event.target.id, state:true})
         const removeElements = event.target.id;
         if (event.target.classList.contains('opened')) {
+            setLoaderState({id:null, state:false})
             const elements = event.target.parentNode.parentNode.getElementsByClassName(removeElements);
             while (elements.length > 0) elements[0].remove();
             event.target.insertAdjacentHTML('afterend', `<td colspan="18"></td>`);
@@ -17,10 +23,12 @@ const Statistics = (props) => {
         } else {
             event.target.classList.add('opened');
             event.target.parentElement.classList.add('opened');
-            event.target.nextSibling.classList.add(removeElements);
+            event.target.nextSibling?.classList.add(removeElements);
             const res = await props.getStatistics(removeElements);
+
             if (res.data.error) {
-                event.target.nextSibling.innerHTML = res.data.error.message;
+                setLoaderState({id:null, state:false})
+                event.target.nextSibling.innerHTML = res.data.error.message || 'something is wrong';
             } else {
                 /*console.log(res.data);*/
                 let accInfo,
@@ -50,7 +58,8 @@ const Statistics = (props) => {
                         202: 'alert-dark'
                     },
                     disable_reasons = ['NONE', 'ADS_INTEGRITY_POLICY', 'ADS_IP_REVIEW', 'RISK_PAYMENT', 'GRAY_ACCOUNT_SHUT_DOWN', 'ADS_AFC_REVIEW', 'BUSINESS_INTEGRITY_RAR', 'PERMANENT_CLOSE', 'UNUSED_RESELLER_ACCOUNT', 'UNUSED_ACCOUNT'];
-                res.data.data.forEach(el => {
+
+                    res.data.forEach(el => {
                     if (!el.business) {
                         accInfo = `<td class='${removeElements}'>${el.name}</td>
                                <td class='${removeElements}'>Personal</td>
@@ -100,11 +109,13 @@ const Statistics = (props) => {
                         }
                     }
                 });
+                setLoaderState({id:null, state:false})
                 event.target.nextSibling.remove();
                 event.target.insertAdjacentHTML('afterend', accInfo);
                 event.target.parentNode.insertAdjacentHTML('afterend', busInfo);
             }
         }
+        
     }
     function returnCreativeData (elem, id) {
         return `<td ${id && `class='${id}'`}>${TableAdditionalInfo.convertDate(elem.adsets.data[0].start_time) || 'X'}</td>
@@ -126,12 +137,13 @@ const Statistics = (props) => {
         return new URL(url).hostname;
     }
 
-    const accountsList = props.accounts?.map((el) => {
+
+    const accountsList = props.accounts?.map((el) => { 
         return <tbody key={el.id} className='ym-hide-content'>
             <tr>
-                <td className='acc-id alert-info' onClick={handleClick}
+                <td className='acc-id alert-info' onClick={handleClick} 
                     id={el.id}>a{el.id} {props.countries && TableAdditionalInfo.getValueById(props.countries, el.countryId)}</td>
-                <td colSpan='18'></td>
+                <td colSpan='18'>{isLoading.state === true && isLoading.id == el.id && <CircularProgress />}</td>
             </tr>
             <tr className='statistics-table-spacer'></tr>
             </tbody>
@@ -176,7 +188,8 @@ const Statistics = (props) => {
                             <th>Amount spend</th>
                         </tr>
                     </thead>
-                        {accountsList}
+                    {accountsList}
+                      {/* {isLoading ? progressCircle : accountsList}  */}
                 </table>
         </div>
     );

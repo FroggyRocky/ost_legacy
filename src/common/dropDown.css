@@ -17,7 +17,7 @@
     font-family: 'Proxima Nova Rg';
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 16px;
     color: #61646B;
   }
@@ -29,7 +29,7 @@
     font-family: 'Proxima Nova Rg';
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 16px;
     color: #61646B;
     padding-left:8px;
@@ -107,35 +107,35 @@
         margin: 0;
         font: inherit;
         color: currentColor;
-        width: 1.15em;
-        height: 1.15em;
+        width: 1.30em;
+        height: 1.30em;
         border-radius: 50%;
         cursor: pointer;
         position: relative;
     }
-    
+    .selectRadio__container {
+      position: relative;
+    }
     .radio-circle {
         width: 10px;
         height: 10px;
         border-radius: 40px;
         background: #61646B;
-        margin-top: -19.5px;
-        margin-left: 4.35px;
-        position: absolute;
         z-index: 5;
     }
     
     .radio-circle--checked {
-        width: 10px;
-        height: 10px;
-        border-radius: 40px;
+        width: 9px;
+        height: 9px;
+        border-radius: 30px;
         background: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
-        margin-top: -16.5px;
-        margin-left: 4.35px;
+        top:19%;
+        right: 26%;
         position: absolute;
         z-index: 5;
     }
 
     .select-options-container:hover {
-      color: #61646B
+      color: #61646B;
+      
     }

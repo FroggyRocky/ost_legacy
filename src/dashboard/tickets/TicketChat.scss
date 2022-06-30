@@ -61,7 +61,9 @@
 }
 
 .send-message {
-
+ & .button-standard--disabled {
+  opacity: 0.6;
+ }
   &__button {
     margin-top: 10px;
     text-align: right;

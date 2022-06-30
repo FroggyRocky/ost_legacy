@@ -30,20 +30,18 @@ exports.ticketType = async (req, res) => {
   }
 };
 exports.ticket = async (req, res) => {
+
   try {
     if (req.body.data.id) {
-      if (req.admin) {
-        await modules.Tickets.update(
-          { solved: req.body.data.solved },
-          {
-            where: {
-              id: req.body.data.id,
-            },
-          }
-        );
-      } else {
-        return res.sendStatus(500);
-      }
+      
+      await modules.Tickets.update(
+        { solved: req.body.data.solved },
+        {
+          where: {
+            id: req.body.data.id,
+          },
+        }
+      );
     } else {
       const data = {
         ticketTypeId: req.body.data.ticketTypeId,
@@ -60,8 +58,15 @@ exports.ticket = async (req, res) => {
         data.userId = req.id;
       }
       await modules.Tickets.create({ ...data });
+      console.log(req.id, req.body.data.userId)
+      await modules.Log.create({
+        owner: req.body.data.userId || req.id,
+        receiver: req.body.data.userId || req.id,
+        operation: 6,
+        description: `Ticket Created`,
+      });
     }
-    
+
     res.sendStatus(200);
   } catch (e) {
     console.log(e);
@@ -133,12 +138,12 @@ exports.message = async (req, res) => {
       ticketId: req.body.data.ticketId,
       userId: req.id,
       message: req.body.data.message,
-      type:req.body.data.type || 'message', 
-      src:req.body.data.src,
-      isRead:false
+      type: req.body.data.type || 'message',
+      src: req.body.data.src,
+      isRead: false
     };
-   const response =  await modules.Message.create({...data});
-    res.send({id:response.id})
+    const response = await modules.Message.create({ ...data });
+    res.send({ id: response.id })
   } catch (e) {
     console.log(e);
     res.sendStatus(500);
@@ -146,24 +151,25 @@ exports.message = async (req, res) => {
 };
 
 
-exports.updateMessage = async (req,res) => {
+exports.updateMessage = async (req, res) => {
 
   try {
-    const data = {...req.body}
-    await modules.Message.update({src:data.src, message:data.message}, {
+    const data = { ...req.body }
+    await modules.Message.update({ src: data.src, message: data.message }, {
       where: {
-        id:data.messageId
+        id: data.messageId
       }
     })
     res.sendStatus(200)
-  } catch(e) {
+  } catch (e) {
     console.log(e);
     res.sendStatus(500)
   }
 }
 
 ////Find email of user who created ticket////
-exports.ticketCreatorId = (req, res) => { debugger;
+exports.ticketCreatorId = (req, res) => {
+  debugger;
   try {
     const data = {
       id: req.body.data,
@@ -189,8 +195,8 @@ exports.balanceMessage = async (req, res) => {
       ticketId: req.body.data.ticketId,
       userId: req.body.data.userId,
       message: req.body.data.message,
-      type:'message',
-      isRead:false
+      type: 'message',
+      isRead: false
     };
     await modules.Message.create({ ...data });
     res.sendStatus(200);
@@ -200,41 +206,40 @@ exports.balanceMessage = async (req, res) => {
   }
 };
 
-exports.ticketBalanceTypeId = async (req,res) => {
+exports.ticketBalanceTypeId = async (req, res) => {
   try {
-  const data = {
-    name:req.body.data
-  }
-  modules.TicketTypes.findOne({
-    where: {
-      name:data.name
+    const data = {
+      name: req.body.data
     }
-  }).then(function(foundData) {
-    res.send(foundData)
-  })
-} catch(e) {
-  res.sendStatus(500)
-  console.log(e)
-}
+    modules.TicketTypes.findOne({
+      where: {
+        name: data.name
+      }
+    }).then(function (foundData) {
+      res.send(foundData)
+    })
+  } catch (e) {
+    res.sendStatus(500)
+    console.log(e)
+  }
 }
 
 
-exports.readMessages = async (req,res) => {
-  console.log('YOOOOO')
+exports.readMessages = async (req, res) => {
   try {
-    const {userId, ticketId} = await req.body
+    const { userId, ticketId } = await req.body
     console.log(userId, ticketId)
     const response = await modules.Message.update(
-      {isRead:true},
+      { isRead: true },
       {
-        where:{
-          ticketId:ticketId,
-          userId: {[Op.ne]: userId}
-          }
+        where: {
+          ticketId: ticketId,
+          userId: { [Op.ne]: userId }
+        }
       }
     )
     res.send(response).status(200)
-  } catch(e) {
+  } catch (e) {
     console.log(e)
     res.sendStatus(500)
   }

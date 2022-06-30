@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import TableAdditionalInfo from "../../modules/TableAdditionalInfo";
 import ReactTooltip from "react-tooltip";
 import { NavLink } from "react-router-dom";
@@ -25,6 +25,7 @@ import { ReactComponent as Proxy } from '../../img/proxy.svg';
 import { ReactComponent as Info } from '../../img/info.svg';
 import { ReactComponent as Link } from '../../img/link.svg';
 import { ReactComponent as Folder } from '../../img/folder.svg';
+import DropDown from '../../common/DropDown';
 
 const AccountsTable = (props) => {
 
@@ -38,11 +39,27 @@ const AccountsTable = (props) => {
     const [addTrafficState, setAddTrafficState] = useState(null);
     const [bmIdState, setBmIdState] = useState(props.freeUserBms?.length !== 0 && !props.user.admin && !props.archive ? props.freeUserBms[0].id : null);
     const [dataState, setDataState] = useState(null);
+    const [dropDownState, setDropDownState] = useState('500 MB - 4$') // drop down to choose traffic top up
+    const dropDownOptions = ['100 MB - 4$', '500 MB - 4$', '1 GB - 8$', '2 GB - 15$', '5 GB - 40$']
+    const [isAddTrafficSubmitting, setAddTrafficSubmitState] = useState(false)
+    function handleTrafficTopUpChange(value) {
+        setDropDownState(value)
+    }
 
-
-   
+useEffect(() => {
+    if(props.freeUserBms?.length !== 0 && !props.user.admin && !props.archive) {
+        setBmIdState(props.freeUserBms[0].id)
+    }
+}, [props.freeUserBms])
 
     useEffect(() => {
+        if (modalAddTrafficState) {
+            document.body.style.overflowY = 'hidden'
+        } else if (!modalAddTrafficState) {
+            document.body.style.overflowY = 'auto'
+        }
+    }, [modalAddTrafficState])
+    useEffect(async () => {
         props.setTicketModalState(modalAddTicketState.active)
     }, [modalAddTicketState.active])
 
@@ -147,13 +164,13 @@ const AccountsTable = (props) => {
                                 <div className='bar' style={{ width: `${percentForBar}%` }}></div>
                             </div>
                             <div data-proxy_id={el.proxy_id} className='accounts-table-limited-traffic'>
-                                
+
                                 {!props.archive && <div className='accounts-table-limited-icon'
                                     onClick={handleAddTrafficClick}  >
                                     <div className='accounts-table-bubble plus-bubble'>Add Traffic</div>
                                     <Plus className='account-plus-icon' />
                                 </div>}
-                                
+
                                 {el.proxy_traffic_total && el.proxy_traffic_left >= 0 ?
                                     <div className='accounts-table-limited-icon' onClick={getTraffic}
                                     >
@@ -163,7 +180,7 @@ const AccountsTable = (props) => {
                                     :
                                     <div className='accounts-table-limited-icon' onClick={getTraffic}
                                     >
-                                         <div className='accounts-table-bubble refresh-bubble'>Refresh</div>
+                                        <div className='accounts-table-bubble refresh-bubble'>Refresh</div>
                                         <Refresh className='account-refresh-icon' />
                                     </div>
                                 }
@@ -424,7 +441,7 @@ const AccountsTable = (props) => {
         } else {
             id = event.target;
         }
-        console.log(id)
+
         setDataState({ id: id.dataset.id, type: id.dataset.name });
         window.addEventListener('keydown', (event) => { if (event.keyCode === 27) handleProblemModalNoClick() });
         setModalProblemState(true);
@@ -502,7 +519,7 @@ const AccountsTable = (props) => {
         try {
             event.target.hidden = true;
             const res = await instance.post(`/profile`, { ...data });
-            console.log(res)
+  
             if (res.status === 200) {
                 await props.accountUUID({ uuid: res.data.uuid, id: parentTrWithProxy.id });
                 parentDiv.innerText = 'OK'
@@ -572,6 +589,7 @@ const AccountsTable = (props) => {
         }
         archiveAcc().then();
     }
+
     function handleAddTrafficClick(event) {
         event.preventDefault();
         let proxyId;
@@ -587,21 +605,31 @@ const AccountsTable = (props) => {
             proxy_id: proxyId.dataset.proxy_id
         });
         setModalAddTrafficState(true);
+
         window.addEventListener('keydown', (event) => { if (event.keyCode === 27) handleModalAddTrafficNoClick() });
     }
+
     function handleModalAddTrafficNoClick() {
         setModalAddTrafficState(false);
         window.removeEventListener('keydown', (event) => { if (event.keyCode === 27) handleModalAddTrafficNoClick() });
     }
     async function handleModalAddTrafficYesClick() {
         if (addTrafficState.id && addTrafficState.proxy_id) {
-            const res = await props.addProxyTraffic(addTrafficState);
+            setAddTrafficSubmitState(true)
+            const data = {
+                id: addTrafficState.id,
+                proxy_id: addTrafficState.proxy_id,
+                trafficAmount: dropDownState
+            }
+            const res = await props.addProxyTraffic(data);
             if (res.data === 'OK') {
                 const adminData = await props.getUserData();
                 props.setUserState(adminData.data);
+                setAddTrafficSubmitState(false)
             } else {
                 console.log(res.data);
                 alert('There is an error...')
+                setAddTrafficSubmitState(false)
             }
         }
         handleModalAddTrafficNoClick();
@@ -689,7 +717,7 @@ const AccountsTable = (props) => {
                     </div>
                     <div className='modal-window-data'>
                         {props.archive ? 'Do you want to activate this account?' :
-                            'Do you want to add this account into the archive?'}
+                            'Do you want to archive the account?'}
                     </div>
                     <div className='modal-window-yes-no'>
                         <button onClick={handleModalNoClick}>NO</button>
@@ -704,14 +732,10 @@ const AccountsTable = (props) => {
                     </div>
                     <div className='modal-window-data'>
                         {props.user.balance >= 4 ? <>
-                            Are you sure you want to pursue this for 4$?
-                            <br />
-                            <br />
-                            500mb proxy upgrade
-                            <br />
-                            or
-                            <br />
-                            30 days of unlimited traffic
+                            <div className='addTraffic__modal_text'>Do you want to renew port?</div>
+                            <div className='addTraffic__dropDown'>
+                                <DropDown placeholder={dropDownState} defaultPlaceholder='' dropDownOptions={dropDownOptions} selectOption={handleTrafficTopUpChange} />
+                            </div>
                         </>
                             :
                             'You dont have 4$ on your account'
@@ -720,7 +744,9 @@ const AccountsTable = (props) => {
                     {props.user.balance >= 4 ?
                         <div className='modal-window-yes-no'>
                             <button onClick={handleModalAddTrafficNoClick}>NO</button>
-                            <button onClick={handleModalAddTrafficYesClick}>YES</button>
+                            <button disabled={isAddTrafficSubmitting} onClick={handleModalAddTrafficYesClick}>
+                                {isAddTrafficSubmitting ? 'Loading...' : 'YES'}
+                            </button>
                         </div>
                         :
                         <button onClick={handleModalAddTrafficNoClick}>
@@ -735,6 +761,8 @@ const AccountsTable = (props) => {
                     </div>
                     <div className='modal-window-data'>
                         <CreateTicket
+                            user={props.user}
+                            tickets={props.tickets}
                             title={modalAddTicketState.title}
                             ticketTypes={props.ticketTypes}
                             ticketCreateOrUpdate={props.ticketCreateOrUpdate}

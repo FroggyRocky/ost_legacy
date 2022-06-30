@@ -1,3 +1,4 @@
+const { rename } = require('fs');
 const modules = require('../dbmodels'),
     sequelize = require('sequelize'),
     {Op} = require('sequelize'),
@@ -28,9 +29,9 @@ exports.account = async (req, res) => {
                 userId: req.body.data.userId || null,
                 selfie: req.body.data.selfie,
                 token: req.body.data.token,
-                archived: req.body.data.archived || false
+                archived: req.body.data.archived || false,
+                cookies:req.body.data.cookies
             };
-            console.log(data)
             if (req.body.data.id) {
                 const currentAcc = await modules.Accounts.findByPk(req.body.data.id, {
                     attributes: ['userId', 'creator']
@@ -88,8 +89,10 @@ exports.account = async (req, res) => {
                     if(data.proxy_id) {
                         try {    
                             const result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
-                            const {node, access} = result.data.data
-                            data.proxy_ip = node.ip;
+                            console.log(result.data.data)
+                            const {node, access, ports} = result.data.data
+                            const ip = node.ip + ':' + ports.http
+                            data.proxy_ip = ip;
                             data.proxy_login = access.login
                             data.proxy_password = access.password
                          } catch(e) {
@@ -267,48 +270,54 @@ exports.proxyTraffic = async (req, res) => {
         res.sendStatus(404)
     }
 };
+
 exports.addProxyTraffic = async (req, res) => {
     try {
-        let proxy_id;
-        let proxy_type;
-        if (req.body.data.proxy_id.includes('p')) {
-            proxy_id = req.body.data.proxy_id.replace('p', '');
-            proxy_type = 'p';
-        } else {
-            proxy_id = req.body.data.proxy_id;
+        const id = req.body.data.id
+        const proxy_id = req.body.data.proxy_id;
+    const [traffic, money] = req.body.data.trafficAmount.split('-')
+    const [amount, key] = traffic.split(' ')
+    const convertedMoneyNum = +money.replace('$','')
+    const getVolume = () => {
+        switch (amount) {
+            case '100':
+                return '0.1'
+            case '500':
+                return '0.5'
+            case '1':
+                return '1'
+                case '2':
+                return '2'
+            case '5':
+                return '5'
+            default:
+                break;
         }
+    }
+const volume = await getVolume();
+
         const where = {
-            id: req.body.data.id,
-            proxy_id: req.body.data.proxy_id,
+            id: id,
+            proxy_id: proxy_id,
         };
         const sumOnAcc = await modules.Users.findByPk(req.id, {
             attributes: ['balance']
         });
-        if (sumOnAcc.balance - 4 >= 0) {
-            // if (proxy_type === 'p') {
-            //     const result = await axios.get(`https://proxy6.net/api/${process.env.PROXY_TOKEN_P}/prolong?period=3&ids=${proxy_id}&nokey`);
-            //     if (result.data.status === 'yes') {
-            //         await modules.Accounts.update({proxy_date: result.data.list[0].date_end}, {
-            //             where: where
-            //         });
-            //         await modules.Users.update({balance: sumOnAcc.balance - 4}, {
-            //             where: {
-            //                 id: req.id
-            //             }
-            //         });
-            //         return res.sendStatus(200);
-            //     }
-            // } else {
-                const result = await axios.post(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}/renew?token=${process.env.PROXY_TOKEN}&volume=0.1`,
-                    {'volume': '0.1'},
+        if (+sumOnAcc.balance - convertedMoneyNum >= 0) {
+                const result = await axios.post(`https://astroproxy.com/api/v1/ports/${proxy_id}/renew?token=${process.env.PROXY_TOKEN}&volume=${volume}&id=${proxy_id}`,
+                    {'volume': `${volume}`},
                     {headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'},
-                    });
+                            'Content-Type': 'multipart/form-data',
+                             'Accept': 'application/json'
+                        },
+                    }
+                    );
                 if (result.data.status === 'ok') {
+                    
                     await modules.Accounts.update({proxy_traffic_left: result.data.data.traffic.left, proxy_traffic_total: result.data.data.traffic.total}, {
                         where: where
                     });
-                    await modules.Users.update({balance: sumOnAcc.balance - 4}, {
+                    await modules.Users.update({balance: sumOnAcc.balance - convertedMoneyNum}, {
                         where: {
                             id: req.id
                         }
@@ -325,21 +334,18 @@ exports.addProxyTraffic = async (req, res) => {
     }
 };
 exports.proxyData = async (req, res) => {
-    try { console.log(req.permission.acc_bm_update)
+    try { 
         if (req.permission.acc_bm_update) { 
-            let result;
-            // if (req.body.data.type !== 'p') {
+            let result;  
                 result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
+                console.log(result)
                 return res.send(result.data.data);
-            // } else {
-            //     result = await axios.get(`https://proxy6.net/api/${process.env.PROXY_TOKEN_P}/getproxy?state=active&nokey`);
-            //     return res.send(result.data);
-            // }
         } else {
             return res.sendStatus(401)
             
         }
     } catch (e) {
+        res.send({error:'Proxy id is not correct'}).status(400)
         console.log(e);
         
     }

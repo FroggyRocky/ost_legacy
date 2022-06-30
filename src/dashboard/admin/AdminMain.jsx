@@ -54,6 +54,7 @@ const AdminMain = (props) => {
                     exact
                     path='/dashboard/adminbmlist'
                     render={() => <BmTable
+                        tickets={props.tickets}
                         bms={props.bms}
                         statuses={props.statuses}
                         bmTypes={props.bmTypes}
@@ -93,6 +94,7 @@ const AdminMain = (props) => {
                     exact
                     path='/dashboard/adminacclist'
                     render={() => <AccountsTable
+                        tickets={props.tickets}
                         accounts={props.accounts}
                         statuses={props.statuses}
                         countries={props.countries}
@@ -153,6 +155,7 @@ const AdminMain = (props) => {
                         getUserData={props.getUserData}
                         setUserState={props.setUserState}
                         user={props.user}
+                        account = {null}
                     />}
                 />}
                 {props.user.admin && props.user.permission.acc_bm_update && <Route

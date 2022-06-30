@@ -86,6 +86,7 @@ const AdminLog = (props) => {
                 <div className={searchState.operation === '3' ? 'active' : undefined} onClick={() => handleButtonClick('3')}><Refresh/>Replacement</div>
                 <div className={searchState.operation === '4' ? 'active' : undefined} onClick={() => handleButtonClick('4')}><Plus/>Additions</div>
                 <div className={searchState.operation === '5' ? 'active' : undefined} onClick={() => handleButtonClick('5')}><Human/>Registration</div>
+                <div className={searchState.operation === '6' ? 'active' : undefined} onClick={() => handleButtonClick('6')}><Human/>Ticket Created</div>
             </div>
             <div className='log-search'>
                 <div className='log-search-td'>

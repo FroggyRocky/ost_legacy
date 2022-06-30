@@ -132,7 +132,8 @@ const Accounts = db.define('accounts', {
         type: DataTypes.STRING(100),
     },
     agent: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(200),
+        defaultValue: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36'
     },
     resolution: {
         type: DataTypes.STRING(12),
@@ -170,11 +171,17 @@ const Accounts = db.define('accounts', {
     proxy_date: {
         type: DataTypes.STRING(20),
     },
+    act_id: {
+        type:DataTypes.STRING(20)
+    },
+    cookies: {
+        type:DataTypes.TEXT('long'),
+    },
     selfie: {
         type: DataTypes.STRING(50),
     },
     token: {
-        type: DataTypes.STRING(250),
+        type: DataTypes.STRING(350),
     },
     note: {
         type: DataTypes.STRING(50),

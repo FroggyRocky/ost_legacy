@@ -4,15 +4,17 @@ import {ReactComponent as Cross} from "../../img/cross.svg";
 
 
 const AdminCreateAcc = (props) => { 
-
 useEffect(() => {
+    if(props.account) {
     setAccountState(props.account)
-
+    }
 }, [props.account])
+
 
 
     function setDefaultValues(statusId, countryId) {  
         return {
+            id:null,
             statusId: statusId,
             countryId: countryId,
             login: '',
@@ -36,12 +38,13 @@ useEffect(() => {
             selfie: '',
             token: '',
             archived: '',
-            changeAccount: ''
+            changeAccount: '',
+            cookies:''
         }
     }
-
+console.log(props.account)
     const [accountState, setAccountState] = useState(props.account ? {
-        id: props.account.id,
+        id:props.account.id,
         statusId: props.account.statusId || 1,
         countryId: props.account.countryId || 1,
         login: props.account.login || '',
@@ -66,9 +69,11 @@ useEffect(() => {
         token: props.account.token || '',
         archived: props.account.archived || '',
         bmId: props.account.bmId ? props.account.bmId : '',
-        changeAccount: ''
-        } : setDefaultValues(1, 1)
+        changeAccount: '',
+        cookies:props.account.cookies || ''
+        } : setDefaultValues(1,1)
     );
+
     const [showMore, setShowMore] = useState(false);
     const statusList = props.statuses?.map((el) =>
         <label key={el.id}>
@@ -77,7 +82,7 @@ useEffect(() => {
                 id={el.id}
                 name='statusId'
                 onChange={handleRadioChange}
-                checked={el.id.toString() === accountState.statusId.toString()}
+                checked={el.id.toString() === accountState?.statusId.toString()}
             />
             <div className='radio-text'>{el.name}</div>
         </label>
@@ -89,7 +94,7 @@ useEffect(() => {
                 id={el.id}
                 name='countryId'
                 onChange={handleRadioChange}
-                checked={el.id.toString() === accountState.countryId.toString()}
+                checked={el.id.toString() === accountState?.countryId.toString()}
             />
             <div className='radio-text'>{el.name}</div>
         </label>
@@ -445,6 +450,21 @@ useEffect(() => {
                     </div>
                     <div className='create-account-section-td'>
                         <div className='create-account-section-td-name'>
+                            COOKIES
+                        </div>
+                        <div className='create-account-section-td-data'>
+                            <input
+                                className='text-input'
+                                type='text'
+                                name='cookies'
+                                placeholder='cookies'
+                                value={accountState.cookies}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                    <div className='create-account-section-td'>
+                        <div className='create-account-section-td-name'>
                             Archived
                         </div>
                         <div className='create-account-section-td-data'>
@@ -475,7 +495,7 @@ useEffect(() => {
                                 placeholder='User-Agent'
                                 value={accountState.agent}
                                 onChange={handleChange}
-                                maxLength='100'
+                                maxLength='200'
                             />
                         </div>
                     </div>

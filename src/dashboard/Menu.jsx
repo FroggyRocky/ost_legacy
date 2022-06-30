@@ -145,14 +145,14 @@ const Menu = (props) => {
               <span className="menu-name">Statistics</span>
               <span className="menu-left-span"></span>
             </NavLink>
-            {/*<NavLink className='menu-link' activeClassName='menuActive'
+            {/* <NavLink className='menu-link' activeClassName='menuActive'
                              to='/dashboard/check-bm'>
                         <span className='menu-icon'>
                             <Bag/>
                         </span>
                         <span className='menu-name'>Check BM</span>
                         <span className='menu-left-span'></span>
-                    </NavLink>*/}
+                    </NavLink> */}
             <NavLink
               className="menu-link"
               activeClassName="menuActive"
@@ -173,8 +173,8 @@ const Menu = (props) => {
                 <Ticket />
               </span>
               <span className="menu-name">Tickets</span>
-              {props.unReadTickets.length !== 0 && <CircleIcon style={{fontSize:15}} 
-              className={isMenuExpanded ? "menu_unRead-message" : 'menu_unRead-message--smallMenu'} /> }
+              {props.unReadTickets.length !== 0 && <CircleIcon style={{fontSize:15}}
+              className={"menu_unRead-message"} /> }
               <span className="menu-left-span"></span>
             </NavLink>
             <div></div>
@@ -312,8 +312,8 @@ const Menu = (props) => {
                 <Ticket />
               </span>
               <span className="menu-name">Tickets</span>
-              {props.unReadTickets.length !== 0 && <CircleIcon 
-              className={isMenuExpanded ? 'menu_unRead-message--smallMenu' :"menu_unRead-message"} /> }
+              {props.unReadTickets.length !== 0 && <CircleIcon style={{fontSize:15}}
+              className={"menu_unRead-message"} /> }
               <span className="menu-left-span"></span>
             </NavLink>
           </>

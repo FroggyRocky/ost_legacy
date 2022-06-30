@@ -3,7 +3,8 @@ const express = require('express'),
     morgan = require('morgan'),
     app = express(),
     db = require('./dbconnection');
-    
+    redis = require('./redisConnection')
+
 const fileupload = require("express-fileupload");
 
 app.use(fileupload());
@@ -19,6 +20,16 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     next();
 });
+
+
+(async () => {
+	await redis.connect()
+    await db.authenticate()
+    .then(() => console.log('Database connected!!!'))
+    .catch(err => console.log('Error:' + err));
+})();
+
+
 
 db.authenticate()
     .then(() => console.log('Database connected!!!'))

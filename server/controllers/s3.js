@@ -35,18 +35,3 @@ uploadParams.Key = fileName
   }
  }
 
-
-// const readFile = async (req,res) => {
-//  try {
-//   console.log('Чтение файла')
-//   const fs = require('fs');
-//   const res = await s3.getObject(metaParams).promise()
-//   await fs.writeFileSync('./upload' + metaParams.Key, res.Body);
-//   console.log('Success', res)
-// } catch (e) {
-//   console.log('Error', e)
-// }
-
-// }
-
-// readFile();

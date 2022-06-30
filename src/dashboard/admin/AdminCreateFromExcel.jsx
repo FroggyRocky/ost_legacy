@@ -32,14 +32,19 @@ const AdminCreateFromExcel = (props) => {
                 rows = xlsx.utils.sheet_to_json(workbook.Sheets[sheet]);
             });
             // const res = await props.proxyData({type: 'p'});
+        
             await Promise.all(rows.map(async el => {
-                if (el.proxy_id) {
+                if (el.proxy_id) { 
                     const res = await props.proxyData({proxy_id: el.proxy_id});
+                    if(!res.data.error) {
                     el.proxy_ip = `${res.data.node.ip}:${res.data.ports.http}`;
                     el.proxy_login = res.data.access.login;
                     el.proxy_password = res.data.access.password;
                     el.proxy_traffic_total = res.data.traffic.total;
                     el.proxy_traffic_left = res.data.traffic.left;
+                    } else {
+                        el.proxy_ip = '0'
+                    }
                 } 
                 // else {
                 //     const address = el.proxy_ip.split(':');
@@ -51,11 +56,13 @@ const AdminCreateFromExcel = (props) => {
                 // }
                 return el
                 }
+            
             )).then(result => {
                 setData(result);
                 const table = document.getElementsByTagName('table')[0];
                 return table.insertAdjacentHTML('beforebegin', getExcelTable(result));
             })
+            
         };
     }
 

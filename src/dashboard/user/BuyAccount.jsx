@@ -177,7 +177,7 @@ const BuyAccount = (props) => {
   function handleClick() {
     sendMetrix('Buy', 'BuyClick');
     if (buyState.qty > 0) {
-      if (buyState.sum > props.balance) {
+      if (buyState.sum > props.balance || buyState.max < buyState.qty) {
         window.addEventListener("keydown", (event) => {
           if (event.keyCode === 27) handleBalanceModalClick();
         });
@@ -298,11 +298,11 @@ function handleModalKeyNo() {
       default:
         return (
           <div className="buy-modal-container">
+             <div className="buy-modal-content">
             <h2 className="buy-modal-header">Confirm</h2>
-            <div className="buy-modal-content">
               <div className="buy-modal-purchase-info_line">
                 <span>BM</span>
-                <span className="buy-modal-value">{buyState.qty}</span>
+                <span className="buy-modal-value">x{buyState.qty}</span>
               </div>
             <div className="buy-modal-breaking-line"></div>
             <div className="buy-modal-purchase-info_line">
@@ -442,6 +442,7 @@ function handleModalKeyNo() {
                 required
                 style={{color:buyState.qty === 0 && '#767c89'}}
                 pattern="[0-9]+"
+                autoComplete="off"
               />
             </div>
             <div className="buy-account-section-td-stock">
@@ -474,7 +475,7 @@ function handleModalKeyNo() {
       {balanceModalState && (
         <div className="modal" id="modal" onClick={handleModalNoClick}>
         <div className="modal-window" id="buy-modal-window">
-          <div className="modal-window-data">No sufficient funds</div>
+          <div className="modal-window-data">No sufficient funds or You want to buy more accounts/bms which are available on the market right now</div>
           <button
             className="buy-modal-button"
             onClick={handleBalanceModalClick}

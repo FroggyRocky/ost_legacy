@@ -282,6 +282,7 @@ exports.data = async function (req, res) {
             }
 
             async function logList() {
+                
                 if (req.permission.log) {
                     if (req.body.data && req.body.data.searchState) {
                         let searchWhere = {

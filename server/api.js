@@ -17,7 +17,9 @@ const data = require('./controllers/data'),
     requisites = require('./controllers/requisites.js'),
     s3 = require('./controllers/s3.js'),
     referrals = require('./controllers/referrals'),
-    mail = require('./controllers/mail')
+    mail = require('./controllers/mail'),
+    rateLimit = require('./controllers/rateLimit')
+    statistics = require('./controllers/statistics');
 
 // Data
 router.post('/data', authentication.token, data.data);
@@ -49,7 +51,7 @@ router.post('/buy', authentication.token, buy.buy);
 
 // Facebook
 router.get('/ip', facebook.ip);
-router.post('/statistics', authentication.token, facebook.statistics);
+router.post('/statistics', authentication.token, rateLimit.rateLimiter, statistics.statistics);
 router.get('/test', facebook.test);
 router.post('/check-bm', facebook.checkBM);
 router.post('/fa', facebook.fa);

@@ -22,6 +22,7 @@ const Dashboard = (props) => {
     }, []);
 
 
+
 useEffect(() => {
     props.getUnreadTickets(userState?.tickets, userState?.user.id)
 }, [userState?.tickets])
@@ -42,7 +43,6 @@ useEffect(() => {
         }
         fetchData().then();
     }, [getTickets]);
-
 
     return (userState && userState.user.active) ? (
         <div ref = {dashboard} className='dashboard'>

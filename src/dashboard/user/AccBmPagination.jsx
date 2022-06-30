@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import DatePicker from "react-datepicker";
-import {ReactComponent as Search} from '../../img/search.svg';
-import {ReactComponent as Human} from '../../img/human.svg';
-import {ReactComponent as Left} from '../../img/left.svg';
-import {ReactComponent as Right} from '../../img/right.svg';
-import {ReactComponent as Calendar} from '../../img/calendar.svg';
+import { ReactComponent as Search } from '../../img/search.svg';
+import { ReactComponent as Human } from '../../img/human.svg';
+import { ReactComponent as Left } from '../../img/left.svg';
+import { ReactComponent as Right } from '../../img/right.svg';
+import { ReactComponent as Calendar } from '../../img/calendar.svg';
 import './AccBmPagination.css'
 
 const AccBmPagination = (props) => {
@@ -22,32 +22,32 @@ const AccBmPagination = (props) => {
     let pages = Math.ceil((props.bmCount || props.accCount || props.accArchivedCount || props.bmArchivedCount || props.userCount) / dataState.page);
     function setItemsPerPage(number, page, searchId, problem, userId, approved, from, to) {
         async function sendPage() {
-            const adminData = await props.getUserData({[props.paginationType]: number, page: page, searchId: {[props.paginationType]: searchId}, problem: problem, userId: userId, approved: approved, from: from, to: to});
+            const adminData = await props.getUserData({ [props.paginationType]: number, page: page, searchId: { [props.paginationType]: searchId }, problem: problem, userId: userId, approved: approved, from: from, to: to });
             props.setUserState(adminData.data);
         }
         sendPage().then();
     }
     function handleChange(event) {
         if (event.target.name === 'id') {
-            setDataState({...dataState, searchId: event.target.value});
+            setDataState({ ...dataState, searchId: event.target.value });
             setItemsPerPage(1, null, event.target.value, dataState.problem, dataState.userId, dataState.approved, dataState.from, dataState.to);
         } else if (event.target.name === 'userId') {
-            setDataState({...dataState, userId: event.target.value});
+            setDataState({ ...dataState, userId: event.target.value });
             setItemsPerPage(1, null, null, dataState.problem, event.target.value, dataState.approved, dataState.from, dataState.to);
         } else if (event.target.name === 'problem') {
-            setDataState({...dataState, problem: event.target.checked});
+            setDataState({ ...dataState, problem: event.target.checked });
             setItemsPerPage(1, null, null, event.target.checked, dataState.userId, null, dataState.from, dataState.to);
         } else if (event.target.name === 'from') {
-            setDataState({...dataState, from: event.target.date});
+            setDataState({ ...dataState, from: event.target.date });
             setItemsPerPage(1, null, null, dataState.problem, dataState.userId, null, event.target.date, dataState.to);
         } else if (event.target.name === 'to') {
-            setDataState({...dataState, to: event.target.date});
+            setDataState({ ...dataState, to: event.target.date });
             setItemsPerPage(1, null, null, dataState.problem, dataState.userId, null, dataState.from, event.target.date);
-        }else if (event.target.name === 'approved') {
-            setDataState({...dataState, approved: event.target.checked});
+        } else if (event.target.name === 'approved') {
+            setDataState({ ...dataState, approved: event.target.checked });
             setItemsPerPage(1, null, dataState.searchId, event.target.checked, null, event.target.checked);
         } else {
-            setDataState({...dataState, page: +event.target.value, searchId: ''});
+            setDataState({ ...dataState, page: +event.target.value, searchId: '' });
             setItemsPerPage(1, +event.target.value, null, dataState.problem, dataState.userId, dataState.approved, dataState.from, dataState.to);
         }
     }
@@ -55,7 +55,7 @@ const AccBmPagination = (props) => {
     return <div className='pagination'>
         <div className='pagination-text-input'>
             <div className='pagination-text-input-icon'>
-                <Search/>
+                <Search />
             </div>
             <input
                 type='text'
@@ -68,22 +68,22 @@ const AccBmPagination = (props) => {
             />
         </div>
         {props.admin && !props.userCount &&
-        <div className='pagination-text-input'>
-            <div className='pagination-text-input-icon'>
-                <Human/>
-            </div>
-            <input
-                type='text'
-                name='userId'
-                placeholder='user'
-                value={dataState.userId}
-                onChange={handleChange}
-                required
-                maxLength="6"
-            />
-        </div>}
-        
-        <label className='pagination-check-input'>
+            <div className='pagination-text-input'>
+                <div className='pagination-text-input-icon'>
+                    <Human />
+                </div>
+                <input
+                    type='text'
+                    name='userId'
+                    placeholder='user'
+                    value={dataState.userId}
+                    onChange={handleChange}
+                    required
+                    maxLength="6"
+                />
+            </div>}
+
+        {props.paginationType === 'u' && <label className='pagination-check-input'>
             <input
                 type='checkbox'
                 name='approved'
@@ -91,16 +91,17 @@ const AccBmPagination = (props) => {
                 checked={dataState.approved}
             />
             <span className='pagination-check-input-text'>
-                Users approved
+                Unapproved
             </span>
         </label>
+        }
         <div className='pagination-text-input'>
             <div className='pagination-text-input-icon'>
-                <Calendar/>
+                <Calendar />
             </div>
             <DatePicker
                 selected={dataState.from}
-                onChange={date => handleChange({target: {date: new Date(date).setHours(0, 0, 0, 0), name: 'from'}})}
+                onChange={date => handleChange({ target: { date: new Date(date).setHours(0, 0, 0, 0), name: 'from' } })}
                 dateFormat='dd/MM/yyyy'
                 maxDate={dataState.to}
                 withPortal={window.innerWidth < 960 && true}
@@ -110,11 +111,11 @@ const AccBmPagination = (props) => {
         </div>
         <div className='pagination-text-input'>
             <div className='pagination-text-input-icon'>
-                <Calendar/>
+                <Calendar />
             </div>
             <DatePicker
                 selected={dataState.to}
-                onChange={date => handleChange({target: {date: new Date(date).setHours(23, 59, 59, 999), name: 'to'}})}
+                onChange={date => handleChange({ target: { date: new Date(date).setHours(23, 59, 59, 999), name: 'to' } })}
                 dateFormat='dd/MM/yyyy'
                 minDate={dataState.from}
                 withPortal={window.innerWidth < 960 && true}
@@ -123,21 +124,21 @@ const AccBmPagination = (props) => {
             />
         </div>
         {props.admin && !props.userCount && !props.archive &&
-        <label className='pagination-check-input'>
-            <input
-                type='checkbox'
-                name='problem'
-                onChange={handleChange}
-                checked={dataState.problem}
-            />
-            <span className='pagination-check-input-text'>
-                Problem accounts
-            </span>
-        </label>}
+            <label className='pagination-check-input'>
+                <input
+                    type='checkbox'
+                    name='problem'
+                    onChange={handleChange}
+                    checked={dataState.problem}
+                />
+                <span className='pagination-check-input-text'>
+                    Problem accounts
+                </span>
+            </label>}
         <div className='pagination-area'>
             {pages > 1 ? <ReactPaginate
-                previousLabel={<Left/>}
-                nextLabel={<Right/>}
+                previousLabel={<Left />}
+                nextLabel={<Right />}
                 breakLabel={'...'}
                 pageCount={pages}
                 marginPagesDisplayed={1}

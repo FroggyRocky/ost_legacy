@@ -12,9 +12,10 @@ import {ReactComponent as Folder} from "../../img/folder.svg";
 import {ReactComponent as Error} from "../../img/exclamation.svg";
 import AdminCreateFromExcel from "../admin/AdminCreateFromExcel";
 import CreateTicket from "../tickets/CreateTicket";
-import { ConstructionOutlined } from '@mui/icons-material';
+import { connect } from 'react-redux';
+import {setTicketModalState} from '../../Redux/Reducers/tickets'
 
-const AdminBmList = (props) => {
+const AdminBmList = (props) => { 
 
     const [modalState, setModalState] = useState(false);
     const [modalProblemState, setModalProblemState] = useState(false);
@@ -23,6 +24,10 @@ const AdminBmList = (props) => {
         title: ''
     });
     const [dataState, setDataState] = useState(null);
+
+useEffect(() => {
+    props.setTicketModalState(modalAddTicketState.active)
+}, [modalAddTicketState.active])
 
     useEffect(() => {
         ReactTooltip.rebuild();
@@ -114,18 +119,16 @@ const AdminBmList = (props) => {
     }
 
     function handleProblemModalYesClick() {
-        async function sendProblem () {
-            const res = await props.iHaveAProblem({id: dataState.id, type: dataState.type});
+        async function sendProblem() {
             const adminData = await props.getUserData();
             props.setUserState(adminData.data);
-            if (res.data === 'OK') {
-                await props.getTickets();
-                setModalProblemState(false);
-                setModalAddTicketState({active: true, title: `${dataState.type === 'a' ? 'Account' : 'BM'}: ${dataState.id}`})
-            } else {
-                setModalProblemState(false);
-                alert('There is an error...')
-            }
+            const accountCountryId = adminData.data.accounts[0].countryId
+            const countryName = adminData.data.countries.filter(country => {
+                return country.id === accountCountryId
+            }).map(el => el.name)
+            await props.getTickets();
+            setModalProblemState(false);
+            setModalAddTicketState({ active: true, title: `${dataState.type === 'a' ? 'Account' : 'BM'}: ${dataState.id} ${countryName}` })
         }
         sendProblem().then();
     }
@@ -263,10 +266,13 @@ const AdminBmList = (props) => {
                     </div>
                     <div className='modal-window-data'>
                         <CreateTicket
+                            user={props.user}
+                            tickets={props.tickets}
                             title={modalAddTicketState.title}
                             ticketTypes={props.ticketTypes}
                             ticketCreateOrUpdate={props.ticketCreateOrUpdate}
                             getTickets={props.getTickets}
+                            dataState={dataState}
                         />
                     </div>
                 </div>
@@ -275,4 +281,9 @@ const AdminBmList = (props) => {
     )
 };
 
-export default AdminBmList;
+
+const mapStateToProps = (state) => ({
+
+})
+
+export default connect(mapStateToProps, { setTicketModalState })(AdminBmList);
