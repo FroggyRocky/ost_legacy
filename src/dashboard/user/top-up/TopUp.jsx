@@ -13,6 +13,7 @@ export default function TopUp(props) {
   function setCrypto(event) {
     const value = event.currentTarget.getAttribute('value')
     props.setCurrency(value);
+    setDropDownState(false)
   }
 
   function toggleDropDown() {
@@ -20,7 +21,6 @@ export default function TopUp(props) {
       setDropDownState((prev) => !prev)
     }
   }
-
   useEffect(() => {
 
     props.setDropDownState(isDropDownOpen)
@@ -42,8 +42,6 @@ export default function TopUp(props) {
       </div>
       <div>
         <input className="top-up--radio" type="radio"
-          checked={el.currency_ticker === props.currency ||
-            !props.currency && index === 0}
           name={el.currency_ticker} />
         <div className={`${el.currency_ticker === props.currency ||
           !props.currency && index === 0 ? 'top-up--radio-circle--checked' : 'top-up--radio-circle'}`}></div>
@@ -56,7 +54,6 @@ export default function TopUp(props) {
   return (<>
     <div className="top-up--breaking-line"></div>
     <div className="top-up-container">
-
       <div className="top-up-header-container">
         <h2 className="top-up--header">Balance:&nbsp;</h2>
         <span className="top-up--balance">{props.balance || '0'}$</span>

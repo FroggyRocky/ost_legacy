@@ -18,7 +18,7 @@ const data = require('./controllers/data'),
     s3 = require('./controllers/s3.js'),
     referrals = require('./controllers/referrals'),
     mail = require('./controllers/mail'),
-    rateLimit = require('./controllers/rateLimit')
+    rateLimit = require('./controllers/rateLimit'),
     statistics = require('./controllers/statistics');
 
 // Data

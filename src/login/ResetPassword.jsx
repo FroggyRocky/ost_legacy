@@ -12,7 +12,7 @@ function ResetPassword() {
         async function resetPassword() {
             const href = window.location.pathname.split('/');
             const secret = href[href.length - 1];
-            console.log(secret);
+
             try {
                 const res = await axios.post(`${serverURL}/reset`, {secret});
                 console.log(res);

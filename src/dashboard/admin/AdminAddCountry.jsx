@@ -7,19 +7,23 @@ const AdminAddCountry = (props) => {
     const [countryState, setCountryState] = useState(props.countries ? {
         id: props.countries.id,
         name: props.countries.name,
-        price: props.countries.price
+        type:props.countries.type,
+        price: props.countries.price,
+        description:props.countries.description
+
     } : {
         name: '',
-        price: ''
+        type:'',
+        price: '',
+        description: ''
     });
     const [countryModalState, setCountryModalState] = useState(false);
-
+console.log(countryState)
     function handleChange (event) {
         setCountryState({...countryState, [event.target.name]: event.target.value});
     }
     function handleClick (event) {
         event.preventDefault();
-        /*console.log(countryState);*/
         async function postCountry () {
             const res = await props.countryCreateOrUpdate(countryState);
             const adminData = await props.getUserData();
@@ -27,9 +31,9 @@ const AdminAddCountry = (props) => {
             if (res.data === 'OK') {
                 window.addEventListener('keydown', (event) => {if (event.keyCode === 27) handleModalClick()});
                 setCountryModalState(true);
-                countryState.id || setCountryState({name: '', price: ''})
+                countryState.id || setCountryState({name: '', price: '', type:'', description: ""})
             } else {
-                alert('Что-то пошло не так...')
+                alert('Something went wrong...')
             }
         }
         postCountry().then();
@@ -57,7 +61,24 @@ const AdminAddCountry = (props) => {
                         value={countryState.name}
                         onChange={handleChange}
                         required
-                        maxLength="6"
+                        maxLength="20"
+                    />
+                </div>
+            </div>
+            <div className='add-country-td'>
+                <div className='add-country-td-name'>
+                    Country type
+                </div>
+                <div className='add-country-td-data'>
+                    <input
+                        className='text-input'
+                        type='text'
+                        name='type'
+                        value={countryState.type}
+                        onChange={handleChange}
+                        required
+                        placeholder='Country Type'
+                        min="0"
                     />
                 </div>
             </div>
@@ -75,6 +96,22 @@ const AdminAddCountry = (props) => {
                         onChange={handleChange}
                         required
                         min="0"
+                    />
+                </div>
+            </div>
+            <div className='add-country-type-td'>
+                <div className='add-country-type-td-name'>
+                    Type Description
+                </div>
+                <div className='add-country-type-td-data'>
+                    <textarea
+                        className='text-input'
+                        rows={7}
+                        name='description'
+                        placeholder='description'
+                        value={countryState.description}
+                        onChange={handleChange}
+                        maxLength="1000"
                     />
                 </div>
             </div>

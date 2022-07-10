@@ -96,7 +96,7 @@ const Tickets = (props) => {
         onChange={learnTicketsType}
         className="tickets-filter-select"
         name="tickets-types-selector"
-        id=""
+      // defaultValue={'All'}
         required
       >
         <option id="all-types" selected>
@@ -105,11 +105,11 @@ const Tickets = (props) => {
         {props.ticketTypes?.map((el) => {
           if (el.active)
             return (
-              <option className="ticket-type-option--active">{el.name}</option>
+              <option className="ticket-type-option--active" key={el.id}>{el.name}</option>
             );
           else if (!el.active)
             return (
-              <option className="ticket-type-option--unactive">
+              <option className="ticket-type-option--unactive" key={el.id}>
                 {el.name}
               </option>
             );
@@ -139,7 +139,7 @@ const Tickets = (props) => {
               <input
                 className="tickets-filter-checkbox"
                 type="checkbox"
-                onClick={toggleCheckBox}
+                onChange={toggleCheckBox}
                 checked={isUnanswered}
               />
               &nbsp;

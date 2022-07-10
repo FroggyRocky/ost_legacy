@@ -5,7 +5,7 @@ import NewsLetter from './NewsLetter.jsx'
 export default function NewsLetterFormHandler() {
 
 function onSubmit(payload) {
-    console.log(payload);
+
 }
 
     return <WithReduxForm onSubmit={onSubmit} />

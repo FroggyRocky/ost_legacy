@@ -22,9 +22,10 @@ const Dashboard = (props) => {
     }, []);
 
 
-
 useEffect(() => {
-    props.getUnreadTickets(userState?.tickets, userState?.user.id)
+    if(userState) {
+        props.getUnreadTickets(userState?.tickets, userState.user?.id)
+    }
 }, [userState?.tickets])
 
     useEffect( () => {
@@ -44,7 +45,7 @@ useEffect(() => {
         fetchData().then();
     }, [getTickets]);
 
-    return (userState && userState.user.active) ? (
+    return (userState && userState.user?.active) ? (
         <div ref = {dashboard} className='dashboard'>
             
             {/* {console.log(userState)} */}

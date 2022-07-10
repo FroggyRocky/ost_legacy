@@ -1,9 +1,9 @@
-const { rename } = require('fs');
+const {rename} = require('fs');
 const modules = require('../dbmodels'),
     sequelize = require('sequelize'),
     {Op} = require('sequelize'),
     axios = require('axios');
-    require('dotenv').config();
+require('dotenv').config();
 
 exports.account = async (req, res) => {
     if (req.permission.acc_bm_update) {
@@ -15,23 +15,25 @@ exports.account = async (req, res) => {
                 password: req.body.data.password,
                 email: req.body.data.email,
                 email_password: req.body.data.email_password,
-                code2fa: req.body.data.code2fa,
-                agent: req.body.data.agent,
-                resolution: req.body.data.resolution,
-                language: req.body.data.language,
-                platform: req.body.data.platform,
-                concurrency: req.body.data.concurrency,
+                type:req.body.data.type || 'standard',
+                code2fa: req.body.data.code2fa || null,
+                agent: req.body.data.agent|| null,
+                resolution: req.body.data.resolution|| null,
+                language: req.body.data.language|| null,
+                platform: req.body.data.platform|| null,
+                concurrency: req.body.data.concurrency|| null,
                 proxy: req.body.data.proxy || 'HTTP',
                 proxy_id: req.body.data.proxy_id || null,
-                proxy_ip: req.body.data.proxy_ip,
-                proxy_login: req.body.data.proxy_login,
-                proxy_password: req.body.data.proxy_password,
+                proxy_ip: req.body.data.proxy_ip|| null,
+                proxy_login: req.body.data.proxy_login|| null,
+                proxy_password: req.body.data.proxy_password|| null,
                 userId: req.body.data.userId || null,
-                selfie: req.body.data.selfie,
+                selfie: req.body.data.selfie|| null,
                 token: req.body.data.token,
                 archived: req.body.data.archived || false,
-                cookies:req.body.data.cookies
+                cookies: req.body.data.cookies|| null,
             };
+            console.log(data)
             if (req.body.data.id) {
                 const currentAcc = await modules.Accounts.findByPk(req.body.data.id, {
                     attributes: ['userId', 'creator']
@@ -85,27 +87,35 @@ exports.account = async (req, res) => {
                             operation: 4,
                             description: `Account ${req.body.data.id} was ${text} ${receiver}`,
                         });
-                    } 
-                    if(data.proxy_id) {
-                        try {    
+                    }
+                    if (data.proxy_id) {
+                        try {
                             const result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
-                            console.log(result.data.data)
                             const {node, access, ports} = result.data.data
                             const ip = node.ip + ':' + ports.http
                             data.proxy_ip = ip;
                             data.proxy_login = access.login
                             data.proxy_password = access.password
-                         } catch(e) {
-                        console.log(e)
-                    }
+                        } catch (e) {
+                            console.log(e)
                         }
+                    } else if (!data.proxy_id && data.proxy_ip) {
+                        const result = await axios.get(`http://${data.proxy_ip}/api/info?apiToken=${process.env.PROXY_TOKEN}`)
+                        const id = result.data.proxy_id
+                        const result2 = await axios.get(`https://astroproxy.com/api/v1/ports/${id}?token=${process.env.PROXY_TOKEN}`);
+                        const {node, access, ports} = result2.data.data
+                        data.proxy_ip = node.ip + ':' + ports.http;
+                        data.proxy_id = id
+                        data.proxy_login = access.login
+                        data.proxy_password = access.password
+                    }
 
-        await modules.Accounts.update({...data}, {
+                    await modules.Accounts.update({...data}, {
                         where: {
                             id: req.body.data.id
                         }
                     })
-                   
+
                 }
             } else {
                 await modules.Accounts.create({...data, creator: req.id})
@@ -158,7 +168,7 @@ exports.userAccount = async (req, res) => {
     }
 };
 
-exports.accounts = async (req, res) => { 
+exports.accounts = async (req, res) => {
     if (req.permission.acc_bm_update) {
         try {
             await modules.Accounts.bulkCreate(req.body.data);
@@ -178,7 +188,7 @@ exports.uuid = async (req, res) => {
                 uuid: req.body.data.uuid,
                 id: req.body.data.id
             };
-           
+
             await modules.Accounts.update({uuid: data.uuid}, {
                 where: {
                     id: data.id
@@ -199,8 +209,8 @@ exports.multiAccounts = async (req, res) => {
             let where = {};
             if (req.body.id) where.id = {[Op.startsWith]: req.body.id};
             if (req.body.country) where['$country.id$'] = req.body.country;
-            const accounts =  await modules.Accounts.findAll({
-                attributes: ['id', 'uuid', 'login', 'password', 'email', 'email_password','proxy_ip', 'proxy_login', 'proxy_password', 'birth', 'code2fa', 'token'],
+            const accounts = await modules.Accounts.findAll({
+                attributes: ['id', 'uuid', 'login', 'password', 'email', 'email_password', 'proxy_ip', 'proxy_login', 'proxy_password', 'birth', 'code2fa', 'token'],
                 where: where,
                 include: {
                     model: modules.Countries,
@@ -210,8 +220,8 @@ exports.multiAccounts = async (req, res) => {
                 ],
                 limit: 100
             });
-            const countries =  await modules.Countries.findAll({
-                attributes: ['id', 'name'],
+            const countries = await modules.Countries.findAll({
+                attributes: ['id', 'name', 'type'],
             });
             res.send({accounts, countries});
         } catch (e) {
@@ -246,18 +256,24 @@ exports.proxyTraffic = async (req, res) => {
         if (req.admin && req.permission.acc_bm_update) {
             const result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
 
-            await modules.Accounts.update({proxy_traffic_left: result.data.data.traffic.left, proxy_traffic_total: result.data.data.traffic.total}, {
+            await modules.Accounts.update({
+                proxy_traffic_left: result.data.data.traffic.left,
+                proxy_traffic_total: result.data.data.traffic.total
+            }, {
                 where: where
 
             })
         } else {
             where.userId = req.id;
-            const account =  await modules.Accounts.findOne({
+            const account = await modules.Accounts.findOne({
                 where: where
             });
             if (account) {
                 const result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
-                await modules.Accounts.update({proxy_traffic_left: result.data.data.traffic.left, proxy_traffic_total: result.data.data.traffic.total}, {
+                await modules.Accounts.update({
+                    proxy_traffic_left: result.data.data.traffic.left,
+                    proxy_traffic_total: result.data.data.traffic.total
+                }, {
                     where: where
                 })
             } else {
@@ -275,26 +291,24 @@ exports.addProxyTraffic = async (req, res) => {
     try {
         const id = req.body.data.id
         const proxy_id = req.body.data.proxy_id;
-    const [traffic, money] = req.body.data.trafficAmount.split('-')
-    const [amount, key] = traffic.split(' ')
-    const convertedMoneyNum = +money.replace('$','')
-    const getVolume = () => {
-        switch (amount) {
-            case '100':
-                return '0.1'
-            case '500':
-                return '0.5'
-            case '1':
-                return '1'
+        const [traffic, money] = req.body.data.trafficAmount.split('-')
+        const [amount, key] = traffic.split(' ')
+        const convertedMoneyNum = +money.replace('$', '')
+        const getVolume = () => {
+            switch (amount) {
+                case '1':
+                    return '0.5'
                 case '2':
-                return '2'
-            case '5':
-                return '5'
-            default:
-                break;
+                    return '1'
+                case '4':
+                    return '2'
+                case '10':
+                    return '5'
+                default:
+                    break;
+            }
         }
-    }
-const volume = await getVolume();
+        const volume = await getVolume();
 
         const where = {
             id: id,
@@ -304,26 +318,30 @@ const volume = await getVolume();
             attributes: ['balance']
         });
         if (+sumOnAcc.balance - convertedMoneyNum >= 0) {
-                const result = await axios.post(`https://astroproxy.com/api/v1/ports/${proxy_id}/renew?token=${process.env.PROXY_TOKEN}&volume=${volume}&id=${proxy_id}`,
-                    {'volume': `${volume}`},
-                    {headers: {
-                            'Content-Type': 'multipart/form-data',
-                             'Accept': 'application/json'
-                        },
-                    }
-                    );
-                if (result.data.status === 'ok') {
-                    
-                    await modules.Accounts.update({proxy_traffic_left: result.data.data.traffic.left, proxy_traffic_total: result.data.data.traffic.total}, {
-                        where: where
-                    });
-                    await modules.Users.update({balance: sumOnAcc.balance - convertedMoneyNum}, {
-                        where: {
-                            id: req.id
-                        }
-                    });
-                    return res.sendStatus(200)
+            const result = await axios.post(`https://astroproxy.com/api/v1/ports/${proxy_id}/renew?token=${process.env.PROXY_TOKEN}&volume=${volume}&id=${proxy_id}`,
+                {'volume': `${volume}`},
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Accept': 'application/json'
+                    },
                 }
+            );
+            if (result.data.status === 'ok') {
+
+                await modules.Accounts.update({
+                    proxy_traffic_left: result.data.data.traffic.left,
+                    proxy_traffic_total: result.data.data.traffic.total
+                }, {
+                    where: where
+                });
+                await modules.Users.update({balance: sumOnAcc.balance - convertedMoneyNum}, {
+                    where: {
+                        id: req.id
+                    }
+                });
+                return res.sendStatus(200)
+            }
             // }
         } else {
             res.sendStatus(405)
@@ -334,19 +352,19 @@ const volume = await getVolume();
     }
 };
 exports.proxyData = async (req, res) => {
-    try { 
-        if (req.permission.acc_bm_update) { 
-            let result;  
-                result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
-                console.log(result)
-                return res.send(result.data.data);
+    try {
+        if (req.permission.acc_bm_update) {
+            let result;
+            result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
+            console.log(result)
+            return res.send(result.data.data);
         } else {
             return res.sendStatus(401)
-            
+
         }
     } catch (e) {
-        res.send({error:'Proxy id is not correct'}).status(400)
+        res.send({error: 'Proxy id is not correct'}).status(400)
         console.log(e);
-        
+
     }
 };

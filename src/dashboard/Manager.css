@@ -16,6 +16,10 @@
     display: flex;
 
 }
+.manager-telegram-icon {
+    color: red;
+}
+
 .manager .telegram-icon, .skype-icon {
     grid-template-columns: min-content;
     width: 34px;

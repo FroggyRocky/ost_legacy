@@ -171,12 +171,11 @@
     position: absolute;
     z-index: 5;
     width: 100%;
-    height: 70%;
     top: 35px;
-    overflow-y: scroll;
     scrollbar-width: 0;
     overflow-y: none;
     align-items: center;
+    max-height: 70%;
 }
 
 .top-up-drop-down--content {
@@ -233,23 +232,23 @@
 }
 
 .top-up--radio-circle {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 40px;
     background: #61646B;
-    margin-top: -18.5px;
-    margin-left: 4.35px;
+    margin-top: -16.5px;
+    margin-left: 5.21px;
     position: absolute;
     z-index: 5;
 }
 
 .top-up--radio-circle--checked {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 40px;
     background: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
-    margin-top: -18.5px;
-    margin-left: 4.35px;
+    margin-top: -16.5px;
+    margin-left: 5.21px;
     position: absolute;
     z-index: 5;
 }

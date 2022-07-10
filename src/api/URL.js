@@ -14,4 +14,4 @@ const webURL = 'https://ostproduct.com';
 export {serverURL, webURL}
 
 
-///THEESE ARE MY CHANGES FOR ost AFTER WALL IS SET
+///THEЕSE ARE MY CHANGES FOR ost AFTER WALL IS SET

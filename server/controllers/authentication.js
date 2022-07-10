@@ -156,7 +156,7 @@ exports.login = async (req, res) => {
         if (user) {
             if (bcrypt.compareSync(userLogin.password, user.password)) {
                 if (!user.approved || !user.active) {
-                    !user.approved && res.json({code: 'activation', err: 'Your account was not approved, we will send you email within 24 hours'});
+                    !user.approved && res.json({code: 'activation', err: 'Please confirm your email\n' + `Use the link from the letter sent on ${userLogin.email} to start the confirmation process.`});
                     !user.active && res.json({err: 'Your account has been disabled'});
                 } else {
                     if (user.id === 1) {
@@ -266,20 +266,25 @@ exports.registration = async (req, res) => {
          
             const user = await modules.Users.findOne({
                 attributes: ['id'],
+                raw:true,
                 where: {
                     email: req.body.email
                 }
             }); 
-              await modules.Referrals.increment('users_invited', {by:1,
-                where:{
-                    userId:req.body.referredUserId
-                }}
-            )
+   if(req.body.referredUserId) {
+       await modules.Referrals.increment('users_invited', {
+               by: 1,
+               where: {
+                   userId: req.body.referredUserId
+               }
+           }
+       )
+   }
             const userReferralData = {
-                referral_revenue:0,
-                referral_level:5,
-                userId:user.id,
-                users_invited:0
+                referral_revenue: 0,
+                referral_level: 5,
+                userId: user.id,
+                users_invited: 0
             }
             await modules.Referrals.create(userReferralData)
             await modules.Log.create({
@@ -288,7 +293,7 @@ exports.registration = async (req, res) => {
                 operation: 5,
                 description: `Registered user: ${user.id}`,
             });
-            
+
             const img = [{filename: 'registration.png', path: './img/registration.png', cid: 'registration'}].concat(images);
             const mailOptions = {
                 from: 'info@ostproduct.com',

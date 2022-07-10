@@ -3,8 +3,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import './dropDown.css'
 
-export default function DropDown(props) { 
-
+export default function DropDown(props) {
   const [isDropDownOpen, setDropDownState] = useState(false)
   const [checkedOption, setCheckedOption] = useState(props.placeholder)
 
@@ -12,8 +11,14 @@ export default function DropDown(props) {
     setCheckedOption(props.placeholder)
   },[props.placeholder])
 
-  function toggleDropDown() {
+  useEffect(() => {
+    setDropDownState(props.isDropDownOpen)
+  }, [props.isDropDownOpen])
+
+  function toggleDropDown(e) {
+    props.setDropDown(prev => !prev)
     setDropDownState(prev => !prev)
+
   }
   
   function selectOption(e) {
@@ -21,6 +26,7 @@ export default function DropDown(props) {
     const id = e.currentTarget.id
     setCheckedOption(name)
     setDropDownState(false)
+    props.setDropDown(false)
     if(id) {
       props.selectOption({name,id})
     }
@@ -29,13 +35,13 @@ export default function DropDown(props) {
     }
   }
   /// recieves an array with names of the options
-  const dropDownOptionComponents = props.dropDownOptions?.map((el, index) => {
-    return <div key={el.id || index} id={el.id} className='select-options-container'
-      name={ el.name || el}  onClick={selectOption}>
-      <span>{el.name || el}</span>
+  const dropDownOptionComponents = props.dropDownOptions?.map((el) => {
+    return <div key={el.id} id={el.id} className='select-options-container'
+      name={el.name || el.id || el} data-class={'dropDown'}  onClick={selectOption}>
+      <span>{el.name || el.id || el}</span>
       <div className='selectRadio__container'>
-        <input className="select-radio" type="radio" checked={null} />
-        {(checkedOption === el.name && el) && <div className='radio-circle--checked radio-circle'></div>}
+        <input className="select-radio" type="radio" />
+        {(checkedOption === el || checkedOption === el.name) && <div className='radio-circle--checked radio-circle'></div>}
       </div>
     </div>
   })
@@ -45,6 +51,7 @@ export default function DropDown(props) {
       className='select-input'
       name={props.name}
       onClick={toggleDropDown}
+      data-class={'dropDown'}
       id={props.id}
     >
       <span className="select-placeholder">

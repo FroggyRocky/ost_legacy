@@ -13,7 +13,7 @@ import {setAttachState, setImgsPreviewSrc, deleteImgPreview, sendFiles, unsetLoa
 import LoopIcon from '@mui/icons-material/Loop';
 
 
-const TicketChat = (props) => {  console.log(props)
+const TicketChat = (props) => {
 
   const [isExpanded, setExpanded] = useState(false);
   const [messageState, setMessageState] = useState({
@@ -45,7 +45,6 @@ useEffect(() => {
 
   function keyDown(e) { 
     if (e.keyCode === 13 && !e.shiftKey) {
-      e.preventDefault();
       handleMessageSend();
     } 
   }
@@ -301,13 +300,14 @@ function previewFiles(file) {
               onClick={expand}
               onKeyDown={keyDown}
               onKeyPress={keyDown}
+              required={props.imgsPreviewSrc.length == 0}
             />
             <AttachFileIcon className="tickets-attach-icon" onClick={attachFile} />
             <input ref={attachInput} type="file" style={{display:'none'}} onChange={attachFiles} /> 
             <Zoom in={true} accept='img/*'>
               <div className="send-message__button">
                 <button className={`button-standard ${isMessageSending && 'button-standard--disabled'}`} 
-                disabled={props.imgsPreviewSrc.length == 0 || isMessageSending}
+                disabled={isMessageSending}
                   onClick={handleMessageSend}>
                 {isMessageSending ? 'Sending...' : 'Send'}
                 </button>

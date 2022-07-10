@@ -2,7 +2,7 @@ import ReactTooltip from "react-tooltip";
 
 function getValueById(values, id) {
     const value = values.find(el => (el.id === id));
-    return value.name
+    return value?.name
 }
 
 function colorOfStatus(statusId) {

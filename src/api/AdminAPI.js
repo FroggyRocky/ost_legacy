@@ -42,6 +42,7 @@ async function bmTypeCreateOrUpdate(data) {
     )
 }
 async function accCreateOrUpdate(data) {
+    console.log(data)
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return axios.post(`${serverURL}/account`,

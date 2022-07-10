@@ -5,8 +5,11 @@ exports.country = async (req, res) => {
         try {
             const data = {
                 name: req.body.data.name,
+                type:req.body.data.type || 'standard',
                 price: req.body.data.price,
+                description:req.body.data.description
             };
+            console.log(data)
             if (req.body.data.id) {
                 await modules.Countries.update({...data}, {
                     where: {

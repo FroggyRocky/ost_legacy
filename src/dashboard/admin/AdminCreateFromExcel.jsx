@@ -31,7 +31,7 @@ const AdminCreateFromExcel = (props) => {
             workbook.SheetNames.forEach(sheet => {
                 rows = xlsx.utils.sheet_to_json(workbook.Sheets[sheet]);
             });
-            // const res = await props.proxyData({type: 'p'});
+
         
             await Promise.all(rows.map(async el => {
                 if (el.proxy_id) { 
@@ -45,15 +45,7 @@ const AdminCreateFromExcel = (props) => {
                     } else {
                         el.proxy_ip = '0'
                     }
-                } 
-                // else {
-                //     const address = el.proxy_ip.split(':');
-                //     const proxy = res.data.list.find(proxy => proxy.host === address[0] && proxy.port === address[1]);
-                //     el.proxy_id = `p${proxy.id}`;
-                //     el.proxy_login = proxy.user;
-                //     el.proxy_password = proxy.pass;
-                //     el.proxy_date = proxy.date_end;
-                // }
+                }
                 return el
                 }
             
@@ -130,6 +122,7 @@ const AdminCreateFromExcel = (props) => {
                 <td>${el.email_password ? el.email_password : '#'}</td>
                 <td>${el.birth ? el.birth : '#'}</td>
                 <td>${el.cookie ? el.cookie : '#'}</td>
+                <td>${el.type ? el.type: '#'}</td>
             </tr>`);
         return `<table class='excel-table'>
             <thead>
@@ -147,6 +140,7 @@ const AdminCreateFromExcel = (props) => {
                     <th>email_password</th>
                     <th>birth</th>
                     <th>cookie</th>
+                    <th>type</th>
                 </tr>
             </thead>
         <tbody>

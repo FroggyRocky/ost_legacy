@@ -106,13 +106,20 @@ const Permissions = db.define('permissions', {
 
 const Countries = db.define('countries', {
     name: {
-        type: DataTypes.STRING(6),
+        type: DataTypes.STRING(20),
         allowNull: false
     },
     price: {
         type: DataTypes.INTEGER,
         defaultValue: 0
-    }
+    },
+    type: {
+        type: DataTypes.STRING(30),
+    },
+    description: {
+        type: DataTypes.TEXT,
+    },
+
 });
 
 const Accounts = db.define('accounts', {
@@ -204,6 +211,9 @@ const Accounts = db.define('accounts', {
     },
     uuid: {
         type: DataTypes.STRING(40),
+    },
+    type: {
+        type: DataTypes.STRING(30),
     }
 });
 
@@ -247,7 +257,7 @@ const Users = db.define('users', {
         type: DataTypes.STRING(40),
     },
     skype: {
-        type: DataTypes.STRING(40),
+        type: DataTypes.STRING(50),
     },
     country: {
         type: DataTypes.STRING(25),
@@ -393,6 +403,7 @@ Bms.belongsTo(BmTypes);
 Statuses.hasMany(Bms);
 Bms.belongsTo(Statuses);
 
+
 Bms.hasOne(Accounts);
 Accounts.belongsTo(Bms);
 
@@ -423,6 +434,8 @@ Message.belongsTo(Tickets);
 Users.hasOne(Message);
 Message.belongsTo(Users);
 
+
+
 module.exports = {
     Faqs,
     Countries,
@@ -438,5 +451,5 @@ module.exports = {
     Tickets,
     Message,
     Requisites,
-    Referrals
+    Referrals,
 };

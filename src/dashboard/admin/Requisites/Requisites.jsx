@@ -14,7 +14,7 @@ import {minValue, maxValue} from '../../../Redux/FormValidators/FormValidators.j
 const minLength = minValue(5,'Wallet address')
 const maxLength = maxValue(200, 'Wallet address')
 
-export default function Requisites(props) { console.log(props)
+export default function Requisites(props) {
 
 
 

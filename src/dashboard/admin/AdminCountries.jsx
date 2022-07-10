@@ -11,6 +11,7 @@ const AdminCountries = (props) => {
             <div className='admin-country-data'>
                 <div>
                     <div>Country</div>
+                    <div style={{fontSize:15, marginBottom:10}}>{el.type}</div>
                     <div>{el.name}</div>
                 </div>
                 <div>
@@ -30,7 +31,7 @@ const AdminCountries = (props) => {
     ));
 
     return <div className='admin-countries'>
-                {countries ? countries : <p>Пока нет ни одной страны</p>}
+                {countries ? countries : <p>No countries added yet</p>}
                 {props.user.admin && props.user.permission.price_list_update &&
                     <NavLink className='admin-country-add' to={`/dashboard/adminpricelist/addcountry/`}>
                         <Plus/>

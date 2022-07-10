@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Manager.css";
+import {Link} from 'react-router-dom'
 import { ReactComponent as Skype } from "../img/skype.svg";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -13,12 +14,14 @@ const Manager = (props) => {
   function disableHover(hoverNum) {
     hoverNum(false);
   }
+
   return (
     <div className="manager">
       <div>Your manager</div>
       <div className="manager-name">{props.manager.name || "Ivan"}</div>
       <div className="manager-icons">
-        <a to={`tg://resolve?domain=<${props.manager.telegram}>`}>
+
+        <a href={`https://t.me/${props.manager.telegram}`}>
           <TelegramIcon
             className="manager-telegram-icon"
             style={{ fontSize: 24, color: !isHovered ? "#767C89" : "white", marginRight:5 }}
@@ -26,7 +29,7 @@ const Manager = (props) => {
             onMouseOut={()=> disableHover(setHover)}
           />
         </a>
-        <a to={`skype:${props.manager.skype}?chat`}>
+        <a href={`https://join.skype.com/invite/${props.manager.skype}`}>
           <Skype
             className="manager-skype-icon"
             style={{ filter: isHovered2 && "brightness(0) invert(1)" }}

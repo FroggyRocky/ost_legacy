@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./BuyAccount.css";
 import ReactTooltip from "react-tooltip";
-import { ReactComponent as Cross } from "../../img/cross.svg";
 import { ReactComponent as Buy } from "../../img/buy.svg";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
@@ -17,16 +16,20 @@ const BuyAccount = (props) => {
   const [isBuying, setBuyingState] = useState(false);
   const [isRedirect, setRedirect] = useState(false)
 
-  const listOfCountries = props.freeAccounts?.map((el) =>  `${el.name} - ${el.price}$`);
+  const listOfCountries = props.freeAccounts?.map((el) =>  ({
+    name:`${el.name}_${el.type}-${el.price}$`,
+    id:el.id,
+
+  }));
 
 
   const listOfBmTypes = props.freeBms?.map((el) => `${el.name} - ${el.price}$`);
-
+  const [isDropDownOpen, setDropDown] = useState(false)
 
 
   useEffect(() => {
     setBuyState({
-      type: "ab",
+      type: "a",
       country: props.freeAccounts?.length ? props.freeAccounts[0].id : "",
       countryName: props.freeAccounts?.length ? props.freeAccounts[0].name : "",
       countryPrice: props.freeAccounts?.length
@@ -102,32 +105,26 @@ const BuyAccount = (props) => {
   }
 
   function handleCountryChange(option) {
-  
-    const countryOption = option.split('-')[0].trim()
-    const currentCountry = props.freeAccounts?.find(
-      (country) =>  {
-        return country.name.trim() === countryOption
-      }
-    );
-    console.log(currentCountry)
-    
+    const countryId = option.id
+    const countryRef = props.freeAccounts?.find(el => +el.id === +countryId)
     setBuyState({
       ...buyState,
-      country: currentCountry.id,
-      countryName: currentCountry.name,
-      countryPrice: currentCountry.price,
-      countryCount: currentCountry.count,
+      country: countryRef.id,
+      countryName: countryRef.name,
+      countryPrice: countryRef.price,
+      countryCount: countryRef.count,
+      countryType:countryRef.type,
       qty: 0,
       sum: 0,
       max:
         buyState.type === "ab"
-          ? currentCountry.count >= buyState.bmCount
+          ? countryRef.count >= buyState.bmCount
             ? buyState.bmCount
-            : currentCountry.count
-          : currentCountry.count,
+            : countryRef.count
+          : countryRef.count,
     });
   }
-
+  console.log(buyState)
   function handleBmTypeChange(option) {
     const bmOption = option.split('-')[0].trim()
     const currentBm = props.freeBms?.find(
@@ -135,7 +132,6 @@ const BuyAccount = (props) => {
         return bm.name.trim() === bmOption
       }
     );
-    console.log(currentBm)
     setBuyState({
       ...buyState,
       bmType: currentBm.id,
@@ -194,11 +190,9 @@ const BuyAccount = (props) => {
     }
   }
   function handleModalYesClick() {
-   
     async function buyAcc() {
       setBuyingState(true)
       const res = await props.buyAccount(buyState);
-      console.log(res)
       if (res.status === 200) {
         const adminData = await props.getUserData();
       props.setUserState(adminData.data);
@@ -237,38 +231,15 @@ function handleModalKeyNo() {
     if (event.keyCode === 27) handleModalKeyNo();
   });
 }
+  function handleDropDownModalClick(e) {
+    const attribute = e.target.getAttribute('data-class')
+    if(attribute===null || attribute == 'modal') {
+      setDropDown(false)
+    }
+  }
 
   function showBuyData() {
     switch (buyState.type) {
-      case "ab":
-        return (
-          <div className="buy-modal-container">
-            <div className="buy-modal-content">
-              <h2 className="buy-modal-header">Confirm</h2>
-              <div className="buy-modal-purchase-info_line">
-              <span>Account</span>
-              <span className="buy-modal-value">x{buyState.qty}</span>
-              </div>
-              <div className="buy-modal-purchase-info_line">
-                <span>BM</span>
-                <span className="buy-modal-value">x{buyState.qty}</span>
-              </div>
-                <div className="buy-modal-breaking-line"></div>
-                <div className="buy-modal-purchase-info_line">  
-                <span>Total</span>
-                <span className="buy-modal-value">$&nbsp;{buyState.sum}</span>
-              </div>          
-                <button
-                  className={`buy-modal-button ${isBuying && 'buy-modal-button--disabled'}`}
-                  disabled={isBuying}
-                  onClick={handleModalYesClick}
-                >
-                  <ShoppingCartIcon />
-                  {isBuying ? 'Processing...' : 'Buy'}
-                </button>
-            </div>
-          </div>
-        );
       case "a":
         return (
           <div className="buy-modal-container">
@@ -322,26 +293,14 @@ function handleModalKeyNo() {
         );
     }
   }
-
   return props.freeAccounts?.length || props.freeBms?.length ? (
-    <div className="buy-account">
+    <div className="buy-account" data-class={'modal'} onClick={handleDropDownModalClick}>
        {isRedirect && <Redirect to='/dashboard/accounts' />}
       <section className="section_first">
         <div className="buy-account-header-name">Buy account</div>
         <div className="buy-account-section-td">
           <div className="buy-account-section-td-name">Type</div>
           <div className="buy-account-section-td-radio-status">
-            <label className='buy-checkbox-container'>
-              <input
-              className="buy-checkbox"
-                type="radio"
-                id="ab"
-                name="type"
-                onChange={handleRadioChange}
-                checked={buyState.type === "ab"}
-              />
-              <div className="buy-checkbox-title">Account + BM</div>
-            </label>
             <label className='buy-checkbox-container'>
               <input
               className="buy-checkbox"
@@ -366,67 +325,42 @@ function handleModalKeyNo() {
             </label>
           </div>
         </div>
-        <div className="buy-account-section-td">
-          <div className="buy-account-section-td-name">Country</div>
-          <div className="buy-account-section-td-data">
-            <div
-              className="text-input-container"
-              hidden={
-                buyState.type === "b" ||
-                props.freeAccounts?.length === 0 ||
-                (buyState.type === "ab" && props.freeBms?.length === 0)
-              }
-            >
-              <DropDown defaultPlaceholder='Choose a country' selectOption={handleCountryChange}
-               placeholder={`${buyState.countryName} - ${buyState.countryPrice}$`} 
-               dropDownOptions = {listOfCountries} /> 
-            </div>
-            {(buyState.type === "b" ||
-              props.freeAccounts?.length === 0 ||
-              (buyState.type === "ab" && props.freeBms?.length === 0)) && (
-              <Cross />
-            )}
-          </div>
-        </div>
-        <div className="buy-account-section-td">
-          <div className="buy-account-section-td-name">BM type</div>
-          <div className="buy-account-section-td-data">
-            <div
-              className="text-input-container"
-              hidden={
-                buyState.type === "a" ||
-                props.freeBms?.length === 0 ||
-                (buyState.type === "ab" && props.freeAccounts?.length === 0)
-              }
-            >
-            <div className="icon-input-container">
-              <DropDown defaultPlaceholder='Choose BM type' selectOption={handleBmTypeChange}
-               placeholder={`${buyState.bmName} - ${buyState.bmTypePrice}$`} 
-               dropDownOptions = {listOfBmTypes} /> 
-              {!(
-                buyState.type === "a" ||
-                (buyState.type === "ab" && props.freeAccounts?.length === 0)
-              ) && (
-                <div className="q-icon">
-                  <HelpOutlineIcon style={{color:'white', fontSize:'small'}} data-tip />
-                  <ReactTooltip
-                    effect="solid"
-                    place="right"
-                    getContent={() => buyState.description}
-                  />
-                  </div>
-              )}
+        {buyState.type !== "b" &&
+            <div className="buy-account-section-td">
+              <div className="buy-account-section-td-name">Country</div>
+              <div className="buy-account-section-td-data">
+                <div className="text-input-container">
+                  <DropDown defaultPlaceholder='Choose a country' selectOption={handleCountryChange}
+                            placeholder={`${buyState.countryName}_${buyState.countryType} - ${buyState.countryPrice}$`}
+                            dropDownOptions={listOfCountries} setDropDown={setDropDown}
+                            isDropDownOpen={isDropDownOpen}/>
+                </div>
               </div>
             </div>
-            <div className="bm-type-icons">
-              {(buyState.type === "a" ||
-                props.freeBms?.length === 0 ||
-                (buyState.type === "ab" &&
-                  props.freeAccounts?.length === 0)) && <Cross />}
-            
+        }
+        {buyState.type !== "a" && <div className="buy-account-section-td">
+          <div className="buy-account-section-td-name">BM type</div>
+          <div className="buy-account-section-td-data">
+            <div className="text-input-container">
+              <div className="icon-input-container">
+                <DropDown defaultPlaceholder='Choose BM type' selectOption={handleBmTypeChange}
+                          placeholder={`${buyState.bmName} - ${buyState.bmTypePrice}$`}
+                          dropDownOptions={listOfBmTypes} setDropDown={setDropDown}
+                          isDropDownOpen={isDropDownOpen}/>
+                <div className="q-icon">
+                  {   <HelpOutlineIcon style={{color: 'white', fontSize: 'small'}} data-tip/> }
+                  <ReactTooltip
+                      effect="solid"
+                      place="right"
+                      getContent={() => buyState.description}
+                  />
+                </div>
+
+              </div>
             </div>
           </div>
         </div>
+        }
         <div className="buy-account-section-td">
           <div className="buy-account-section-td-name">Amount</div>
           <div className="buy-account-section-td-data">
@@ -475,7 +409,7 @@ function handleModalKeyNo() {
       {balanceModalState && (
         <div className="modal" id="modal" onClick={handleModalNoClick}>
         <div className="modal-window" id="buy-modal-window">
-          <div className="modal-window-data">No sufficient funds or You want to buy more accounts/bms which are available on the market right now</div>
+          <div className="modal-window-data">No sufficient funds or We don’t have such amount in stock</div>
           <button
             className="buy-modal-button"
             onClick={handleBalanceModalClick}

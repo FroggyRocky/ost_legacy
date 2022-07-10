@@ -34,7 +34,7 @@
 }
 .add-country .add-country-td .add-country-td-data .text-input {
     height: 40px;
-    width: 80px;
+    width: 200px;
     background-color: #25272D;
     border: none;
     border-radius: 4px;
@@ -46,6 +46,31 @@
     box-sizing: border-box;
     outline: none;
 }
-.add-bm-type .add-bm-type-td .add-bm-type-td-data .text-input::placeholder {
+
+
+.add-country-type-td .add-country-type-td-data .text-input {
+    height: 40px;
+    width: 400px;
+    background-color: #25272D;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 14px;
+    color: white;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: none;
+    resize: none;
+}
+
+ .add-country-type-td .add-country-type-td-data .text-input::placeholder {
     color: #61646B;
+}
+.add-country-type-td .add-country-type-td-data textarea.text-input {
+    height: unset;
+
+}
+ .add-country-type-td .add-country-type-td-data .text-input[type="number"] {
+    width: 80px;
 }

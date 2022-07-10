@@ -83,7 +83,7 @@ exports.data = async function (req, res) {
                         }
                     });
                 } else {
-                    if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between] : [req.body.data.from, req.body.data.to]};
+                    if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between]: [req.body.data.from, req.body.data.to]};
                     return await modules.Accounts.findAll({
                         where: where,
                         order: [
@@ -94,7 +94,7 @@ exports.data = async function (req, res) {
                             model: modules.Bms,
                         },
                         offset: req.body.data && (req.body.data.aa ? req.body.data.aa * userData.user.page - userData.user.page : 0),
-                        limit: userData.user.page
+                        // limit: userData.user.page
                     });
                 }
             }
@@ -112,8 +112,13 @@ exports.data = async function (req, res) {
                             model: modules.Bms,
                         }
                     });
+
                 } else {
-                    if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between] : [req.body.data.from, req.body.data.to]};
+                    if (req.body.data && req.body.data.from && req.body.data.to) {
+                        where.bought = {[Op.between]: [req.body.data.from, req.body.data.to]};
+                    } else if (req.body.data && req.body.data.problem && req.body.data.problem === true) {
+                        where.statusId = 3;
+                    }
                     return await modules.Accounts.findAll({
                         where: where,
                         order: [
@@ -124,7 +129,7 @@ exports.data = async function (req, res) {
                             model: modules.Bms,
                         },
                         offset: req.body.data && (req.body.data.a ? req.body.data.a * userData.user.page - userData.user.page : 0),
-                        limit: userData.user.page
+                        // limit: userData.user.page
                     });
                 }
             }
@@ -144,7 +149,7 @@ exports.data = async function (req, res) {
                         }
                     });
                 } else {
-                    if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between] : [req.body.data.from, req.body.data.to]};
+                    if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between]: [req.body.data.from, req.body.data.to]};
                     return await modules.Bms.findAll({
                         where: where,
                         order: [
@@ -156,7 +161,7 @@ exports.data = async function (req, res) {
                             attributes: ['id']
                         },
                         offset: req.body.data && (req.body.data.ab ? req.body.data.ab * userData.user.page - userData.user.page : 0),
-                        limit: userData.user.page
+                        // limit: userData.user.page
                     });
                 }
             }
@@ -176,7 +181,11 @@ exports.data = async function (req, res) {
                         },
                     });
                 } else {
-                    if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between] : [req.body.data.from, req.body.data.to]};
+                    if (req.body.data && req.body.data.from && req.body.data.to) {
+                        where.bought = {[Op.between]: [req.body.data.from, req.body.data.to]};
+                    } else if (req.body.data && req.body.data.problem && req.body.data.problem === true) {
+                        where.statusId = 3;
+                    }
                     return await modules.Bms.findAll({
                         where: where,
                         order: [
@@ -188,7 +197,7 @@ exports.data = async function (req, res) {
                             attributes: ['id', 'countryId']
                         },
                         offset: req.body.data && (req.body.data.b ? req.body.data.b * userData.user.page - userData.user.page : 0),
-                        limit: userData.user.page
+                        // limit: userData.user.page
                     });
                 }
             }
@@ -213,7 +222,7 @@ exports.data = async function (req, res) {
 
             async function freeAccounts() {
                 return await modules.Accounts.count({
-                    attributes: ['country.id', 'country.price', 'country.name'],
+                    attributes: ['country.id', 'country.price', 'country.name', 'country.description', 'country.type'],
                     where: {
                         userId: null,
                         archived: {[Op.not]: true},
@@ -247,7 +256,7 @@ exports.data = async function (req, res) {
                 if (req.body.data && req.body.data.searchId && (req.body.data.searchId.a || req.body.data.searchId.b)) {
                     return 1;
                 } else {
-                    if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between] : [req.body.data.from, req.body.data.to]};
+                    if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between]: [req.body.data.from, req.body.data.to]};
                     if (type === 'a') {
                         return await modules.Accounts.count({
                             where: where
@@ -268,9 +277,9 @@ exports.data = async function (req, res) {
                 if (req.body.data && req.body.data.searchId && (req.body.data.searchId.aa || req.body.data.searchId.ab)) {
                     return 1;
                 } else {
-                    if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between] : [req.body.data.from, req.body.data.to]};
-                
-                    if (type === 'a') {   
+                    if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between]: [req.body.data.from, req.body.data.to]};
+
+                    if (type === 'a') {
                         return await modules.Accounts.count({
                             where: where
                         });
@@ -283,8 +292,8 @@ exports.data = async function (req, res) {
             }
 
             async function logList() {
-                
-                if (req.permission.log) {
+
+                if (req.permission?.log) {
                     if (req.body.data && req.body.data.searchState) {
                         let searchWhere = {
                             createdAt: {
@@ -315,7 +324,7 @@ exports.data = async function (req, res) {
             async function userList() {
                 if (req.permission.users !== 0) {
                     let where = {};
-                      if (req.permission.users === 1) where.managerId = req.id;
+                    if (req.permission.users === 1) where.managerId = req.id;
                     if (req.body.data && req.body.data.searchId && req.body.data.searchId.u) {
                         where.id = req.body.data.searchId.u;
                         return await modules.Users.findAll({
@@ -329,7 +338,7 @@ exports.data = async function (req, res) {
                         });
                     } else {
                         if (req.body.data && req.body.data.approved) where.approved = false;
-                        if (req.body.data && req.body.data.from && req.body.data.to) where.createdAt = {[Op.between] : [req.body.data.from, req.body.data.to]};
+                        if (req.body.data && req.body.data.from && req.body.data.to) where.createdAt = {[Op.between]: [req.body.data.from, req.body.data.to]};
                         return userData.userList = await modules.Users.findAll({
                             where: where,
                             attributes: {
@@ -342,7 +351,7 @@ exports.data = async function (req, res) {
                                 model: modules.Permissions
                             },
                             offset: req.body.data && (req.body.data.u ? req.body.data.u * userData.user.page - userData.user.page : 0),
-                            limit: userData.user.page
+                            // limit: userData.user.page
                         });
                     }
                 }
@@ -357,7 +366,7 @@ exports.data = async function (req, res) {
                         let where = {};
                         if (req.permission.users === 1) where.managerId = req.id;
                         if (req.body.data && req.body.data.approved) where.approved = false;
-                        if (req.body.data && req.body.data.from && req.body.data.to) where.createdAt = {[Op.between] : [req.body.data.from, req.body.data.to]};
+                        if (req.body.data && req.body.data.from && req.body.data.to) where.createdAt = {[Op.between]: [req.body.data.from, req.body.data.to]};
                         return userData.userCount = await modules.Users.count({
                             where: where
                         });
@@ -386,7 +395,8 @@ exports.data = async function (req, res) {
                     return {freeAccounts, newAccounts, newUsers};
                 }
             }
-            async function adminManagerList () {
+
+            async function adminManagerList() {
                 return await modules.Users.findAll({
                     where: {
                         manager: true
@@ -394,6 +404,7 @@ exports.data = async function (req, res) {
                     attributes: ['id', 'name']
                 });
             }
+
             async function adminAccounts() {
                 if (req.permission.acc_bm !== 0) {
                     let where = {archived: {[Op.not]: true}};
@@ -410,7 +421,7 @@ exports.data = async function (req, res) {
                     } else {
                         if (req.body.data && req.body.data.userId) where.userId = req.body.data.userId;
                         if (req.body.data && req.body.data.problem && req.body.data.problem === true) where.statusId = 3;
-                        if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between] : [req.body.data.from, req.body.data.to]};
+                        if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between]: [req.body.data.from, req.body.data.to]};
                         return await modules.Accounts.findAll({
                             where: where,
                             order: [
@@ -420,7 +431,7 @@ exports.data = async function (req, res) {
                                 model: modules.Bms,
                             },
                             offset: req.body.data && (req.body.data.a ? req.body.data.a * userData.user.page - userData.user.page : 0),
-                            limit: userData.user.page
+                            // limit: userData.user.page
                         });
                     }
                 }
@@ -442,7 +453,7 @@ exports.data = async function (req, res) {
                     } else {
                         if (req.body.data && req.body.data.userId) where.userId = req.body.data.userId;
                         if (req.body.data && req.body.data.problem && req.body.data.problem === true) where.statusId = 3;
-                        if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between] : [req.body.data.from, req.body.data.to]};
+                        if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between]: [req.body.data.from, req.body.data.to]};
                         return await modules.Bms.findAll({
                             where: where,
                             order: [
@@ -453,7 +464,7 @@ exports.data = async function (req, res) {
                                 attributes: ['id', 'countryId']
                             },
                             offset: req.body.data && (req.body.data.b ? req.body.data.b * userData.user.page - userData.user.page : 0),
-                            limit: userData.user.page
+                            // limit: userData.user.page
                         });
                     }
                 }
@@ -473,7 +484,7 @@ exports.data = async function (req, res) {
                         });
                     } else {
                         if (req.body.data && req.body.data.userId) where.userId = req.body.data.userId;
-                        if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between] : [req.body.data.from, req.body.data.to]};
+                        if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between]: [req.body.data.from, req.body.data.to]};
                         return await modules.Accounts.findAll({
                             where: where,
                             order: [
@@ -483,7 +494,7 @@ exports.data = async function (req, res) {
                                 model: modules.Bms,
                             },
                             offset: req.body.data && (req.body.data.aa ? req.body.data.aa * userData.user.page - userData.user.page : 0),
-                            limit: userData.user.page
+                            // limit: userData.user.page
                         });
                     }
                 }
@@ -504,7 +515,7 @@ exports.data = async function (req, res) {
                         });
                     } else {
                         if (req.body.data && req.body.data.userId) where.userId = req.body.data.userId;
-                        if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between] : [req.body.data.from, req.body.data.to]};
+                        if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between]: [req.body.data.from, req.body.data.to]};
                         return await modules.Bms.findAll({
                             where: where,
                             order: [
@@ -515,7 +526,7 @@ exports.data = async function (req, res) {
                                 attributes: ['id']
                             },
                             offset: req.body.data && (req.body.data.ab ? req.body.data.ab * userData.user.page - userData.user.page : 0),
-                            limit: userData.user.page
+                            // limit: userData.user.page
                         });
                     }
                 }
@@ -530,7 +541,7 @@ exports.data = async function (req, res) {
                         if (req.permission.acc_bm === 1) where.creator = req.id;
                         if (req.body.data && req.body.data.userId) where.userId = req.body.data.userId;
                         if (req.body.data && req.body.data.problem && req.body.data.problem === true) where.statusId = 3;
-                        if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between] : [req.body.data.from, req.body.data.to]};
+                        if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between]: [req.body.data.from, req.body.data.to]};
                         if (type === 'a') {
                             return await modules.Accounts.count({
                                 where: where
@@ -552,9 +563,9 @@ exports.data = async function (req, res) {
                         let where = {archived: true};
                         if (req.permission.acc_bm === 1) where.creator = req.id;
                         if (req.body.data && req.body.data.userId) where.userId = req.body.data.userId;
-                        if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between] : [req.body.data.from, req.body.data.to]};
+                        if (req.body.data && req.body.data.from && req.body.data.to) where.bought = {[Op.between]: [req.body.data.from, req.body.data.to]};
                         if (type === 'a') {
-                            
+
                             return await modules.Accounts.count({
                                 where: where
                             });

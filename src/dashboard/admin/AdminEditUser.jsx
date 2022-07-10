@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import './AdminEditUser.css'
-import { ReactComponent as Cross } from "../../img/cross.svg";
-import { ReactComponent as Pencil } from "../../img/pencil.svg";
+import {ReactComponent as Cross} from "../../img/cross.svg";
+import {ReactComponent as Pencil} from "../../img/pencil.svg";
 import DropDown from '../../common/DropDown';
-import { isPropertyAccessChain } from 'typescript';
 
 const AdminEditUser = (props) => {
+
+        const [isDropDownOpen, setDropDown] = useState(false)
 
     const [adminSettingsState, setAdminSettingsState] = useState({
         id: props.user.id,
@@ -37,7 +38,7 @@ const AdminEditUser = (props) => {
     useEffect(() => {
         const currentManager = props.managerList.find(el => el.id === props.user.managerId)
         if(currentManager) {
-            console.log(currentManager)
+
             setManager({...currentManager})
         }
     }, [])
@@ -137,9 +138,14 @@ const AdminEditUser = (props) => {
     function handleConfirmActiveBalance() {
         setDisabledBalanceState(false);
     }
-
+function handleEmptyClick(e) {
+    const attribute = e.target.getAttribute('data-class')
+    if (attribute === null || attribute == 'modal') {
+        setDropDown(false)
+    }
+}
     return (
-        <form className='user' onSubmit={handleClick}>
+        <form className='user' onSubmit={handleClick} onClick={handleEmptyClick} data-class={'modal'}>
             <div className='user-header-name'>
                 Edit user
             </div>
@@ -176,7 +182,8 @@ const AdminEditUser = (props) => {
                             Manager ID
                         </div>
                         <div className='editUser__dropDown'>
-                            <DropDown dropDownOptions={props.managerList} selectOption={selectManager}
+                            <DropDown isDropDownOpen={isDropDownOpen} setDropDown={setDropDown} dropDownOptions={props.managerList}
+                                      selectOption={selectManager}
                                 placeholder={manager.name} />
                         </div>
                     </div>

@@ -21,9 +21,9 @@ function Statistics(props) {
            
            setAccounts(searchedAccounts)
         } else {
-            setAccounts(props.accounts)
+            setAccounts(props.paginatedItems)
         }
-    }, [props.accounts])
+    }, [props.accounts,props.paginatedItems])
 
     async function handleClick (event) {
         if(isLoading.state === true) return;
@@ -180,6 +180,7 @@ function Statistics(props) {
                     page={props.page}
                     admin={props.admin}
                     archive={props.archive}
+                    itemsToPaginate={props.accounts}
                 />
                 <table>
                     <thead>
@@ -214,7 +215,8 @@ function Statistics(props) {
 
 
 const mapStateProps = (state) => ({
-    searchedId:state.Pagination.searchedId
+    searchedId:state.Pagination.searchedId,
+    paginatedItems:state.Pagination.paginatedItems
 })
 
 export default connect(mapStateProps, {})(Statistics)

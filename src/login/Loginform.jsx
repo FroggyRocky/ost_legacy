@@ -153,7 +153,7 @@ const LoginForm = ({setPopUpState}) => {
                     </div>
                     <div className='login-modal-window-data'>
                         {loginState.code === 'activation' && <Activation/>}
-                        {loginState.err}
+                        <p>{loginState.err}</p>
                     </div>
                     <button className='login-button' onClick={handleClick} >
                         OK

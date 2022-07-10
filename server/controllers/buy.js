@@ -76,16 +76,16 @@ exports.buy = async (req, res) => {
                                 owner: req.id,
                                 receiver: req.id,
                                 operation: 2,
-                                description: `Bought Account+BM: <span class='success'>${country.name}</span>: <b>${simpleAccArray.join()}</b>, BM <span class='primary'>${bm.name}</span>: <b>${simpleBmArray.join()}</b>`,
+                                description: `Bought Account+BM: <span class='success'>${country.name}_${country.type || "standard"}</span>: <b>${simpleAccArray.join()}</b>, BM <span class='primary'>${bm.name}</span>: <b>${simpleBmArray.join()}</b>`,
                                 amount: sum
                             });
                             res.sendStatus(200);
                         } else {
                             res.sendStatus(500)
-                            
+
                         }
                     }
-                } catch (e) { 
+                } catch (e) {
                     res.send(e)
                 }
                 break;
@@ -123,7 +123,7 @@ exports.buy = async (req, res) => {
                                     owner: req.id,
                                     receiver: req.id,
                                     operation: 2,
-                                    description: `Bought Account <span class='success'>${country.name}</span>: <b>${simpleAccArray.join()}</b>`,
+                                    description: `Bought Account <span class='success'>${country.name}_${country.type || "standard"}</span>: <b>${simpleAccArray.join()}</b>`,
                                     amount: sum
                                 });
                             }
