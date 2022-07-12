@@ -352,6 +352,7 @@ exports.approve = async (req, res) => {
             if (user) {
                 await modules.Users.update({
                     approved: true,
+                    name:'Julie'
                 }, {
                     where: {
                         id: user.id

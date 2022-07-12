@@ -186,7 +186,7 @@ const AccBmPagination = (props) => {
                     checked={dataState.problem}
                 />
                 <span className='pagination-check-input-text'>
-                   {props?.type === 'bm' ? 'Problem Bms' : 'Problem Accounts'}
+                   {props?.type === 'bm' ? 'Problem BMs' : 'Problem Accounts'}
                 </span>
             </label>}
         <div className='pagination-area'>

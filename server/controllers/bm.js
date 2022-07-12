@@ -13,7 +13,8 @@ exports.bm = async (req, res) => {
                 link2: req.body.data.link2,
                 link3: req.body.data.link3,
                 faceToken: req.body.data.faceToken,
-                archived: req.body.data.archived || false
+                archived: req.body.data.archived || false,
+                type:req.body.data.type || null
             };
             if (req.body.data.id) {
                 const currentBm = await modules.Bms.findByPk(req.body.data.id, {
@@ -26,13 +27,13 @@ exports.bm = async (req, res) => {
                                 model: modules.Accounts
                             }
                         });
-                        if (bm.creator !== req.id && req.permission.acc_bm === 1) return res.send('Вы должны быть создатилем обоих БМ');
-                        if (!bm) return res.send('Такого BM для замены не существует');
-                        if (!bm.userId) return res.send('У заменяемого БМ должен быть собственник');
-                        if (bm.id === req.body.data.id) return res.send('Нельзя заменить BM на самого себя');
-                        if (data.userId) return res.send('У этого BM уже есть собственник');
-                        if (bm.statusId !== 3) return res.send('BM клиента должен быть проблемным');
-                        if (data.statusId === 3) return res.send('Этот BM не должен быть проблемным');
+                        if (bm.creator !== req.id && req.permission.acc_bm === 1) return res.send('You have to be the creator of both BMs');
+                        if (!bm) return res.send('Such BM doesn\'t exist');
+                        if (!bm.userId) return res.send('Changed BM must have an owner');
+                        if (bm.id === req.body.data.id) return res.send('Impossible to change BM to the same one');
+                        if (data.userId) return res.send('This BM already has an owner');
+                        if (bm.statusId !== 3) return res.send('Client\'s BM must have a problem');
+                        if (data.statusId === 3) return res.send('This BM mastn\'t have problem');
                         if (!data.userId && bm.statusId === 3 && data.statusId !== 3 && bm.userId) {
                             data.userId = bm.userId;
                             data.statusId = 4;
@@ -53,10 +54,10 @@ exports.bm = async (req, res) => {
                                 owner: req.id,
                                 receiver: bm.userId,
                                 operation: 3,
-                                description: `БМ ${req.body.data.changeBm} заменен на ${req.body.data.id}`,
+                                description: `BM ${req.body.data.changeBm} has been changed to ${req.body.data.id}`,
                             });
                         } else {
-                            return res.send('С заменой что-то не так');
+                            return res.send('Something went wrong');
                         }
                     }
                     if (data.userId !== currentBm.userId) {
@@ -65,16 +66,16 @@ exports.bm = async (req, res) => {
                         if (data.userId) {
                             data.bought = sequelize.fn('NOW');
                             receiver = data.userId;
-                            text = 'добавлен пользователю';
+                            text = 'added to the user';
                         } else {
                             receiver = currentBm.userId;
-                            text = 'забран у пользователя';
+                            text = 'archived from the user';
                         }
                         await modules.Log.create({
                             owner: req.id,
                             receiver: receiver,
                             operation: 4,
-                            description: `Бм ${req.body.data.id} был ${text} ${receiver}`,
+                            description: `BM ${req.body.data.id} was ${text} ${receiver}`,
                         });
                     }
                     await modules.Bms.update({...data}, {
@@ -110,11 +111,11 @@ exports.userBm = async (req, res) => {
                 owner: req.id,
                 receiver: req.id,
                 operation: 4,
-                description: `Пользователь ${bm.userId} ${req.body.data.archived ? 'добавил в архив' : 'убрал из архива'} БМ ${req.body.data.id}`,
+                description: `The user ${bm.userId} ${req.body.data.archived ? 'archived' : 'unarchived'} BM ${req.body.data.id}`,
             });
             res.sendStatus(200);
         } else {
-            res.send('У Вас нету прав на изменение этого BM')
+            res.send('You don\'t have right to change this BM')
         }
     } catch (e) {
         res.send(e)
@@ -126,6 +127,7 @@ exports.bmType = async (req, res) => {
         try {
             const data = {
                 name: req.body.data.name,
+                type:req.body.data.type,
                 price: req.body.data.price,
                 description: req.body.data.description
             };

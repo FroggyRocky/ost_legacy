@@ -16,6 +16,9 @@ createAccount-radio@media only screen and (max-width: 395px) {
     font-size: 48px;
     color: white;
 }
+.verified {
+    visibility: hidden;
+}
 .create-account .create-account-section {
     border-bottom: 1px solid #2F3137;
     padding-bottom: 40px;

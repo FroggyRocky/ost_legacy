@@ -41,7 +41,6 @@ const AdminBmList = (props) => {
         }
     }, [props.bms, props.paginatedItems, props.searchedId])
 
-
     useEffect(() => {
         props.setTicketModalState(modalAddTicketState.active)
     }, [modalAddTicketState.active])

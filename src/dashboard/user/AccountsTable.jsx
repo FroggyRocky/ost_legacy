@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import TableAdditionalInfo from "../../modules/TableAdditionalInfo";
 import ReactTooltip from "react-tooltip";
 import {NavLink} from "react-router-dom";
-import './AccountsTable.scss'
+import './AccountsTable.scss';
 import AccBmPagination from "./AccBmPagination";
 import axios from "axios";
 import {connect} from 'react-redux';
@@ -25,7 +25,7 @@ import {ReactComponent as Info} from '../../img/info.svg';
 import {ReactComponent as Link} from '../../img/link.svg';
 import {ReactComponent as Folder} from '../../img/folder.svg';
 import DropDown from '../../common/DropDown';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import verified from '../../img/verified.png'
 
 
 const AccountsTable = (props) => {
@@ -43,17 +43,12 @@ const AccountsTable = (props) => {
     const [dropDownState, setDropDownState] = useState('1 GB - 4$') // drop down to choose traffic top up
     const dropDownOptions = ['1 GB - 4$', '2 GB - 8$', '4 GB - 15$', '10 GB - 40$']
     const [isAddTrafficSubmitting, setAddTrafficSubmitState] = useState(false)
-    const [isDropDownOpen, setDropDown] = useState(false)
+
     function handleTrafficTopUpChange(value) {
         setDropDownState(value)
     }
 
-function handleDropDownModalClick(e) {
-        const attribute = e.target.getAttribute('data-class')
-   if(attribute===null || attribute == 'modal') {
-       setDropDown(false)
-   }
-}
+
 
     useEffect(() => {
         const {page, id} = props.searchedId
@@ -102,12 +97,11 @@ function handleDropDownModalClick(e) {
         let daysLeft;
 
         if (el.proxy_traffic_total && el.proxy_traffic_left >= 0) {
-            percentForBar = Math.floor(el.proxy_traffic_left / el.proxy_traffic_total * 100);
+            percentForBar = Math.floor(el.proxy_traffic_left * 2 / el.proxy_traffic_total * 200);
         } else if (!el.proxy_traffic_left) {
             percentForBar = 0;
             daysLeft = 0;
             daysTotal = 0;
-
         } else {
             daysTotal = Math.ceil((new Date(el.proxy_date?.replace(/-/g, "/")) - new Date(el.createdAt)) / (1000 * 3600 * 24));
             if (daysTotal > 0) {
@@ -130,7 +124,8 @@ function handleDropDownModalClick(e) {
                              data-id={el.id}>
                             <Down/>
                         </div>
-                        <span> {accountName}&nbsp;{el.type?.toLowerCase() === 'verified' ? <span><CheckCircleIcon style={{color:'blue', fontSize:20}}/></span> : ''}</span>
+                        <span className={el.type?.toLowerCase() === 'verified' && 'accountTable__accountId--verified'}>{accountName}{el.type?.toLowerCase() === 'verified' ?
+                            <span><img width='18' height='18' src={verified} alt='verified'/></span> : ''}</span>
                     </div>
                 </td>
                 <td>
@@ -657,7 +652,7 @@ function handleDropDownModalClick(e) {
                 {props.user.admin && <th className='create-date'>Created</th>}
                 <th>Login, password</th>
                 <th>Traffic</th>
-                { props.user.admin && <th>
+                {props.user.admin && <th>
                     BM
                     <ReactTooltip effect="solid" event='click' delayHide={400}
                                   afterShow={(evt) => TableAdditionalInfo.copyText(evt)}/>
@@ -697,30 +692,32 @@ function handleDropDownModalClick(e) {
                 </div>
             </div>
         </div>}
-        {modalAddTrafficState && !props.archive && <div className='modal' data-class={'modal'} onClick={handleDropDownModalClick}>
-            <div className='modal-window' >
-                <div className='modal-window-close' onClick={handleModalAddTrafficNoClick}>
-                    <Cross/>
+        {modalAddTrafficState && !props.archive &&
+            <div className='modal'>
+                <div className='modal-window'>
+                    <div className='modal-window-close' onClick={handleModalAddTrafficNoClick}>
+                        <Cross/>
+                    </div>
+                    <div className='modal-window-data'>
+                        {props.user.balance >= 4 ? <>
+                            <div className='addTraffic__modal_text'>Do you want to renew port?</div>
+                            <div className='addTraffic__dropDown'>
+                                <DropDown
+                                          placeholder={dropDownState} defaultPlaceholder=''
+                                          dropDownOptions={dropDownOptions} selectOption={handleTrafficTopUpChange}/>
+                            </div>
+                        </> : 'You dont have 4$ on your account'}
+                    </div>
+                    {props.user.balance >= 4 ? <div className='modal-window-yes-no'>
+                        <button onClick={handleModalAddTrafficNoClick}>NO</button>
+                        <button disabled={isAddTrafficSubmitting} onClick={handleModalAddTrafficYesClick}>
+                            {isAddTrafficSubmitting ? 'Loading...' : 'YES'}
+                        </button>
+                    </div> : <button onClick={handleModalAddTrafficNoClick}>
+                        OK
+                    </button>}
                 </div>
-                <div className='modal-window-data'>
-                    {props.user.balance >= 4 ? <>
-                        <div className='addTraffic__modal_text'>Do you want to renew port?</div>
-                        <div className='addTraffic__dropDown'>
-                            <DropDown setDropDown={setDropDown} isDropDownOpen={isDropDownOpen} placeholder={dropDownState} defaultPlaceholder=''
-                                      dropDownOptions={dropDownOptions} selectOption={handleTrafficTopUpChange}/>
-                        </div>
-                    </> : 'You dont have 4$ on your account'}
-                </div>
-                {props.user.balance >= 4 ? <div className='modal-window-yes-no'>
-                    <button onClick={handleModalAddTrafficNoClick}>NO</button>
-                    <button disabled={isAddTrafficSubmitting} onClick={handleModalAddTrafficYesClick}>
-                        {isAddTrafficSubmitting ? 'Loading...' : 'YES'}
-                    </button>
-                </div> : <button onClick={handleModalAddTrafficNoClick}>
-                    OK
-                </button>}
-            </div>
-        </div>}
+            </div>}
         {modalAddTicketState.active && <div className='modal'>
             <div className='modal-window modal-window--create-ticket'>
                 <div className='modal-window-close' onClick={handleModalAddTicketNoClick}>

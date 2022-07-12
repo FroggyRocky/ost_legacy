@@ -14,7 +14,7 @@ import Tickets from "../tickets/Tickets";
 import CreateTicket from "../tickets/CreateTicket";
 import TicketChat from "../tickets/TicketChat";
 
-const UserMain = (props) => { 
+const UserMain = (props) => {
     return (
         <div className='main'>
             <Switch>

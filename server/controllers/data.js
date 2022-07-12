@@ -236,7 +236,7 @@ exports.data = async function (req, res) {
 
             async function freeBms() {
                 return await modules.Bms.count({
-                    attributes: ['bmType.id', 'bmType.price', 'bmType.name', 'bmType.description'],
+                    attributes: ['bmType.id', 'bmType.price', 'bmType.name', 'bmType.description', 'bmType.type'],
                     where: {
                         userId: null,
                         archived: {[Op.not]: true}

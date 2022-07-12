@@ -1,6 +1,6 @@
 import { reduxForm } from 'redux-form';
 import TopUp from './TopUp';
-import {setPaymentData, setDropDownState} from '../../../Redux/Reducers/settings'
+import {setPaymentData} from '../../../Redux/Reducers/settings'
 import { connect } from 'react-redux';
 import {useState} from 'react'
 import AdminAPI from '../../../api/AdminAPI'
@@ -25,7 +25,7 @@ async function onSubmit(data) {
 }
     return <>
     <WithReduxForm onSubmit={onSubmit} {...props} currency={currency} 
-    setCurrency={setCurrency} customError = {error} setDropDownState={props.setDropDownState} 
+    setCurrency={setCurrency} customError = {error}
     isDropDownOpen={props.isDropDownOpen} requisites = {props.requisites}
     />
     </>
@@ -41,4 +41,4 @@ const mapStateToProps = (state) => ({
     requisites: state.PriceList.requisites
 })
 
-export default connect(mapStateToProps, {setPaymentData,setDropDownState})(TopUpContainer)
+export default connect(mapStateToProps, {setPaymentData})(TopUpContainer)

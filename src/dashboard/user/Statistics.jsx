@@ -159,7 +159,7 @@ function Statistics(props) {
         return <tbody key={el.id} className='ym-hide-content'>
             <tr>
                 <td className='acc-id alert-info' onClick={handleClick} 
-                    id={el.id}>a{el.id} {props.countries && TableAdditionalInfo.getValueById(props.countries, el.countryId)}</td>
+                    id={el.id}>{el.id} {props.countries && TableAdditionalInfo.getValueById(props.countries, el.countryId)}</td>
                 <td colSpan='18'>{isLoading.state === true && isLoading.id == el.id && <CircularProgress />}</td>
             </tr>
             <tr className='statistics-table-spacer'></tr>

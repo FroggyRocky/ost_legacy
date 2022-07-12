@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import './AdminCreateAcc.css'
 import {ReactComponent as Cross} from "../../img/cross.svg";
-import DropDown from "../../common/DropDown";
+import AccountBmDropDown from "../../common/AccountBmDropDown";
+
 
 const AdminCreateAcc = (props) => {
     useEffect(() => {
@@ -10,10 +11,8 @@ const AdminCreateAcc = (props) => {
         }
     }, [props.account])
 
-    const [isDropDownOpen, setDropDown] = useState(false)
     const [showMore, setShowMore] = useState(false);
     const [accModalState, setAccModalState] = useState(false);
-
 
     function setDefaultValues(statusId, countryId) {
         return {
@@ -43,7 +42,7 @@ const AdminCreateAcc = (props) => {
             archived: '',
             changeAccount: '',
             cookies: '',
-            type:''
+            type: ''
         }
     }
 
@@ -74,10 +73,15 @@ const AdminCreateAcc = (props) => {
         bmId: props.account.bmId ? props.account.bmId : '',
         changeAccount: '',
         cookies: props.account.cookies || '',
-        type: props.account.type || ''
+        type: props.account.type || '',
+        countryName: props.countries?.find(el => +el.id === this.countryId)?.name || ''
     } : setDefaultValues(1, 1));
 
-    const [currentCountryOption, setCurrentCountry] = useState()
+    const [currentCountryOption, setCurrentCountry] = useState({
+        name: accountState.countryName,
+        id: accountState.countryId,
+        type: accountState.type
+    })
 
 
     const statusList = props.statuses?.map((el) => <label key={el.id}>
@@ -91,26 +95,26 @@ const AdminCreateAcc = (props) => {
         />
         <div className='radio-text'>{el.name}</div>
     </label>);
+
     const options = props.countries?.map((el) => ({
-        name:`${el.name}${el.type ? `_${el.type}` : ''}-${el.price}$`,
-        id:el.id
+        name: `${el.name}`,
+        id: el.id,
+        type: el.type
     }))
 
 
     function selectCountryType(option) {
-        setCurrentCountry(option.name)
-        const countryId = option.id
-        const country = props.countries?.find(el => +el.id === +countryId)
+        setCurrentCountry(option)
         setAccountState(prev => ({
             ...prev,
-            type:country.type || 'standard',
+            type: option.type || 'standard',
             countryId: option.id
         }))
-
     }
 
-    function handleClick(event) {
+    function handleSubmit(event) {
         event.preventDefault();
+
         async function postAcc() {
             const res = await props.accCreateOrUpdate(accountState);
             const adminData = await props.getUserData();
@@ -162,7 +166,8 @@ const AdminCreateAcc = (props) => {
         });
     }
 
-    return (<form className='create-account' onSubmit={handleClick}>
+
+    return (<form className='create-account' onSubmit={handleSubmit}>
         <div className='create-account-header-name'>
             Account settings
         </div>
@@ -184,9 +189,8 @@ const AdminCreateAcc = (props) => {
                         Country
                     </div>
 
-                        <DropDown isDropDownOpen={isDropDownOpen} setDropDown={setDropDown}
-                                  placeholder={currentCountryOption} defaultPlaceholder='Select Type'
-                                  dropDownOptions={options} selectOption={selectCountryType}/>
+                    <AccountBmDropDown placeholder={currentCountryOption} defaultPlaceholder='Select Type'
+                                       dropDownOptions={options} selectOption={selectCountryType}/>
 
                 </div>
             </div>

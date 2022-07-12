@@ -22,12 +22,12 @@ const Registration = ({setPopUpState, ...props}) => {
         skype: '',
         mla: '',
         country: countries[0],
-        referredUserId:null
+        referredUserId: null
     });
 
-    
+
     useEffect(() => {
-        setRegistrationState({...registrationState, referredUserId:props.referralId})
+        setRegistrationState({...registrationState, referredUserId: props.referralId})
     }, [props.referralId])
 
 
@@ -37,32 +37,40 @@ const Registration = ({setPopUpState, ...props}) => {
         login: false
     });
     const [pageState, setPageState] = useState(false);
-    const listOfCountries = countries.map((country,i) => <option key={i} value={country}>{country}</option>);
+    const listOfCountries = countries.map((country, i) => <option key={i} value={country}>{country}</option>);
 
     function handleNext(event) {
         event.preventDefault();
         setSubmitState(true)
         if (registrationState.email === '') {
-            window.addEventListener('keydown', (event) => {if (event.keyCode === 27) handleOkClick()});
+            window.addEventListener('keydown', (event) => {
+                if (event.keyCode === 27) handleOkClick()
+            });
             setSubmitState(false)
             return setModalState({status: true, err: 'Please, enter email', login: false})
         } else if (registrationState.password === '') {
-            window.addEventListener('keydown', (event) => {if (event.keyCode === 27) handleOkClick()});
+            window.addEventListener('keydown', (event) => {
+                if (event.keyCode === 27) handleOkClick()
+            });
             setSubmitState(false)
             return setModalState({status: true, err: 'Please, enter password', login: false})
         } else if (registrationState.password !== registrationState.confirmPassword) {
-            window.addEventListener('keydown', (event) => {if (event.keyCode === 27) handleOkClick()});
+            window.addEventListener('keydown', (event) => {
+                if (event.keyCode === 27) handleOkClick()
+            });
             setSubmitState(false)
             return setModalState({status: true, err: 'ResetPassword confirmation doesnt match password', login: false})
         } else {
             setPageState(true);
             setSubmitState(false)
         }
-        
+
     }
+
     function handleChange(event) {
         setRegistrationState({...registrationState, [event.target.name]: event.target.value})
     }
+
     function handleSubmit(event) {
         event.preventDefault();
         sendMetrix('Create Account', 'Account Created');
@@ -84,20 +92,30 @@ const Registration = ({setPopUpState, ...props}) => {
                     setReqStatus(false)
                     res.data.err ? logIn(res.data.err) : setModalState({status: true, err: successful, login: true});
                 })
-                .catch((err) =>  {console.log(err); setReqStatus(false)})
+                .catch((err) => {
+                    console.log(err);
+                    setReqStatus(false)
+                })
         } else {
             setReqStatus(false)
             alert('ResetPassword confirmation doesnt match password')
         }
     }
+
     function logIn(text) {
-        window.addEventListener('keydown', (event) => {if (event.keyCode === 27) handleOkClick()});
+        window.addEventListener('keydown', (event) => {
+            if (event.keyCode === 27) handleOkClick()
+        });
         setModalState({status: true, err: text, login: false})
     }
-    function handleOkClick () {
-        window.removeEventListener('keydown', (event) => {if (event.keyCode === 27) handleOkClick()});
+
+    function handleOkClick() {
+        window.removeEventListener('keydown', (event) => {
+            if (event.keyCode === 27) handleOkClick()
+        });
         setModalState({status: false, err: '', login: false});
     }
+
     return (
         <div className='registration'>
             <div className='logo'>Registration</div>
@@ -136,12 +154,14 @@ const Registration = ({setPopUpState, ...props}) => {
                     onChange={handleChange}
                     required
                 />
-                <button className={`login-button ${isSubmitting && 'login-button-disabled'}`} type='submit' >
+                <button className={`login-button ${isSubmitting && 'login-button-disabled'}`} type='submit'>
                     {isSubmitting ? 'Processing' : 'Next step'}
-                    </button>
+                </button>
             </form>}
             {pageState && <>
-                <div className='registration-step'><span className='registration-step-back' onClick={() => setPageState(false)}><Left/></span> Step 2/2</div>
+                <div className='registration-step'><span className='registration-step-back'
+                                                         onClick={() => setPageState(false)}><Left/></span> Step 2/2
+                </div>
                 <div className='registration-input'>
                     <span>
                         <Globe/>
@@ -195,12 +215,12 @@ const Registration = ({setPopUpState, ...props}) => {
                         onChange={handleChange}
                     />
                 </div>
-                <button 
-                className={`login-button ${isSendingReq && 'login-button-disabled'}`}
-                 onClick={handleSubmit}
-                 disabled={isSendingReq}>
-                {isSendingReq ? 'Processing' : 'Create account'}
-                 </button>
+                <button
+                    className={`login-button ${isSendingReq && 'login-button-disabled'}`}
+                    onClick={handleSubmit}
+                    disabled={isSendingReq}>
+                    {isSendingReq ? 'Processing' : 'Create account'}
+                </button>
             </>}
             {modalState.status && <div className='login-modal'>
                 <div className='login-modal-window'>
@@ -210,14 +230,14 @@ const Registration = ({setPopUpState, ...props}) => {
                     <div className='login-modal-window-data'>
                         {modalState.err}
                     </div>
-                    {modalState.login ? <button className='login-button' onClick={() => setPopUpState(true,0)}>
+                    {modalState.login ? <button className='login-button' onClick={() => setPopUpState(true, 0)}>
                         Login
                     </button> : <button className='login-button' onClick={handleOkClick}>
                         OK
                     </button>}
                 </div>
             </div>}
-            <div className='change-page' onClick={() => setPopUpState(true,0)}>
+            <div className='change-page' onClick={() => setPopUpState(true, 0)}>
                 Back to login
             </div>
         </div>

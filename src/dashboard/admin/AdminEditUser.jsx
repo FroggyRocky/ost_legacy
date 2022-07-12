@@ -6,7 +6,7 @@ import DropDown from '../../common/DropDown';
 
 const AdminEditUser = (props) => {
 
-        const [isDropDownOpen, setDropDown] = useState(false)
+
 
     const [adminSettingsState, setAdminSettingsState] = useState({
         id: props.user.id,
@@ -138,14 +138,9 @@ const AdminEditUser = (props) => {
     function handleConfirmActiveBalance() {
         setDisabledBalanceState(false);
     }
-function handleEmptyClick(e) {
-    const attribute = e.target.getAttribute('data-class')
-    if (attribute === null || attribute == 'modal') {
-        setDropDown(false)
-    }
-}
+
     return (
-        <form className='user' onSubmit={handleClick} onClick={handleEmptyClick} data-class={'modal'}>
+        <form className='user' onSubmit={handleClick}>
             <div className='user-header-name'>
                 Edit user
             </div>
@@ -182,7 +177,7 @@ function handleEmptyClick(e) {
                             Manager ID
                         </div>
                         <div className='editUser__dropDown'>
-                            <DropDown isDropDownOpen={isDropDownOpen} setDropDown={setDropDown} dropDownOptions={props.managerList}
+                            <DropDown  dropDownOptions={props.managerList}
                                       selectOption={selectManager}
                                 placeholder={manager.name} />
                         </div>

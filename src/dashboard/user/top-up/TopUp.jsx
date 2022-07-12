@@ -21,11 +21,7 @@ export default function TopUp(props) {
       setDropDownState((prev) => !prev)
     }
   }
-  useEffect(() => {
 
-    props.setDropDownState(isDropDownOpen)
-
-  }, [isDropDownOpen])
 
   useEffect(() => {
     if (props.isTicketCreated) {
@@ -49,34 +45,37 @@ export default function TopUp(props) {
     </div>
   })
 
-
+function close() {
+  setDropDownState(false)
+}
 
   return (<>
-    <div className="top-up--breaking-line"></div>
+    <div className="top-up--breaking-line" ></div>
     <div className="top-up-container">
       <div className="top-up-header-container">
         <h2 className="top-up--header">Balance:&nbsp;</h2>
         <span className="top-up--balance">{props.balance || '0'}$</span>
       </div>
-      <form className="top-up-form-container" onSubmit={props.handleSubmit} autoComplete="off" >
+      <form className="top-up-form-container" onSubmit={props.handleSubmit} autoComplete="off" onBlur={close}
+            tabIndex={0}>
         <div
           className='top-up--select-coin'
           name="coin"
           onClick={toggleDropDown}
           id='select-coin'
         >
-          <span className="top-up-form-placeholder">
+          <span className="top-up-form-placeholder" >
             Pay with:&nbsp;
             <span className="top-up-currency-name">
               {props.currency || props.requisites?.length && props.requisites[0].currency_ticker || 'No currencies'}
             </span>
           </span>
           <span className={`top-up-select--arrow ${!props.requisites?.length && 'top-up-arrow-off'}`}>
-            <KeyboardArrowDownIcon className={props.isDropDownOpen && 'top-up-select--arrow_up'}
+            <KeyboardArrowDownIcon className={isDropDownOpen && 'top-up-select--arrow_up'}
               style={{ color: '#f2f2f3', fontSize: 30 }} />
           </span>
         </div>
-        {props.isDropDownOpen && <div className='top-up--select-drop-down-container'>
+        {isDropDownOpen && <div className='top-up--select-drop-down-container'>
           {currencyOptions}
         </div>
         }

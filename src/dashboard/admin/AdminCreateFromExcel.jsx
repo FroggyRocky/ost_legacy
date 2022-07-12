@@ -154,6 +154,7 @@ const AdminCreateFromExcel = (props) => {
                 <td>${el.link1 ? el.link1 : '#'}</td>
                 <td>${el.link2 ? el.link2 : '#'}</td>
                 <td>${el.link3 ? el.link3 : '#'}</td>
+                
             </tr>`);
             return `<table class='excel-table'>
                 <thead>

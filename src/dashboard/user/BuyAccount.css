@@ -49,15 +49,20 @@
     outline: none;
 }
 .text-input-container {
-    width:400px;
+    max-width:400px;
+    min-width: 400px;
     height: 40px;
+    display: inline-block;
 }
 
 .icon-input-container {
     position: relative;
     align-items: center;
 }
-
+.q-icon--country {
+    position: absolute;
+    float: right;
+}
 .q-icon {
     position: absolute;
     right: 11%;
@@ -284,6 +289,7 @@ background: #2F3137;
 
 .buy-account--amount-input {
     background: #25272C;
+    max-width: 320px;
 }
 
 

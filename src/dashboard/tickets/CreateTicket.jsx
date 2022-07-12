@@ -8,7 +8,6 @@ import DropDown from '../../common/DropDown';
 
 const CreateTicket = (props) => {
 
-    const [isDropDownOpen, setDropDown] = useState(false)
 
 
     useEffect(() => {
@@ -76,7 +75,7 @@ const CreateTicket = (props) => {
         setTicketState({...ticketState, ticketTypeId: foundOption.id});
     }
 
-    async function handleClick(event) {
+    async function handleSubmit(event) {
         if (props.isCreateTicketModalOn) {
             await props.setProblemTicket(props.dataState.id, props.dataState.type);
             props.setTicketModalState(false)
@@ -97,14 +96,10 @@ const CreateTicket = (props) => {
 
     }
 
-    function handleEmptyClick(e) {
-        const attribute = e.target.getAttribute('data-class')
-        if (attribute === null || attribute == 'modal') {
-            setDropDown(false)
-        }
-    }
+
+
         return (
-            <form className='ticket-create' onSubmit={handleClick} data-class='modal' onClick={handleEmptyClick}>
+            <form className='ticket-create' onSubmit={handleSubmit}>
                 {isRedirectToExistingTicket.redirect &&
                     <Redirect to={`/dashboard/tickets/ticket/${isRedirectToExistingTicket.ticketId}`}/>}
                 {/*{console.log(ticketState)}*/}
@@ -122,7 +117,7 @@ const CreateTicket = (props) => {
                                     <div className='input-text modal-title-text'>{ticketState.title.split(':')[0]}</div>
                                 </div> :
                                 <div className='createTicket-dropDown'>
-                                    <DropDown isDropDownOpen={isDropDownOpen} setDropDown={setDropDown}
+                                    <DropDown
                                               placeholder={currentOption} defaultPlaceholder='Select Type'
                                               dropDownOptions={options} selectOption={handleTypeChange}/>
                                 </div>}

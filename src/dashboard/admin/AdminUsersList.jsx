@@ -37,7 +37,6 @@ const AdminUserList = (props) => {
         }
         makeUserApproved().then()
     }
-
     const userList = props.userList?.map(el => {
         return <tbody key={el.id}>
             <tr>
@@ -60,8 +59,8 @@ const AdminUserList = (props) => {
                 <td className='admin'>{el.admin ? <Tick/> : <Cross/>}</td>
                 <td className='user-list-manager'>{el.manager ?
                     <div className='user-list-table-manager'>
-                        <div>{el.name ? el.name : 'не указано'}</div>
-                        <div>{el.works ? el.works : 'не указано'}</div>
+                        <div>{el.name ? el.name : ''}</div>
+                        <div>{el.works ? el.works : ''}</div>
                     </div>
                     /*<FontAwesomeIcon
                         data-tip={`Имя: ${el.name ? el.name : 'не указано'}<br/>Время: $`}

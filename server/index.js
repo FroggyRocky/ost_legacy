@@ -35,7 +35,7 @@ db.authenticate()
     .then(() => console.log('Database connected!!!'))
     .catch(err => console.log('Error:' + err));
 
- // db.sync({alter: true});
+//  db.sync({alter: true});
 // db.sync({force:true});
 
 app.use('/api', require('./api'));

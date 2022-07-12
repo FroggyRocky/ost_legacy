@@ -16,6 +16,10 @@ const BmTypes = db.define('bmTypes', {
         type: DataTypes.STRING(30),
         allowNull: false
     },
+    type: {
+        type: DataTypes.STRING(20),
+        defaultValue: 'standard'
+    },
     description: {
         type: DataTypes.TEXT,
     },
@@ -50,6 +54,10 @@ const Bms = db.define('bms', {
     },
     creator: {
         type: DataTypes.INTEGER,
+    },
+    type:{
+        type: DataTypes.STRING(20),
+        defaultValue: 'standard'
     }
 });
 
@@ -295,7 +303,7 @@ const Users = db.define('users', {
     },
     managerId: {
         type: DataTypes.INTEGER,
-        defaultValue: 1
+        defaultValue: 2
     },
     name: {
         type: DataTypes.STRING(10),

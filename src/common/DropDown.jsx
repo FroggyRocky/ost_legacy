@@ -1,7 +1,7 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import './dropDown.css'
+import './dropDown.css';
 
 export default function DropDown(props) {
   const [isDropDownOpen, setDropDownState] = useState(false)
@@ -16,23 +16,23 @@ export default function DropDown(props) {
   }, [props.isDropDownOpen])
 
   function toggleDropDown(e) {
-    props.setDropDown(prev => !prev)
     setDropDownState(prev => !prev)
-
   }
   
   function selectOption(e) {
+
     const name = e.currentTarget.getAttribute('name')
     const id = e.currentTarget.id
-    setCheckedOption(name)
     setDropDownState(false)
-    props.setDropDown(false)
     if(id) {
       props.selectOption({name,id})
     }
     else {
        props.selectOption(name)
     }
+  }
+  function closeDropDown() {
+    setDropDownState(false)
   }
   /// recieves an array with names of the options
   const dropDownOptionComponents = props.dropDownOptions?.map((el) => {
@@ -41,12 +41,12 @@ export default function DropDown(props) {
       <span>{el.name || el.id || el}</span>
       <div className='selectRadio__container'>
         <input className="select-radio" type="radio" />
-        {(checkedOption === el || checkedOption === el.name) && <div className='radio-circle--checked radio-circle'></div>}
+        {(checkedOption === el || checkedOption === el.name || +checkedOption === +el.id ) && <div className='radio-circle--checked radio-circle'></div>}
       </div>
     </div>
   })
 
-  return <div className='select-container'>
+  return <div className='select-container' tabIndex={0} onBlur={closeDropDown} >
     <div
       className='select-input'
       name={props.name}
