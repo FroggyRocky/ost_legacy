@@ -14,7 +14,7 @@ import AdminCreateFromExcel from "../admin/AdminCreateFromExcel";
 import CreateTicket from "../tickets/CreateTicket";
 import {connect} from 'react-redux';
 import {setTicketModalState} from '../../Redux/Reducers/tickets'
-
+import verified from '../../img/verified.png'
 
 const AdminBmList = (props) => {
 
@@ -54,13 +54,13 @@ const AdminBmList = (props) => {
         const country = props.countries?.filter(country => {
             return country.id === el.account?.countryId
         }).map(el => el.name)
-        if ((!props.archive && !el.archived) || (props.archive && el.archived)) {
+        if ((!props.archive && !el.archived) || (props.archive && el.archived)) { console.log(el)
             return <tbody key={el.id}>
             <tr>
                 <td>
                     <div className='bm-table-id'>
                         <div className={`bm-table-id-status ${TableAdditionalInfo.colorOfStatus(el.statusId)}`}></div>
-                        BM&nbsp;{el.id}
+                        <span className={`bm-table--idContainer ${el.type?.toLowerCase() === 'verified' && '|'}`}>BM&nbsp;{el.id}{el.type?.toLowerCase() === 'verified' && <img width='18' height='18' src={verified} alt="verified" />}</span>
                     </div>
                 </td>
                 <td>

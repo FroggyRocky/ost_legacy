@@ -3,15 +3,14 @@ import {NavLink} from 'react-router-dom';
 import './AdminCountries.css'
 import {ReactComponent as Pencil} from "../../img/pencil.svg";
 import {ReactComponent as Plus} from "../../img/plus.svg";
+import verified from "../../img/verified.png";
 
 const AdminCountries = (props) => {
-
     const countries = props.countries?.map((el) => (
         <div key={el.id} className='admin-country'>
             <div className='admin-country-data'>
                 <div>
-                    <div>Country</div>
-                    <div style={{fontSize:15, marginBottom:10}}>{el.type}</div>
+                    <div>Country{el.type?.toLowerCase() === 'verified' && <img width='18' height='18' src={verified} alt="verified"/>}</div>
                     <div>{el.name}</div>
                 </div>
                 <div>

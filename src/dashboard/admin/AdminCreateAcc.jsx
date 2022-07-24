@@ -74,7 +74,7 @@ const AdminCreateAcc = (props) => {
         changeAccount: '',
         cookies: props.account.cookies || '',
         type: props.account.type || '',
-        countryName: props.countries?.find(el => +el.id === this.countryId)?.name || ''
+        countryName: props.countries?.find(el => +el.id === props.account.countryId)?.name || ''
     } : setDefaultValues(1, 1));
 
     const [currentCountryOption, setCurrentCountry] = useState({
@@ -84,17 +84,18 @@ const AdminCreateAcc = (props) => {
     })
 
 
-    const statusList = props.statuses?.map((el) => <label key={el.id}>
-        <input
-            type='radio'
-            id={el.id}
-            className='createAccount-radio'
-            name='statusId'
-            onChange={handleRadioChange}
-            checked={el.id.toString() === accountState?.statusId.toString()}
-        />
-        <div className='radio-text'>{el.name}</div>
-    </label>);
+    const statusList = props.statuses?.map((el) =>
+        <label key={el.id}>
+            <input
+                type='radio'
+                id={el.id}
+                className='createAccount-radio'
+                name='statusId'
+                onChange={handleRadioChange}
+                checked={el.id.toString() === accountState?.statusId.toString()}
+            />
+            <div className='radio-text'>{el.name}</div>
+        </label>);
 
     const options = props.countries?.map((el) => ({
         name: `${el.name}`,
@@ -152,7 +153,6 @@ const AdminCreateAcc = (props) => {
     }
 
     function handleRadioChange(event) {
-
         setAccountState({...accountState, [event.target.name]: event.target.id});
     }
 

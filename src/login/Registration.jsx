@@ -80,6 +80,8 @@ const Registration = ({setPopUpState, ...props}) => {
             <br/><br/>
             Please check your email address till we verify your account.
             <br/><br/>
+            Use the link from the letter sent on {registrationState.email || 'your email'} to start the confirmation process.
+            <br/><br/>
             If you do not receive the email please check your spam filter or contact us.
             <br/><br/>
         </div>;

@@ -10,6 +10,50 @@
         grid-column-gap: 5px !important;
     }
 }
+.pagination__updateProxyTraffic {
+display: flex;
+align-items: center;
+
+    font-family: "Proxima Nova Rg", sans-serif;
+    font-size: 18px;
+}
+.pagination__updateTraffic-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 300px;
+
+}
+.pagination__updateTrafficIcon-container {
+    width: 35px;
+    height: 35px;
+    background-color: #25272D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 6px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.pagination__updateTrafficIcon--updating {
+animation-duration: 400ms;
+    animation-name: rotateUpdate;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    color: white;
+}
+@keyframes rotateUpdate {
+  from  {
+        transform: rotate(0deg);
+    }
+   to {
+        transform: rotate(360deg);
+    }
+}
+.pagination__updateTrafficIcon-container:hover .pagination__updateTrafficIcon {
+    color: white;
+}
 .pagination {
     display: grid;
     justify-content: left;

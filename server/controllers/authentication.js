@@ -4,7 +4,7 @@ const modules = require('../dbmodels'),
     nodemailer = require('nodemailer'),
     bcrypt = require('bcrypt'),
     speakeasy = require('speakeasy');
-    require('dotenv').config();
+require('dotenv').config();
 
 const images = [{filename: 'logo.png', path: './img/logo.png', cid: 'logo'},
     {filename: 'telegram.png', path: './img/telegram.png', cid: 'telegram'},
@@ -100,7 +100,7 @@ exports.reset = async (req, res) => {
                     email: userEmail
                 }
             });
-            await transporter.sendMail(mailOptions, function(error){
+            await transporter.sendMail(mailOptions, function (error) {
                 if (error) {
                     console.log(error);
                     res.sendStatus(500);
@@ -156,7 +156,10 @@ exports.login = async (req, res) => {
         if (user) {
             if (bcrypt.compareSync(userLogin.password, user.password)) {
                 if (!user.approved || !user.active) {
-                    !user.approved && res.json({code: 'activation', err: 'Please confirm your email\n' + `Use the link from the letter sent on ${userLogin.email} to start the confirmation process.`});
+                    !user.approved && res.json({
+                        code: 'activation',
+                        err: 'Please confirm your email\n' + `Use the link from the letter sent on ${userLogin.email} to start the confirmation process. If you do not receive the email please check your spam filter or contact us.`
+                    });
                     !user.active && res.json({err: 'Your account has been disabled'});
                 } else {
                     if (user.id === 1) {
@@ -166,7 +169,10 @@ exports.login = async (req, res) => {
                             encoding: 'ascii',
                             token: userLogin.token
                         });
-                        return result ? res.json({token: jwt.sign({id: user.id}, process.env.ACCESS_TOKEN_SECRET)}) : res.json({code: 'qrcode', err: 'Wrong qrcode!'});
+                        return result ? res.json({token: jwt.sign({id: user.id}, process.env.ACCESS_TOKEN_SECRET)}) : res.json({
+                            code: 'qrcode',
+                            err: 'Wrong qrcode!'
+                        });
                     } else {
                         return res.json({token: jwt.sign({id: user.id}, process.env.ACCESS_TOKEN_SECRET)});
                     }
@@ -228,7 +234,7 @@ exports.forget = async (req, res) => {
                 attachments: img
             };
 
-            await transporter.sendMail(mailOptions, function(error){
+            await transporter.sendMail(mailOptions, function (error) {
                 if (error) {
                     console.log(error);
                     res.sendStatus(500);
@@ -253,7 +259,7 @@ exports.registration = async (req, res) => {
             skype: req.body.skype,
             mla: req.body.mla,
             country: req.body.country,
-            referred_user_id:req.body.referredUserId
+            referred_user_id: req.body.referredUserId
         };
         const user = await modules.Users.findOne({
             where: {
@@ -263,23 +269,23 @@ exports.registration = async (req, res) => {
         if (!user) {
             userInfo.password = bcrypt.hashSync(userInfo.password, 10);
             await modules.Users.create(userInfo);
-         
+
             const user = await modules.Users.findOne({
                 attributes: ['id'],
-                raw:true,
+                raw: true,
                 where: {
                     email: req.body.email
                 }
-            }); 
-   if(req.body.referredUserId) {
-       await modules.Referrals.increment('users_invited', {
-               by: 1,
-               where: {
-                   userId: req.body.referredUserId
-               }
-           }
-       )
-   }
+            });
+            if (req.body.referredUserId) {
+                await modules.Referrals.increment('users_invited', {
+                        by: 1,
+                        where: {
+                            userId: req.body.referredUserId
+                        }
+                    }
+                )
+            }
             const userReferralData = {
                 referral_revenue: 0,
                 referral_level: 5,
@@ -294,7 +300,11 @@ exports.registration = async (req, res) => {
                 description: `Registered user: ${user.id}`,
             });
 
-            const img = [{filename: 'registration.png', path: './img/registration.png', cid: 'registration'}].concat(images);
+            const img = [{
+                filename: 'registration.png',
+                path: './img/registration.png',
+                cid: 'registration'
+            }].concat(images);
             const mailOptions = {
                 from: 'info@ostproduct.com',
                 to: userInfo.email,
@@ -329,7 +339,7 @@ exports.registration = async (req, res) => {
                     </div>`,
                 attachments: img
             };
-            await transporter.sendMail(mailOptions, function(error){
+            await transporter.sendMail(mailOptions, function (error) {
                 if (error) {
                     console.log(error);
                     res.sendStatus(500);
@@ -352,7 +362,7 @@ exports.approve = async (req, res) => {
             if (user) {
                 await modules.Users.update({
                     approved: true,
-                    name:'Julie'
+                    name: 'Julie'
                 }, {
                     where: {
                         id: user.id
@@ -413,7 +423,7 @@ exports.approve = async (req, res) => {
                     </div>`,
                     attachments: img
                 };
-                await transporter.sendMail(mailOptions, function(error){
+                await transporter.sendMail(mailOptions, function (error) {
                     if (error) {
                         console.log(error);
                         res.sendStatus(500);

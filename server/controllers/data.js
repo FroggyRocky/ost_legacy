@@ -362,7 +362,6 @@ exports.data = async function (req, res) {
                     if (req.body.data && req.body.data.searchId && req.body.data.searchId.u) {
                         return 1;
                     } else {
-                        console.log('HERE')
                         let where = {};
                         if (req.permission.users === 1) where.managerId = req.id;
                         if (req.body.data && req.body.data.approved) where.approved = false;
@@ -411,7 +410,6 @@ exports.data = async function (req, res) {
                     if (req.permission.acc_bm === 1) where.creator = req.id;
                     if (req.body.data && req.body.data.searchId && req.body.data.searchId.a) {
                         where.id = req.body.data.searchId.a;
-                        console.log('HERE')
                         return await modules.Accounts.findAll({
                             where: where,
                             include: {

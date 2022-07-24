@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import {useState, useEffect} from 'react';
 import './AdminCreateBm.css'
 import {ReactComponent as Cross} from "../../img/cross.svg";
+import AccountBmDropDown from "../../common/AccountBmDropDown";
 
 const AdminCreateBm = (props) => {
-
     function setDefaultValues(statusId, bmTypeId) {
         return {
             statusId: statusId,
@@ -30,10 +30,27 @@ const AdminCreateBm = (props) => {
             link2: props.bm.link2,
             link3: props.bm.link3,
             faceToken: props.bm.faceToken,
-            changeBm: ''
+            changeBm: '',
+        name:props.bmTypes?.find(el => +el.id === +props.bm?.bmTypeId).name,
+        type:props.bm.type,
         } : setDefaultValues(1, 1)
     );
-
+    console.log(bmState, props.bm.type)
+    const [currentBM, setCurrentBM] = useState({
+        name:`${bmState.name}`,
+        id:bmState.bmTypeId,
+        type:bmState.type,
+    })
+    const listOfBm = props.bmTypes?.map((el) => ({
+        name:`${el.name}`,
+        id:el.id,
+        type:el.type,
+        description: el.description
+    }));
+function selectBM(option) {
+    setCurrentBM(option)
+    setBmState((prev) => ({...prev, bmTypeId:option.id, type:option.type}))
+}
     const statusList = props.statuses?.map((el) =>
         <label key={el.id}>
             <input
@@ -47,10 +64,12 @@ const AdminCreateBm = (props) => {
         </label>
     );
 
-    const bmTypes = props.bmTypes.map((el) => {
-        return <option key={el.id} /*defaultValue={el.id === bmState.bmTypeId} */
-                       value={el.id}>{`${el.name} - ${el.price}$`}</option>
-    });
+useEffect(() => {
+   async function getData() {
+       await props.getUserData();
+   }
+   getData()
+}, [])
 
     function handleClick(event) {
         event.preventDefault();
@@ -74,9 +93,6 @@ const AdminCreateBm = (props) => {
 
     const [bmModalState, setBmModalState] = useState(false);
 
-    /*function handleSwitchChange(event) {
-        setBmState({...bmState, [event.target.id]: event.target.checked});
-    }*/
 
     function handleModalClick() {
         window.removeEventListener('keydown', (event) => {if (event.keyCode === 27) handleModalClick()});
@@ -118,15 +134,10 @@ const AdminCreateBm = (props) => {
                         BM type
                     </div>
                     <div className='create-bm-section-td-data'>
-                        <select
-                            className='text-input'
-                            name='bmTypeId'
-                            defaultValue={bmState.bmTypeId}
-                            onChange={handleChange}
-                            required
-                        >
-                            {bmTypes}
-                        </select>
+                        <div className='createBm-dropdown'>
+                        <AccountBmDropDown placeholder={currentBM} defaultPlaceholder='Select Type'
+                                           dropDownOptions={listOfBm} selectOption={selectBM}/>
+                        </div>
                     </div>
                 </div>
             </div>

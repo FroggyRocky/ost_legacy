@@ -15,23 +15,23 @@ exports.account = async (req, res) => {
                 password: req.body.data.password,
                 email: req.body.data.email,
                 email_password: req.body.data.email_password,
-                type:req.body.data.type || 'standard',
+                type: req.body.data.type || 'standard',
                 code2fa: req.body.data.code2fa || null,
-                agent: req.body.data.agent|| null,
-                resolution: req.body.data.resolution|| null,
-                language: req.body.data.language|| null,
-                platform: req.body.data.platform|| null,
-                concurrency: req.body.data.concurrency|| null,
+                agent: req.body.data.agent || null,
+                resolution: req.body.data.resolution || null,
+                language: req.body.data.language || null,
+                platform: req.body.data.platform || null,
+                concurrency: req.body.data.concurrency || null,
                 proxy: req.body.data.proxy || 'HTTP',
                 proxy_id: req.body.data.proxy_id || null,
-                proxy_ip: req.body.data.proxy_ip|| null,
-                proxy_login: req.body.data.proxy_login|| null,
-                proxy_password: req.body.data.proxy_password|| null,
+                proxy_ip: req.body.data.proxy_ip || null,
+                proxy_login: req.body.data.proxy_login || null,
+                proxy_password: req.body.data.proxy_password || null,
                 userId: req.body.data.userId || null,
-                selfie: req.body.data.selfie|| null,
+                selfie: req.body.data.selfie || null,
                 token: req.body.data.token,
                 archived: req.body.data.archived || false,
-                cookies: req.body.data.cookies|| null,
+                cookies: req.body.data.cookies || null,
             };
             console.log(data)
             if (req.body.data.id) {
@@ -287,6 +287,43 @@ exports.proxyTraffic = async (req, res) => {
     }
 };
 
+
+exports.updateAllProxyTraffic = async (req, res) => {
+    try {
+        if (req.admin && req.permission.acc_bm_update) {
+            const items = req.body.items
+            for (let i = 0; i < items.length; i++) {
+                const id = items[i]['accountId']
+                const proxyId = items[i]['proxyId']
+                const where = {
+                    id: id,
+                    proxy_id: proxyId,
+                }
+                axios.get(`https://astroproxy.com/api/v1/ports/${proxyId}?token=${process.env.PROXY_TOKEN}`, {
+                    timeout:1000,
+                    headers: {'Accept': 'application/json'}
+                })
+                    .then(async (result) => {
+                        await modules.Accounts.update({
+                            proxy_traffic_left: result.data.data.traffic.left,
+                            proxy_traffic_total: result.data.data.traffic.total
+                        }, {
+                            where: where
+                        })
+                    })
+                    .catch((e) => {
+                      console.log(e)
+                    })
+            }
+            res.sendStatus(200)
+        } else {
+            res.sendStatus(403)
+        }
+    } catch (e) {
+        res.status(500)
+    }
+}
+
 exports.addProxyTraffic = async (req, res) => {
     try {
         const id = req.body.data.id
@@ -296,14 +333,14 @@ exports.addProxyTraffic = async (req, res) => {
         const convertedMoneyNum = +money.replace('$', '')
         const getVolume = () => {
             switch (amount) {
+                case '600':
+                    return '0.3'
                 case '1':
                     return '0.5'
                 case '2':
                     return '1'
-                case '4':
-                    return '2'
-                case '10':
-                    return '5'
+                case '6':
+                    return '3'
                 default:
                     break;
             }
@@ -319,7 +356,6 @@ exports.addProxyTraffic = async (req, res) => {
         });
         if (+sumOnAcc.balance - convertedMoneyNum >= 0) {
             const result = await axios.post(`https://astroproxy.com/api/v1/ports/${proxy_id}/renew?token=${process.env.PROXY_TOKEN}&volume=${volume}&id=${proxy_id}`,
-                {'volume': `${volume}`},
                 {
                     headers: {
                         'Content-Type': 'multipart/form-data',

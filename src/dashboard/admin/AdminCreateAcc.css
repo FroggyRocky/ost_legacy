@@ -1,4 +1,4 @@
-createAccount-radio@media only screen and (max-width: 395px) {
+@media only screen and (max-width: 395px) {
     .create-account .create-account-section .create-account-section-tr .create-account-section-td-radio-status {
         grid-auto-flow: unset !important;
         grid-template-columns: repeat(auto-fill, 100px) !important;
@@ -151,6 +151,22 @@ createAccount-radio@media only screen and (max-width: 395px) {
     opacity: 0;
 }
 .radio-text {
+    cursor: pointer;
+}
+
+.create-account .create-account-section .create-account-show-more {
+    cursor: pointer;
+    color: #2081DF;
+    margin-top: 32px;
+}
+
+
+.create-account .create-account-section .create-account-section-tr .createAccount-radio {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+.radio-text {
     position: relative;
     padding: 0 0 0 26px;
     cursor: pointer;
@@ -185,9 +201,4 @@ input[type="radio"]:checked + .radio-text:after {
 }
 input[type="radio"]:checked + .radio-text {
     color: white;
-}
-.create-account .create-account-section .create-account-show-more {
-    cursor: pointer;
-    color: #2081DF;
-    margin-top: 32px;
 }

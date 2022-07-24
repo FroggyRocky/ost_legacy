@@ -174,7 +174,7 @@ const getRefferalData = () => async (dispatch) => {
 
 const createReferralLink = (linkType) => async (dispatch,getState) => {
   const settingsState = await getState().Settings
-    const link = `${webURL}/${linkType.toLowerCase()}/referral_id=${settingsState.userId}`
+    const link = `${webURL}/${linkType?.toLowerCase()}/referral_id=${settingsState.userId}`
     dispatch(setReferralLink(link))
   }
   

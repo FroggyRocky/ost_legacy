@@ -14,7 +14,7 @@ exports.bm = async (req, res) => {
                 link3: req.body.data.link3,
                 faceToken: req.body.data.faceToken,
                 archived: req.body.data.archived || false,
-                type:req.body.data.type || null
+                type:req.body.data.type || 'standard'
             };
             if (req.body.data.id) {
                 const currentBm = await modules.Bms.findByPk(req.body.data.id, {
@@ -127,7 +127,7 @@ exports.bmType = async (req, res) => {
         try {
             const data = {
                 name: req.body.data.name,
-                type:req.body.data.type,
+                type:req.body.data.type || 'standard',
                 price: req.body.data.price,
                 description: req.body.data.description
             };

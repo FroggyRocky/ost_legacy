@@ -6,7 +6,7 @@
 .admin-bm-types .admin-bm-type {
     display: grid;
     grid-auto-flow: column;
-    grid-template-columns: 1fr 50px auto;
+    grid-template-columns: 1fr auto auto;
     grid-column-gap: 10px;
     max-width: 680px;
     height: 80px;

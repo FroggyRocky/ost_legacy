@@ -7,10 +7,12 @@ const AdminAddBmType = (props) => {
     const [bmTypeState, setBmTypeState] = useState(props.bmType ? {
         id: props.bmType.id,
         name: props.bmType.name,
+        type:props.bmType.type,
         price: props.bmType.price,
         description: props.bmType.description
     } : {
         name: '',
+        type:"",
         price: '',
         description: ''
     });
@@ -49,7 +51,7 @@ const AdminAddBmType = (props) => {
             </div>
             <div className='add-bm-type-td'>
                 <div className='add-bm-type-td-name'>
-                    BM type name
+                    BM name
                 </div>
                 <div className='add-bm-type-td-data'>
                     <input
@@ -66,7 +68,23 @@ const AdminAddBmType = (props) => {
             </div>
             <div className='add-bm-type-td'>
                 <div className='add-bm-type-td-name'>
-                    BM type price
+                    BM type
+                </div>
+                <div className='add-bm-type-td-data'>
+                    <input
+                        className='text-input'
+                        type='text'
+                        name='type'
+                        placeholder='type'
+                        value={bmTypeState.type}
+                        onChange={handleChange}
+                        maxLength="500"
+                    />
+                </div>
+            </div>
+            <div className='add-bm-type-td'>
+                <div className='add-bm-type-td-name'>
+                    BM price
                 </div>
                 <div className='add-bm-type-td-data'>
                     <input

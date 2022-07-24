@@ -3,6 +3,7 @@ import {NavLink} from 'react-router-dom';
 import './AdminBmType.css'
 import {ReactComponent as Pencil} from "../../img/pencil.svg";
 import {ReactComponent as Plus} from "../../img/plus.svg";
+import verified from '../../img/verified.png'
 
 const AdminBmType = (props) => {
 
@@ -10,7 +11,7 @@ const AdminBmType = (props) => {
         <div key={el.id} className='admin-bm-type'>
             <div>
                 <div>Type</div>
-                <div>{el.name}</div>
+                <div>{el.name}{el.type?.toLowerCase() === 'verified' && <img width='18' height='18' src={verified} alt="verified"/>}</div>
             </div>
             <div>
                 <div>Price</div>

@@ -11,6 +11,9 @@
         grid-column-gap: 10px !important;
     }
 }
+.createBm-dropdown {
+    width: 450px;
+}
 .create-bm .create-bm-header-name {
     font-family: "Montserrat sBold", sans-serif;
     font-size: 48px;

@@ -4,12 +4,11 @@ import DatePicker from "react-datepicker";
 import {ReactComponent as Search} from '../../img/search.svg';
 import {ReactComponent as Human} from '../../img/human.svg';
 import {ReactComponent as Calendar} from '../../img/calendar.svg';
-import { ReactComponent as Left } from '../../img/left.svg';
-import { ReactComponent as Right } from '../../img/right.svg';
+import {ReactComponent as Left} from '../../img/left.svg';
+import {ReactComponent as Right} from '../../img/right.svg';
 import {connect} from 'react-redux';
-import {getPaginatedItems, paginationActions} from "../../Redux/Reducers/pagination";
-
-
+import {getPaginatedItems, paginationActions, updateAllTraffic} from "../../Redux/Reducers/pagination";
+import AutorenewIcon from '@mui/icons-material/Autorenew';
 import './AccBmPagination.css'
 
 const AccBmPagination = (props) => {
@@ -29,17 +28,26 @@ const AccBmPagination = (props) => {
         props.setSeacrhedId(null, null)
     }, [])
 
+
+    function updateGlobalTriffic() {
+        const filteredItems = props.itemsToPaginate.filter(el => el.id && el.proxy_id)
+        const items = filteredItems.map(el => ({
+            accountId: +el.id,
+            proxyId: +el.proxy_id
+        }))
+        props.updateAllTraffic(items)
+    }
+
     useEffect(() => {
-        if(props.itemsToPaginate) {
+        if (props.itemsToPaginate) {
             props.getPaginatedItems(props.itemsToPaginate, usersPerPage, currentPage)
             setPagesAmount(Math.ceil(+props.itemsToPaginate.length / +usersPerPage))
         }
     }, [usersPerPage, currentPage])
 
 
-
     useEffect(() => {
-        if(props.itemsToPaginate) {
+        if (props.itemsToPaginate) {
             setPagesAmount(Math.ceil(+props.itemsToPaginate?.length / +usersPerPage))
             props.getPaginatedItems(props.itemsToPaginate, usersPerPage, currentPage)
         }
@@ -175,6 +183,7 @@ const AccBmPagination = (props) => {
                 placeholderText='to'
             />
         </div>
+
         {
             // props.admin &&
             !props.userCount && !props.archive &&
@@ -185,21 +194,31 @@ const AccBmPagination = (props) => {
                     onChange={handleChange}
                     checked={dataState.problem}
                 />
-                <span className='pagination-check-input-text'>
+                  <span className='pagination-check-input-text'>
                    {props?.type === 'bm' ? 'Problem BMs' : 'Problem Accounts'}
                 </span>
             </label>}
+        {props.admin && props.paginationType === 'a' && <div className='pagination__updateTraffic-container'>
+            <div className='pagination__updateProxyTraffic' disabled={!props.isTrafficUpdating} onClick={updateGlobalTriffic}>
+            <span>Update Traffic</span>
+                <div className='pagination__updateTrafficIcon-container'>
+                    <AutorenewIcon style={{fontSize: '27'}}
+                            className={`pagination__updateTrafficIcon ${props.isTrafficUpdating && 'pagination__updateTrafficIcon--updating'}`}/>
+                </div>
+            </div>
+        </div>
+        }
         <div className='pagination-area'>
             {(pagesAmount > 1 && !props.searchedId.id && !dataState.problem) ? <ReactPaginate
                 pageCount={pagesAmount}
                 onPageChange={handlePageChange}
-                nextLabel={<Right />}
-                previousLabel={<Left />}
+                nextLabel={<Right/>}
+                previousLabel={<Left/>}
                 breakLabel={'...'}
                 marginPagesDisplayed={1}
                 pageRangeDisplayed={3}
                 activeClassName={'pagination-active'}
-            /> : <div></div> }
+            /> : <div></div>}
 
             <div>
                 <select
@@ -220,10 +239,12 @@ const AccBmPagination = (props) => {
 
 
 const mapStateProps = (state) => ({
-    searchedId: state.Pagination.searchedId
+    searchedId: state.Pagination.searchedId,
+    isTrafficUpdating: state.Pagination.isTrafficUpdating,
+
 })
 
 export default connect(mapStateProps, {
     setSeacrhedId: paginationActions.setSeacrhedId,
-    getPaginatedItems
+    getPaginatedItems, updateAllTraffic, setUpdateAllTrafficError:paginationActions.setUpdateAllTrafficError
 })(AccBmPagination)

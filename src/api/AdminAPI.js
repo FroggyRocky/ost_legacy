@@ -9,6 +9,7 @@ async function faqCreateOrUpdate(data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
+
 async function faqDelete(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
@@ -17,6 +18,7 @@ async function faqDelete(data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
+
 async function adminUserUpdate(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
@@ -25,6 +27,7 @@ async function adminUserUpdate(data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
+
 async function countryCreateOrUpdate(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
@@ -33,6 +36,7 @@ async function countryCreateOrUpdate(data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
+
 async function bmTypeCreateOrUpdate(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
@@ -41,6 +45,7 @@ async function bmTypeCreateOrUpdate(data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
+
 async function accCreateOrUpdate(data) {
     console.log(data)
     let token = localStorage.getItem('token');
@@ -50,6 +55,7 @@ async function accCreateOrUpdate(data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
+
 async function bmCreateOrUpdate(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
@@ -58,6 +64,7 @@ async function bmCreateOrUpdate(data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
+
 async function approveUser(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
@@ -66,7 +73,8 @@ async function approveUser(data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
-async function accBulkCreate(data) { 
+
+async function accBulkCreate(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return axios.post(`${serverURL}/accounts`,
@@ -74,6 +82,7 @@ async function accBulkCreate(data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
+
 async function accountUUID(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
@@ -82,6 +91,7 @@ async function accountUUID(data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
+
 async function bmBulkCreate(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
@@ -90,6 +100,7 @@ async function bmBulkCreate(data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
+
 async function proxyData(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
@@ -98,6 +109,7 @@ async function proxyData(data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
+
 async function ticketTypeCreateOrUpdate(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
@@ -124,6 +136,7 @@ async function getTickets(data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
+
 async function ticketCreateOrUpdate(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
@@ -146,9 +159,13 @@ async function updateMessage(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return await axios.post(`${serverURL}/update-message`, {...data},
-    {headers: {Authorization: 'Bearer ' + token
-}})
-    }
+        {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
+}
+
 async function setBalanceAutoMessage(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
@@ -157,6 +174,7 @@ async function setBalanceAutoMessage(data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
+
 async function skip(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
@@ -170,7 +188,7 @@ async function skip(data) {
 
 function getRequisites() {
     return axios.get(`${serverURL}/requisites`)
-}  
+}
 
 function updateReq(updatedReq) {
     let token = localStorage.getItem('token');
@@ -188,18 +206,25 @@ function deleteReq(reqId) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return axios.post(`${serverURL}/delete-req`, {id: reqId}, {headers: {Authorization: 'Bearer ' + token}})
-} 
+}
 
 function sendGeneralMail(mailText, mailSubject) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
-    return axios.post(`${serverURL}/send-general-mail`, {mailText, mailSubject}, {headers: {Authorization: 'Bearer ' + token}})
+    return axios.post(`${serverURL}/send-general-mail`, {
+        mailText,
+        mailSubject
+    }, {headers: {Authorization: 'Bearer ' + token}})
 }
 
 function sendOptionalMail(emails, mailText, mailSubject) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
-    return axios.post(`${serverURL}/send-optional-mail`, {emails, mailSubject, mailText}, {headers: {Authorization: 'Bearer ' + token}})
+    return axios.post(`${serverURL}/send-optional-mail`, {
+        emails,
+        mailSubject,
+        mailText
+    }, {headers: {Authorization: 'Bearer ' + token}})
 }
 
 function getUsersMailData() {
@@ -208,12 +233,20 @@ function getUsersMailData() {
     return axios.get(`${serverURL}/get-users-mail-data`, {headers: {Authorization: 'Bearer ' + token}})
 }
 
+function updateAllProxyTraffic(items) {
+    let token = localStorage.getItem('token');
+    if (!token) token = sessionStorage.getItem('token');
+    return axios.post(`${serverURL}/update-all-proxy-traffic`, {items: items}, {
+        headers: {Authorization: 'Bearer ' + token}
+    })
+}
 
-const adminApi = {faqCreateOrUpdate, adminUserUpdate, countryCreateOrUpdate, accCreateOrUpdate, faqDelete,
+const adminApi = {
+    faqCreateOrUpdate, adminUserUpdate, countryCreateOrUpdate, accCreateOrUpdate, faqDelete,
     bmTypeCreateOrUpdate, bmCreateOrUpdate, approveUser, accBulkCreate, bmBulkCreate, accountUUID, proxyData,
     ticketTypeCreateOrUpdate, getBalanceTicketTypeId, getTickets, ticketCreateOrUpdate, messageCreate,
-    setBalanceAutoMessage, skip, getRequisites, updateReq, createReq, deleteReq, updateMessage, sendGeneralMail, 
-    sendOptionalMail, getUsersMailData
+    setBalanceAutoMessage, skip, getRequisites, updateReq, createReq, deleteReq, updateMessage, sendGeneralMail,
+    sendOptionalMail, getUsersMailData, updateAllProxyTraffic
 };
 
 export default adminApi;

@@ -18,7 +18,7 @@ const BuyAccount = (props) => {
 
 
     const listOfCountries = props.freeAccounts?.map((el) => ({
-        name:`${el.name}-${el.price}`,
+        name:`${el.name}-${el.price}$`,
         id:el.id,
         type:el.type,
         description: el.description
@@ -27,7 +27,7 @@ const BuyAccount = (props) => {
 
 
     const listOfBm = props.freeBms?.map((el) => ({
-        name:`${el.name}-${el.price}`,
+        name:`${el.name}-${el.price}$`,
         id:el.id,
         type:el.type,
         description: el.description
@@ -37,35 +37,35 @@ const BuyAccount = (props) => {
     useEffect(() => {
         setBuyState({
             type: "a",
-            country: props.freeAccounts?.length ? props.freeAccounts[0].id : "",
-            countryName: props.freeAccounts?.length ? props.freeAccounts[0].name : "",
-            countryPrice: props.freeAccounts?.length ? props.freeAccounts[0].price : "",
-            countryCount: props.freeAccounts?.length ? props.freeAccounts[0].count : 0,
-            countryDescription:props.freeAccounts?.length ? props.freeAccounts[0].description : "",
-            bmType: props.freeBms?.length ? props.freeBms[0].id : "",
-            bmName: props.freeBms?.length ? props.freeBms[0].name : "",
-            bmTypePrice: props.freeBms?.length ? props.freeBms[0].price : "",
-            bmDescription: props.freeBms?.length ? props.freeBms[0].description : "",
-            bmCount: props.freeBms?.length ? props.freeBms[0].count : 0,
+            country: "",
+            countryName: "",
+            countryPrice: "",
+            countryCount:0,
+            countryDescription: "",
+            bmType:  "",
+            bmName: "",
+            bmTypePrice: "",
+            bmDescription:  "",
+            bmCount: 0,
             qty: 0,
-            max: (props.freeAccounts?.length ? props.freeAccounts[0].count : 0) >= (props.freeBms?.length ? props.freeBms[0].count : 0) ? props.freeBms?.length ? props.freeBms[0].count : 0 : props.freeAccounts && props.freeAccounts.length ? props.freeAccounts[0].count : 0,
+            max: 0,
             sum: 0,
         });
     }, [props]);
 
     function getStateFromProps(typeValue) {
-        const a = props.freeAccounts?.length ? props.freeAccounts[0].count : 0,
-            b = props.freeBms?.length ? props.freeBms[0].count : 0,
+        const a = 0,
+            b = 0,
             propsState = {
                 type: typeValue,
-                country: props.freeAccounts?.length ? props.freeAccounts[0].id : "",
-                countryName: props.freeAccounts?.length ? props.freeAccounts[0].name : "",
-                countryPrice: props.freeAccounts?.length ? props.freeAccounts[0].price : "",
+                country: "",
+                countryName: "",
+                countryPrice: "",
                 countryCount: a,
-                bmType: props.freeBms?.length ? props.freeBms[0].id : "",
-                bmName: props.freeBms?.length ? props.freeBms[0].name : "",
-                bmTypePrice: props.freeBms?.length ? props.freeBms[0].price : "",
-                bmDescription: props.freeBms?.length ? props.freeBms[0].description : "",
+                bmType: "",
+                bmName: "",
+                bmTypePrice: "",
+                bmDescription:"",
                 bmCount: b,
                 qty: 0,
                 sum: 0,
@@ -84,6 +84,8 @@ const BuyAccount = (props) => {
 
     function handleRadioChange(event) {
         console.log(event.target.id)
+        setCurrentBMOption({})
+        setCurrentCountryOption({})
         setBuyState(getStateFromProps(event.target.id));
     }
 
@@ -261,27 +263,27 @@ console.log(buyState.type)
                 <div className="buy-account-section-td">
                     <div className="buy-account-section-td-name">Type</div>
                     <div className="buy-account-section-td-radio-status">
-                        <label className='buy-checkbox-container'>
+                        <label>
                             <input
-                                className="buy-checkbox"
+                                className='buy-radio'
                                 type="radio"
                                 id="a"
                                 name="type"
                                 onChange={handleRadioChange}
                                 checked={buyState.type === "a"}
                             />
-                            <div className="buy-checkbox-title">Account</div>
+                            <div className="radio-text">Account</div>
                         </label>
-                        <label className='buy-checkbox-container'>
+                        <label>
                             <input
-                                className="buy-checkbox"
+                                className='buy-radio'
                                 type="radio"
                                 id="b"
                                 name="type"
                                 onChange={handleRadioChange}
                                 checked={buyState.type === "b"}
                             />
-                            <div className="buy-checkbox-title">BM</div>
+                            <div className="radio-text">BM</div>
                         </label>
                     </div>
                 </div>
@@ -307,7 +309,6 @@ console.log(buyState.type)
                     <div className="buy-account-section-td-name">BM type</div>
                     <div className="buy-account-section-td-data">
                         <div className="text-input-container">
-                            <div className="icon-input-container">
                                 <AccountBmDropDown placeholder={currentBMOption} defaultPlaceholder='Select Type'
                                                    dropDownOptions={listOfBm} selectOption={handleBmChange}/>
                                 {buyState.bmDescription && <div className="q-icon">
@@ -321,7 +322,6 @@ console.log(buyState.type)
                                 }
                             </div>
                         </div>
-                    </div>
                 </div>}
                 <div className="buy-account-section-td">
                     <div className="buy-account-section-td-name">Amount</div>

@@ -25,7 +25,9 @@ import {ReactComponent as Info} from '../../img/info.svg';
 import {ReactComponent as Link} from '../../img/link.svg';
 import {ReactComponent as Folder} from '../../img/folder.svg';
 import DropDown from '../../common/DropDown';
+import Modal from '../../common/Modal'
 import verified from '../../img/verified.png'
+import {paginationActions} from "../../Redux/Reducers/pagination";
 
 
 const AccountsTable = (props) => {
@@ -40,8 +42,8 @@ const AccountsTable = (props) => {
     const [accounts, setAccounts] = useState()
     const [bmIdState, setBmIdState] = useState(props.freeUserBms?.length !== 0 && !props.user.admin && !props.archive ? props.freeUserBms[0].id : null);
     const [dataState, setDataState] = useState(null);
-    const [dropDownState, setDropDownState] = useState('1 GB - 4$') // drop down to choose traffic top up
-    const dropDownOptions = ['1 GB - 4$', '2 GB - 8$', '4 GB - 15$', '10 GB - 40$']
+    const [dropDownState, setDropDownState] = useState('600 MB - 4.5$') // drop down to choose traffic top up
+    const dropDownOptions = ['600 MB - 4.5$', '1 GB - 8$', '2 GB - 15$', '6 GB - 35$']
     const [isAddTrafficSubmitting, setAddTrafficSubmitState] = useState(false)
 
     function handleTrafficTopUpChange(value) {
@@ -97,7 +99,7 @@ const AccountsTable = (props) => {
         let daysLeft;
 
         if (el.proxy_traffic_total && el.proxy_traffic_left >= 0) {
-            percentForBar = Math.floor(el.proxy_traffic_left * 2 / el.proxy_traffic_total * 200);
+            percentForBar = Math.floor(el.proxy_traffic_left / el.proxy_traffic_total * 100);
         } else if (!el.proxy_traffic_left) {
             percentForBar = 0;
             daysLeft = 0;
@@ -124,7 +126,7 @@ const AccountsTable = (props) => {
                              data-id={el.id}>
                             <Down/>
                         </div>
-                        <span className={el.type?.toLowerCase() === 'verified' && 'accountTable__accountId--verified'}>{accountName}{el.type?.toLowerCase() === 'verified' ?
+                        <span className={el.type?.toLowerCase() === 'verified' ? 'accountTable__accountId--verified' : ''}>{accountName}{el.type?.toLowerCase() === 'verified' ?
                             <span><img width='18' height='18' src={verified} alt='verified'/></span> : ''}</span>
                     </div>
                 </td>
@@ -167,7 +169,7 @@ const AccountsTable = (props) => {
                             <div className='accounts-table-limited-bar-label'>
                                 {el.proxy_traffic_total && el.proxy_traffic_left >= 0 ? <>
                                         <span
-                                            className='label-mb'>{`${Math.floor(el.proxy_traffic_left / 1024 / 1024)} / ${Math.floor(el.proxy_traffic_total / 1024 / 1024)} mb`}</span>
+                                            className='label-mb'>{`${Math.floor((el.proxy_traffic_left * 2) / 1024 / 1024)} / ${Math.floor((el.proxy_traffic_total * 2) / 1024 / 1024)} mb`}</span>
                                     <span className='label-percent'>{percentForBar}%</span>
                                 </> : <>
                                     <span className='label-mb'>{`${daysLeft} / ${daysTotal} days`}</span>
@@ -414,6 +416,7 @@ const AccountsTable = (props) => {
         } else {
             proxyId = event.target.parentElement;
         }
+        console.log(proxyId.parentElement.parentElement.parentElement.nextElementSibling.id, proxyId.dataset.proxy_id)
         const res = await props.proxyTraffic({
             id: proxyId.parentElement.parentElement.parentElement.nextElementSibling.id,
             proxy_id: proxyId.dataset.proxy_id
@@ -608,7 +611,12 @@ const AccountsTable = (props) => {
         })
     }
 
+    function closeModal() {
+        props.setUpdateAllTrafficError('')
+    }
+
     return (<div className='accounts'>
+        {props.updateAllTrafficError !== '' && <Modal closeModal={closeModal} smallModal={true} header={props.updateAllTrafficError} text={'Please check that data of all accounts\' proxies is valid'} />}
         {!props.archivePage && <div className='accounts-header'>
             <div className='accounts-header-name'>
                 Accounts
@@ -742,9 +750,10 @@ const AccountsTable = (props) => {
 
 const mapStateToProps = (state) => ({
     searchedId: state.Pagination.searchedId,
-    paginatedItems: state.Pagination.paginatedItems
+    paginatedItems: state.Pagination.paginatedItems,
+    updateAllTrafficError:state.Pagination.updateAllTrafficError
 })
 
 export default connect(mapStateToProps, {
-    setTicketModalState,
+    setTicketModalState,setUpdateAllTrafficError:paginationActions.setUpdateAllTrafficError
 })(AccountsTable);

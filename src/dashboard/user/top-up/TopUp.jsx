@@ -8,7 +8,7 @@ export default function TopUp(props) {
 
   const [isRedirect, setRedirectState] = useState(false);
 
-  const [isDropDownOpen, setDropDownState] = useState(false)
+  const [isDropDownOpen, setDropDownState] = useState(true)
 
   function setCrypto(event) {
     const value = event.currentTarget.getAttribute('value')

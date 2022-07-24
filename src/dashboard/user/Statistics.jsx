@@ -4,6 +4,7 @@ import './Statistics.css'
 import AccBmPagination from "./AccBmPagination";
 import CircularProgress from '@mui/material/CircularProgress';
 import {connect} from 'react-redux'
+import verified from '../../img/verified.png'
 
 function Statistics(props) {
       const [isLoading, setLoaderState] = useState({id:null,state:null})
@@ -155,11 +156,11 @@ function Statistics(props) {
     }
 
 
-    const accountsList = accounts?.map((el) => { 
+    const accountsList = accounts?.map((el) => {
         return <tbody key={el.id} className='ym-hide-content'>
             <tr>
                 <td className='acc-id alert-info' onClick={handleClick} 
-                    id={el.id}>{el.id} {props.countries && TableAdditionalInfo.getValueById(props.countries, el.countryId)}</td>
+                    id={el.id}>{el.id} {props.countries && TableAdditionalInfo.getValueById(props.countries, el.countryId)}{el.type?.toLowerCase() === 'verified' && <img width='18' height='18' src={verified} alt='verified' />}</td>
                 <td colSpan='18'>{isLoading.state === true && isLoading.id == el.id && <CircularProgress />}</td>
             </tr>
             <tr className='statistics-table-spacer'></tr>

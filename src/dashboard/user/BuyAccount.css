@@ -53,19 +53,20 @@
     min-width: 400px;
     height: 40px;
     display: inline-block;
+    position: relative;
 }
 
 .icon-input-container {
     position: relative;
-    align-items: center;
 }
 .q-icon--country {
     position: absolute;
-    float: right;
+    right: 10%;
+    top: 0;
 }
 .q-icon {
     position: absolute;
-    right: 11%;
+    right: 10%;
     top: 0;
 }
 
@@ -292,25 +293,49 @@ background: #2F3137;
     max-width: 320px;
 }
 
-
-.buy-checkbox {
-    height: 17px;
-    width: 17px;
+.buy-account-section-td-radio-status .buy-radio {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
 }
 
-.buy-checkbox:checked:after {
-    width: 9px;
-    height: 9px;
-    border-radius: 15px;
-    top:1.8px;
-    left: 3px;
+.radio-text {
     position: relative;
-    background-color: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);;
-    content: '';
-    display: inline-block;
-    visibility: visible;
-    border: 1px solid linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);;
+    padding: 0 0 0 26px;
+    cursor: pointer;
 }
+.radio-text:before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    background-image: linear-gradient(white, white), linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+}
+.radio-text:after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: linear-gradient(274.02deg, #228DE2 0%, #4252E6 50.52%, #4428B6 100%);
+    opacity: 0;
+    transition: .3s;
+}
+input[type="radio"]:checked + .radio-text:after {
+    opacity: 1;
+}
+input[type="radio"]:checked + .radio-text {
+    color: white;
+}
+
 
 .buy-modal-button--disabled {
     background: none;

@@ -113,7 +113,6 @@ const setSentState = (state:boolean | null):setSentStateType =>({type:SET_SENT_S
 
 const getUsersData = () => async (dispatch:Dispatch<setUsersDataType>, getState:() => AppStateType) => { 
 const users = await getState().Mail.users
-// if(users.length === 0) {
 const res = await AdminAPI.getUsersMailData()
 if(res.status === 200) {
 dispatch(setUsersData(res.data))            

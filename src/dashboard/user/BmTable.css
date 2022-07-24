@@ -13,6 +13,12 @@
         display: none !important;
     }
 }
+.bm-table--idContainer {
+    display: inline-block;
+}
+.bm-table--idContainerVerified {
+    margin-left: 18px;
+}
 .bm .bm-header {
     display: grid;
     grid-template-columns: 1fr auto;
