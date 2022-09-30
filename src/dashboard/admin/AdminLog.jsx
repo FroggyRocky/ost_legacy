@@ -40,7 +40,7 @@ const AdminLog = (props) => {
                     </td>
                 <td>{el.receiver}</td>
                 <td className='log-operation'>{TableAdditionalInfo.operationType(el.operation)}</td>
-                <td dangerouslySetInnerHTML={{__html: el.description}}></td>
+                <td  className='log-description' dangerouslySetInnerHTML={{__html: el.description}}></td>
                 <td>{el.amount && `$ ${el.amount}`}</td>
             </tr>
             <tr className='log-table-spacer'></tr>

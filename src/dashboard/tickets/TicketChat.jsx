@@ -31,7 +31,7 @@ useEffect(() => {
 
 
   useEffect(() => {
-    props?.readMessages(props.user.id, props.ticket.id)
+    props?.readMessages(props.user?.id, props.ticket?.id)
   }, [])
 
   useEffect(async () => {
@@ -69,7 +69,7 @@ props.setImgZoomState(src)
   });
 
   async function handleMessageSend() {
-    console.log(props.imgsPreviewSrc.length)
+
     if(props.imgsPreviewSrc.length != 0) {
       setMessageSendingState(true)
       await props.sendFiles(props.ticket?.id || props.createdTicketId);

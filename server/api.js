@@ -62,6 +62,7 @@ router.post('/token', facebook.token);
 router.post('/admin-user', authentication.token, user.adminUser);
 router.post('/user', authentication.token, user.user);
 router.get('/add-admin', user.addAdmin);
+router.post('/top-up', authentication.token, user.topUp);
 
 // FAQs
 router.post('/faqs', authentication.token, faq.faqPost);
@@ -94,6 +95,7 @@ router.post('/get-creator-email', authentication.token, ticket.ticketCreatorId)
 router.post('/create-balance-message', authentication.token, ticket.balanceMessage);
 router.post('/ticket-balance-type-id', authentication.token, ticket.ticketBalanceTypeId)
 router.post('/read-messages', authentication.token, ticket.readMessages)
+router.post('/solve-ticket', authentication.token, ticket.solveTicket)
 
 //S3
 router.post('/upload-s3-file', authentication.token, s3.uploadS3File)

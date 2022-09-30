@@ -300,7 +300,7 @@ exports.updateAllProxyTraffic = async (req, res) => {
                     proxy_id: proxyId,
                 }
                 axios.get(`https://astroproxy.com/api/v1/ports/${proxyId}?token=${process.env.PROXY_TOKEN}`, {
-                    timeout:1000,
+                    timeout: 1000,
                     headers: {'Accept': 'application/json'}
                 })
                     .then(async (result) => {
@@ -312,7 +312,7 @@ exports.updateAllProxyTraffic = async (req, res) => {
                         })
                     })
                     .catch((e) => {
-                      console.log(e)
+                        console.log(e)
                     })
             }
             res.sendStatus(200)
@@ -326,7 +326,7 @@ exports.updateAllProxyTraffic = async (req, res) => {
 
 exports.addProxyTraffic = async (req, res) => {
     try {
-        const id = req.body.data.id
+        const accountId = req.body.data.id
         const proxy_id = req.body.data.proxy_id;
         const [traffic, money] = req.body.data.trafficAmount.split('-')
         const [amount, key] = traffic.split(' ')
@@ -348,7 +348,7 @@ exports.addProxyTraffic = async (req, res) => {
         const volume = await getVolume();
 
         const where = {
-            id: id,
+            id: accountId,
             proxy_id: proxy_id,
         };
         const sumOnAcc = await modules.Users.findByPk(req.id, {
@@ -364,7 +364,6 @@ exports.addProxyTraffic = async (req, res) => {
                 }
             );
             if (result.data.status === 'ok') {
-
                 await modules.Accounts.update({
                     proxy_traffic_left: result.data.data.traffic.left,
                     proxy_traffic_total: result.data.data.traffic.total
@@ -376,9 +375,16 @@ exports.addProxyTraffic = async (req, res) => {
                         id: req.id
                     }
                 });
+                await modules.Log.create({
+                    owner: req.id,
+                    receiver: req.id,
+                    operation: 2,
+                    description: `Traffic added: <span class='success'>id:${req.id}, AccountId: ${accountId}</span>: For <b>${amount} - ${money}$</b>,  <span class='primary'>New Traffic State</span>: Total: <b>${result.data.data.traffic.total}</b>, Left: <b>${result.data.data.traffic.left}</b>`,
+                    amount: amount
+                });
                 return res.sendStatus(200)
             }
-            // }
+
         } else {
             res.sendStatus(405)
         }

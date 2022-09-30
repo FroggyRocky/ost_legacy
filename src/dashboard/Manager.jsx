@@ -21,7 +21,7 @@ const Manager = (props) => {
       <div className="manager-name">{props.manager.name || "Ivan"}</div>
       <div className="manager-icons">
 
-        <a href={`https://t.me/${props.manager.telegram}`} target="_blank">
+        <a href={`https://t.me/${props.manager.telegram}`} target="_blank" rel="noreferrer">
           <TelegramIcon
             className="manager-telegram-icon"
             style={{ fontSize: 24, color: !isHovered ? "#767C89" : "white", marginRight:5 }}
@@ -29,7 +29,7 @@ const Manager = (props) => {
             onMouseOut={()=> disableHover(setHover)}
           />
         </a>
-        <a href={`https://join.skype.com/invite/${props.manager.skype}`} target="_blank">
+        <a href={`https://join.skype.com/invite/${props.manager.skype}`} target="_blank" rel="noreferrer">
           <Skype
             className="manager-skype-icon"
             style={{ filter: isHovered2 && "brightness(0) invert(1)" }}

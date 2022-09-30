@@ -10,7 +10,7 @@
 
 .buy-account {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
 }
 
 .buy-account .buy-account-header-name {

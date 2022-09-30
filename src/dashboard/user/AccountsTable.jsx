@@ -416,7 +416,6 @@ const AccountsTable = (props) => {
         } else {
             proxyId = event.target.parentElement;
         }
-        console.log(proxyId.parentElement.parentElement.parentElement.nextElementSibling.id, proxyId.dataset.proxy_id)
         const res = await props.proxyTraffic({
             id: proxyId.parentElement.parentElement.parentElement.nextElementSibling.id,
             proxy_id: proxyId.dataset.proxy_id

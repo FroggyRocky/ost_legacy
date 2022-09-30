@@ -1,17 +1,17 @@
 import axios from "axios";
 import {serverURL} from './URL'
 
-async function getUserData (data) {
+async function getUserData(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return await axios.post(`${serverURL}/data`,
         {data},
         {headers: {Authorization: 'Bearer ' + token}}
-        )
+    )
 }
 
 
-async function buyAccount (data) {
+async function buyAccount(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return await axios.post(`${serverURL}/buy`,
@@ -20,7 +20,7 @@ async function buyAccount (data) {
     )
 }
 
-async function patchUserData (data) {
+async function patchUserData(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return axios.post(`${serverURL}/user`,
@@ -29,7 +29,7 @@ async function patchUserData (data) {
     )
 }
 
-async function archiveUserAccount (data) {
+async function archiveUserAccount(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return axios.post(`${serverURL}/user-account`,
@@ -37,7 +37,8 @@ async function archiveUserAccount (data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
-async function archiveUserBM (data) {
+
+async function archiveUserBM(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return axios.post(`${serverURL}/user-bm`,
@@ -45,7 +46,8 @@ async function archiveUserBM (data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
-async function iHaveAProblem (data) {
+
+async function iHaveAProblem(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return axios.post(`${serverURL}/problem`,
@@ -53,7 +55,8 @@ async function iHaveAProblem (data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
-async function bindBmToAcc (data) {
+
+async function bindBmToAcc(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return axios.post(`${serverURL}/bm-to-acc`,
@@ -61,7 +64,8 @@ async function bindBmToAcc (data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
-async function getStatistics (data) {
+
+async function getStatistics(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return axios.post(`${serverURL}/statistics`,
@@ -69,7 +73,8 @@ async function getStatistics (data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
-async function proxyTraffic (data) {
+
+async function proxyTraffic(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return axios.post(`${serverURL}/proxy-traffic`,
@@ -77,7 +82,8 @@ async function proxyTraffic (data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
-async function addProxyTraffic (data) {
+
+async function addProxyTraffic(data) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return axios.post(`${serverURL}/add-proxy-traffic`,
@@ -85,7 +91,8 @@ async function addProxyTraffic (data) {
         {headers: {Authorization: 'Bearer ' + token}}
     )
 }
-async function checkBmLimit (data) {
+
+async function checkBmLimit(data) {
     return axios.post(`${serverURL}/check-bm`,
         {id: data}
     )
@@ -107,11 +114,13 @@ async function uploadS3File(file) {
     const fd = new FormData()
     fd.append('file', file)
     return await axios.post(`${serverURL}/upload-s3-file`, fd,
-    {headers: {
-    Authorization: 'Bearer ' + token,  
-    'Content-Type': 'multipart/form-data'
-}}
-)
+        {
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+    )
 }
 
 async function getReferralData() {
@@ -130,9 +139,26 @@ async function getInvitedEmails() {
 async function readMessages(userId, ticketId) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
-    return await axios.post(`${serverURL}/read-messages`, {userId, ticketId},  {headers: {Authorization: 'Bearer ' + token}})
+    return await axios.post(`${serverURL}/read-messages`, {
+        userId,
+        ticketId
+    }, {headers: {Authorization: 'Bearer ' + token}})
 }
 
+async function fetchUSDTTRC_20(walletRequisites, minTimeStamp, maxTimeStamp) {
+    const {data} = await axios.get(`https://api.trongrid.io/v1/accounts/${walletRequisites}/transactions/trc20?only_to=true&limit=200&min_timestamp=${minTimeStamp}&max_timestamp=${maxTimeStamp}`)
+    return data
+}
+async function topUp(sum, ticketCreatorId, transaction_id) {
+    let token = localStorage.getItem('token');
+    if (!token) token = sessionStorage.getItem('token');
+    return await axios.post(`${serverURL}/top-up`, {sum,ticketCreatorId, transaction_id}, {headers: {Authorization: 'Bearer ' + token}})
+}
+async function solveTicket(ticketId, ticketCreatorId, transaction_id) {
+    let token = localStorage.getItem('token');
+    if (!token) token = sessionStorage.getItem('token');
+    return await axios.post(`${serverURL}/solve-ticket`, {ticketId, ticketCreatorId, transaction_id}, {headers: {Authorization: 'Bearer ' + token}})
+}
 const userApi = {
     getUserData,
     patchUserData,
@@ -149,7 +175,10 @@ const userApi = {
     uploadS3File,
     getReferralData,
     getInvitedEmails,
-    readMessages
+    readMessages,
+    fetchUSDTTRC_20,
+    topUp,
+    solveTicket
 };
 
 export default userApi;

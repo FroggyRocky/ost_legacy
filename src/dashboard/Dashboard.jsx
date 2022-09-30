@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, useRef} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import './Dashboard.css'
 import UserMain from './user/UserMain';
 import Menu from "./Menu";
@@ -6,31 +6,38 @@ import UserAPI from '../api/UserAPI'
 import AdminAPI from '../api/AdminAPI'
 import {Redirect} from 'react-router-dom'
 import AdminMain from './admin/AdminMain'
+import {connect} from "react-redux";
+import {checkBalanceTicketTransfer, setUserTickets} from "../Redux/Reducers/tickets";
 
 
-const Dashboard = (props) => { 
+const Dashboard = (props) => {
     const [userState, setUserState] = useState(null);
     const [redirectState, setRedirectState] = useState(false);
     const dashboard = useRef()
 
-    function checkToken () {
+    function checkToken() {
         if (!localStorage.getItem('token') && !sessionStorage.getItem('token')) setRedirectState(true)
     }
+
     const getTickets = useCallback(async () => {
         const tickets = await AdminAPI.getTickets();
         return setUserState(state => ({...state, ...tickets.data}));
     }, []);
 
 
-useEffect(() => {
-    if(userState) {
-        props.getUnreadTickets(userState?.tickets, userState.user?.id)
-    }
-}, [userState?.tickets])
+    useEffect(() => {
+        if (userState) {
+            props.getUnreadTickets(userState?.tickets, userState.user?.id)
+            if (userState.tickets && userState.tickets?.length !== 0) {
+                props.checkBalanceTicketTransfer(userState.tickets)
+            }
+        }
+    }, [userState?.tickets])
 
-    useEffect( () => {
+    useEffect(() => {
         checkToken();
-        async function fetchData () {
+
+        async function fetchData() {
             const res = await UserAPI.getUserData();
             if (res.data === 'clear') {
                 localStorage.clear();
@@ -42,14 +49,15 @@ useEffect(() => {
                 setUserState({...res.data, ...tickets.data});
             }
         }
+
         fetchData().then();
     }, [getTickets]);
 
     return (userState && userState.user?.active) ? (
-        <div ref = {dashboard} className='dashboard'>
-            
+        <div ref={dashboard} className='dashboard'>
+
             {/* {console.log(userState)} */}
-            {redirectState && <div><Redirect to='/login' /></div>}
+            {redirectState && <div><Redirect to='/login'/></div>}
             <div className='dashboard-menu full'>
                 <Menu manager={userState.manager}
                       admin={userState.user.admin}
@@ -145,10 +153,13 @@ useEffect(() => {
         </div>
     ) : (
         <div className='spinner'>
-            {redirectState && <div><Redirect to='/login' /></div>}
+            {redirectState && <div><Redirect to='/login'/></div>}
             <div className='loader'>Loading...</div>
         </div>
     )
 };
-
-export default Dashboard;
+const mapStateToProps = (state) => ({})
+export default connect(mapStateToProps, {
+    setUserTickets,
+    checkBalanceTicketTransfer
+})(Dashboard);

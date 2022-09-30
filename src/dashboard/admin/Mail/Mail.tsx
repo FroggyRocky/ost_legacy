@@ -57,18 +57,18 @@ function handleRadioChange(e:ChangeEvent<HTMLInputElement>) {
 function handleSelectUser(e:React.MouseEvent) {
   const value = e.currentTarget.getAttribute('data-email')
   const id = e!.currentTarget!.getAttribute('data-id')
-  if(id != null) {
+  if(id) {
   if(props.selectedUsers.length > 0) {
     if(!props.selectedUsers.some(e => e.id === +id)) {
        props.selectUser(value, +id)
-       const filtered = filteredUsers.filter(el => el.id != +id)
+       const filtered = filteredUsers.filter(el => +el.id !== +id)
        setFilteredUsers(filtered)
        props.change('search', '')
        setSearchState('')
     }
   } else {
     props.selectUser(value, +id)
-    const filtered = filteredUsers.filter(el => el.id != +id)
+    const filtered = filteredUsers.filter(el => +el.id !== +id)
     setFilteredUsers(filtered)
     props.change('search', '')
     setSearchState('')
@@ -110,7 +110,7 @@ const selected = props.selectedUsers.map((el:any) => {
  function handleSearchChange(e:ChangeEvent<HTMLInputElement>) {
   const currentState = e.target.value
   setSearchState(currentState)
-  if(currentState != '') {
+  if(currentState) {
   if(+currentState) {
     const filtered = props.users.filter(user => user.id === +currentState)
     setFilteredUsers(filtered)
@@ -127,7 +127,7 @@ const selected = props.selectedUsers.map((el:any) => {
 
 
     return <form className='mail-container' onSubmit={props.handleSubmit}>
-      {props.isMailSent !== null && <Modal smallModal={true} closeModal={closeModal}
+      {props.isMailSent && <Modal smallModal={true} closeModal={closeModal}
        header={props.isMailSent === true ? 'Success!' : 'Failure!'}  
        text={props.isMailSent === true ? 'Your Email Successfully Sent' : 'Something went wrong'}/> }
           <h1>Mail</h1>

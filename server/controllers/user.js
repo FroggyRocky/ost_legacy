@@ -59,23 +59,23 @@ exports.adminUser = async (req, res) => {
                             userId: req.body.data.id
                         }
                     });
-                    if(!userPermissions) {
+                    if (!userPermissions) {
                         const data = {
-                            acc_bm:req.body.data.permissions.acc_bm,
-                            acc_bm_update:req.body.data.permissions.acc_bm_update,
-                            users:req.body.data.permissions.users,
-                            user_update:req.body.data.permissions.user_update,
+                            acc_bm: req.body.data.permissions.acc_bm,
+                            acc_bm_update: req.body.data.permissions.acc_bm_update,
+                            users: req.body.data.permissions.users,
+                            user_update: req.body.data.permissions.user_update,
                             user_balance: req.body.data.permissions.user_balance,
-                            user_active:req.body.data.permissions.user_active,
-                            user_roles:req.body.data.permissions.user_roles,
-                            statistics:req.body.data.permissions.statistics,
-                            price_list:req.body.data.permissions.price_list,
-                            price_list_update:req.body.data.permissions.price_list_update,
+                            user_active: req.body.data.permissions.user_active,
+                            user_roles: req.body.data.permissions.user_roles,
+                            statistics: req.body.data.permissions.statistics,
+                            price_list: req.body.data.permissions.price_list,
+                            price_list_update: req.body.data.permissions.price_list_update,
                             log: req.body.data.permissions.log,
-                            faq_update:req.body.data.permissions.faq_update,
-                            userId:req.body.data.id
+                            faq_update: req.body.data.permissions.faq_update,
+                            userId: req.body.data.id
                         }
-                        userPermissions = await modules.Permissions.create({...data}, {raw:true});
+                        userPermissions = await modules.Permissions.create({...data}, {raw: true});
                         userPermissions = userPermissions.dataValues
                     }
                     if (userPermissions) {
@@ -107,7 +107,7 @@ exports.adminUser = async (req, res) => {
                         }
                     }
                 }
-                await modules.Users.update({ ...data }, {
+                await modules.Users.update({...data}, {
                     where: {
                         id: req.body.data.id
                     }
@@ -200,9 +200,54 @@ exports.addAdmin = async (req, res) => {
             faq_update: true,
             userId: admin.id
         });
-        await modules.Statuses.bulkCreate([{ name: 'Ready' }, { name: 'In process' }, { name: 'Problem' }, { name: 'Replaced' }]);
+        await modules.Statuses.bulkCreate([{name: 'Ready'}, {name: 'In process'}, {name: 'Problem'}, {name: 'Replaced'}]);
         res.send('Admin added')
     } catch (e) {
         res.send(e)
     }
 };
+
+
+exports.topUp = async (req, res) => {
+    try {
+        const userId = req.id
+        const money = req.body.sum
+        const transactionId = req.body.transaction_id
+        const foundTicket = await modules.Tickets.findOne({
+            raw:true,
+            where: {
+                transaction_id:transactionId
+            }
+        }).catch(e => '')
+        if(foundTicket) {
+            await modules.Tickets.update({solved:true},{
+                raw:true,
+                where: {
+                    transaction_id:transactionId
+                }});
+            return;
+        } else if (!foundTicket) {
+            const response = await modules.Users.findOne({
+                raw: true,
+                attributes: ['balance'],
+                where: {
+                    id: userId
+                }
+            })
+            const sum = +response.balance + +money
+            await modules.Users.update({
+                    balance: +sum
+                },
+                {
+                    where: {
+                        id: userId
+                    }
+                })
+            res.sendStatus(200)
+        }
+    } catch (e) {
+        console.log(e)
+        res.sendStatus(500)
+
+    }
+}

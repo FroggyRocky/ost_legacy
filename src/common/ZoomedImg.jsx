@@ -10,7 +10,7 @@ export default function ZoomedImg(props) {
         return document.removeEventListener('keydown', checkKey)
     }
         function checkKey(e) {
-            if(e.keyCode == 27) {
+            if(+e.keyCode === 27) {
                 props.setImgZoomState(null)
             }
         }

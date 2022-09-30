@@ -54,7 +54,7 @@ const AdminBmList = (props) => {
         const country = props.countries?.filter(country => {
             return country.id === el.account?.countryId
         }).map(el => el.name)
-        if ((!props.archive && !el.archived) || (props.archive && el.archived)) { console.log(el)
+        if ((!props.archive && !el.archived) || (props.archive && el.archived)) {
             return <tbody key={el.id}>
             <tr>
                 <td>

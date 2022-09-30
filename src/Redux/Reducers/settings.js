@@ -129,10 +129,12 @@ function setCryptoAddress(coin, requisites) {
 
 const setPaymentData = (formData, ticketData) => async (dispatch, getState) =>  {
   const {PriceList} = await getState();
+  console.log(PriceList)
       dispatch(setRequestStatus(true))
   const { coin, amount } = formData;
   const {userId} = ticketData
-  const {currency_name, currency_ticker, requisites} = setCryptoAddress(coin,PriceList.requisites);
+  const {currency_name, currency_ticker, requisites, id} = setCryptoAddress(coin,PriceList.requisites);
+  ticketData.requisiteId = id
   const fullCurrencyName = `${currency_name} ( ${currency_ticker} )`
   const UserAutoMessgae = `${fullCurrencyName} ${amount}$`;
   

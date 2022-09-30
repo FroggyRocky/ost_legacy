@@ -127,6 +127,10 @@
 .log .log-operation {
     text-align: center;
 }
+.log .log-description {
+    word-break: break-all;
+    max-width: 40%;
+}
 .log table td .log-roles {
     width: 172px;
     display: grid;

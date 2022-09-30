@@ -349,6 +349,9 @@ const Tickets = db.define('tickets', {
     solved: {
         type: DataTypes.BOOLEAN,
         defaultValue: 0
+    },
+    transaction_id: {
+        type:DataTypes.STRING,
     }
 });
 const TicketTypes = db.define('ticketTypes', {
@@ -411,7 +414,6 @@ Bms.belongsTo(BmTypes);
 Statuses.hasMany(Bms);
 Bms.belongsTo(Statuses);
 
-
 Bms.hasOne(Accounts);
 Accounts.belongsTo(Bms);
 
@@ -442,7 +444,8 @@ Message.belongsTo(Tickets);
 Users.hasOne(Message);
 Message.belongsTo(Users);
 
-
+Requisites.hasOne(Tickets)
+Tickets.belongsTo(Requisites)
 
 module.exports = {
     Faqs,

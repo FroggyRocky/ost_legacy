@@ -58,6 +58,7 @@ const ForgetPass = ({setPopUpState}) => {
                     value={emailState.email}
                     onChange={handleChange}
                     required
+                    autocomplete="off"
                 />
                 <button type='submit' className={`login-button forgetPass-button ${isSendingReq && 'login-button-disabled'}`}
              disabled={isSendingReq}>{isSendingReq ? 'Processing' : 'Send email'}</button>

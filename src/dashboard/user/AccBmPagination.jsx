@@ -20,7 +20,6 @@ const AccBmPagination = (props) => {
         from: null,
         to: new Date().setHours(23, 59, 59, 999),
     });
-
     const [usersPerPage, setUsersPerPage] = useState(+props.page)
     const [pagesAmount, setPagesAmount] = useState();
     const [currentPage, setCurrentPage] = useState(0)
@@ -29,13 +28,14 @@ const AccBmPagination = (props) => {
     }, [])
 
 
-    function updateGlobalTriffic() {
+    async function updateGlobalTriffic() {
         const filteredItems = props.itemsToPaginate.filter(el => el.id && el.proxy_id)
         const items = filteredItems.map(el => ({
             accountId: +el.id,
             proxyId: +el.proxy_id
         }))
         props.updateAllTraffic(items)
+        props.getUserData()
     }
 
     useEffect(() => {
@@ -66,7 +66,6 @@ const AccBmPagination = (props) => {
 
     function setItemsPerPage(number, page, searchId, problem, userId, approved, from, to) {
         async function sendPage() {
-
             props.setSeacrhedId(props.paginationType, +searchId)
             const adminData = await props.getUserData({
                 [props.paginationType]: number,
