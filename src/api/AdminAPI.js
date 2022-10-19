@@ -47,7 +47,6 @@ async function bmTypeCreateOrUpdate(data) {
 }
 
 async function accCreateOrUpdate(data) {
-    console.log(data)
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return axios.post(`${serverURL}/account`,
@@ -237,6 +236,7 @@ function updateAllProxyTraffic(items) {
     let token = localStorage.getItem('token');
     if (!token) token = sessionStorage.getItem('token');
     return axios.post(`${serverURL}/update-all-proxy-traffic`, {items: items}, {
+        timeout:5000,
         headers: {Authorization: 'Bearer ' + token}
     })
 }

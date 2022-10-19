@@ -128,33 +128,40 @@ function setCryptoAddress(coin, requisites) {
 }
 
 const setPaymentData = (formData, ticketData) => async (dispatch, getState) =>  {
+  try {
+
+
   const {PriceList} = await getState();
-  console.log(PriceList)
-      dispatch(setRequestStatus(true))
+  dispatch(setRequestStatus(true))
   const { coin, amount } = formData;
   const {userId} = ticketData
   const {currency_name, currency_ticker, requisites, id} = setCryptoAddress(coin,PriceList.requisites);
   ticketData.requisiteId = id
   const fullCurrencyName = `${currency_name} ( ${currency_ticker} )`
-  const UserAutoMessgae = `${fullCurrencyName} ${amount}$`;
-  
+    let UserAutoMessage;
+    if(currency_ticker === 'USDT TRC-20') {
+      UserAutoMessage = `${fullCurrencyName} ${amount}.0${userId}$`;
+    } else {
+      UserAutoMessage = `${fullCurrencyName} ${amount}$`;
+    }
   const AdminAutoMessage = `HELLO! HERE YOUR ${fullCurrencyName} ADDRESS: ${requisites}`;
   const res = await AdminAPI.ticketCreateOrUpdate(ticketData);
   if (res.status === 200) {
     const tickets = await AdminAPI.getTickets();
     if (tickets.status === 200) {
     const createdTicketId = tickets.data.tickets[0].id;
-    const res = await setPaymentAutoMessage(createdTicketId, userId, UserAutoMessgae);
+    const res = await setPaymentAutoMessage(createdTicketId, userId, UserAutoMessage);
     const res1 = await setPaymentAutoMessage(createdTicketId, 1, AdminAutoMessage);
     const res3 = await UserAPI.getUserEmailById(userId)
-
     if(res.status === 200 && res1.status === 200 && res3.status === 200) {
       dispatch(setTopUpData(coin, amount, createdTicketId,res3.data));
       dispatch(setPaymentTicketStatus(true));
       dispatch(setRequestStatus(false));
     }
-    
     }
+  }
+  } catch (e) {
+    console.log(e)
   }
 };
 const setInvitedEmails = (emails) => ({type:SET_INVITED_EMAILS, emails})

@@ -4,6 +4,9 @@
   }
 
 @media only screen and (max-width: 765px) {
+    .accounts {
+        position: relative;
+    }
     .accounts .accounts-table .create-date, .multi {
         display: none !important;
     }
@@ -21,6 +24,9 @@
     margin-left: 18px;
 }
 @media only screen and (max-width: 660px) {
+    .accounts {
+        position: relative;
+    }
     .accounts .accounts-table .accounts-table-bm-id {
         width: 1% !important;
     }
@@ -29,6 +35,9 @@
     }
 }
 @media only screen and (max-width: 545px) {
+    .accounts {
+        position: relative;
+    }
     .accounts .accounts-header .accounts-header-name {
         font-size: 38px !important;
     }

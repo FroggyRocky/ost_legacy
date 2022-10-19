@@ -44,7 +44,6 @@ exports.setPhone = async (req, res) => {
 };
 exports.adminPhone = async (req, res) => {
     if (req.permission.faq_update) {
-        console.log(req.body);
         try {
             await modules.Phones.update({text: req.body.text}, {
                 where: {

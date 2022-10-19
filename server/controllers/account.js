@@ -8,6 +8,7 @@ require('dotenv').config();
 exports.account = async (req, res) => {
     if (req.permission.acc_bm_update) {
         try {
+
             const data = {
                 statusId: req.body.data.statusId,
                 countryId: req.body.data.countryId,
@@ -32,8 +33,8 @@ exports.account = async (req, res) => {
                 token: req.body.data.token,
                 archived: req.body.data.archived || false,
                 cookies: req.body.data.cookies || null,
+                birth:req.body.data.birth
             };
-            console.log(data)
             if (req.body.data.id) {
                 const currentAcc = await modules.Accounts.findByPk(req.body.data.id, {
                     attributes: ['userId', 'creator']

@@ -34,8 +34,9 @@ const AccBmPagination = (props) => {
             accountId: +el.id,
             proxyId: +el.proxy_id
         }))
-        props.updateAllTraffic(items)
-        props.getUserData()
+        await props.updateAllTraffic(items)
+        const adminData = await props.getUserData();
+        props.setUserState(adminData.data);
     }
 
     useEffect(() => {
@@ -57,7 +58,6 @@ const AccBmPagination = (props) => {
     function changeUserPerPage(e) {
         const val = +e.target.value
         setUsersPerPage(val)
-
     }
 
     function handlePageChange({selected}) {
@@ -76,10 +76,8 @@ const AccBmPagination = (props) => {
                 from: from,
                 to: to
             });
-
             props.setUserState(adminData.data);
         }
-
         sendPage().then();
     }
 

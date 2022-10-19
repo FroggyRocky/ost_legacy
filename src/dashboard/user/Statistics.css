@@ -47,6 +47,11 @@
 .statistics table .statistics-table-spacer {
     height: 8px;
 }
+@media (max-width: 760px) {
+    .statistics {
+        position: relative;
+    }
+}
 /*
 .statistics-table td, .statistics-table th {
     text-align: center;

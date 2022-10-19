@@ -1,4 +1,7 @@
 @media only screen and (max-width: 680px) {
+    .bm {
+        position: relative;
+    }
     .bm .bm-table .create-date, .link2, .link3 {
         display: none !important;
     }

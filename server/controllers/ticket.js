@@ -30,7 +30,6 @@ exports.ticketType = async (req, res) => {
     }
 };
 exports.ticket = async (req, res) => {
-
     try {
         if (req.body.data.id) {
             await modules.Tickets.update(
@@ -58,7 +57,6 @@ exports.ticket = async (req, res) => {
                 data.userId = req.id;
             }
             await modules.Tickets.create({...data});
-            console.log(req.id, req.body.data.userId)
             await modules.Log.create({
                 owner: req.body.data.userId || req.id,
                 receiver: req.body.data.userId || req.id,

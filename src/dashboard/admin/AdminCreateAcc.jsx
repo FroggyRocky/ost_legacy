@@ -3,7 +3,6 @@ import './AdminCreateAcc.css'
 import {ReactComponent as Cross} from "../../img/cross.svg";
 import AccountBmDropDown from "../../common/AccountBmDropDown";
 
-
 const AdminCreateAcc = (props) => {
     useEffect(() => {
         if (props.account) {
@@ -115,7 +114,6 @@ const AdminCreateAcc = (props) => {
 
     function handleSubmit(event) {
         event.preventDefault();
-
         async function postAcc() {
             const res = await props.accCreateOrUpdate(accountState);
             const adminData = await props.getUserData();
@@ -128,11 +126,9 @@ const AdminCreateAcc = (props) => {
                 accountState.id || setAccountState(setDefaultValues(accountState.statusId, accountState.countryId))
 
             } else {
-
                 alert('Something went wrong')
             }
         }
-
         postAcc().then();
     }
 
@@ -147,7 +143,22 @@ const AdminCreateAcc = (props) => {
         });
         setAccModalState(false);
     }
-
+function handleBirthChange(e) {
+    let value = e.target.value.replace(/\D+/g, '').substring(0, 8);
+    let valueArr = value.split('')
+    if (e.nativeEvent.data) {
+        valueArr = valueArr.map((el, index) => {
+            if (index === 1) {
+                return el + '/'
+            } else if (index === 3) {
+                return el + '/'
+            } else {
+                return el
+            }
+        })
+    }
+    setAccountState((prev) => ({...prev, [e.target.name]: valueArr.join('')}))
+}
     function handleChange(event) {
         setAccountState({...accountState, [event.target.name]: event.target.value});
     }
@@ -236,9 +247,9 @@ const AdminCreateAcc = (props) => {
                             className='text-input'
                             type='text'
                             name='birth'
-                            placeholder='birthday'
+                            placeholder='DD/MM/YYYY'
                             value={accountState.birth}
-                            onChange={handleChange}
+                            onChange={handleBirthChange}
                             maxLength='15'
                         />
                     </div>

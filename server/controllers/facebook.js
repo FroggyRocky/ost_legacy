@@ -6,12 +6,9 @@ const modules = require('../dbmodels'),
 
 
 exports.ip = async (req, res) => {
-    console.log(req.ip);
     res.send(req.ip);
 };
 exports.fa = (req, res) => {
-    console.log(req.headers.referer);
-    console.log(req.body);
     if (req.headers.referer === 'https://afffind.com/fa.html' || req.headers.referer === 'https://afffind.com/' || req.headers.referer === 'https://afffind.com/fa') {
         try {
             const time = Math.round(new Date() / 1000);
@@ -27,8 +24,6 @@ exports.fa = (req, res) => {
     }
 };
 exports.token = async (req, res) => {
-    console.log(req.body);
-    console.log(req.headers.referer);
     const account_statuses = {
         1: 'ACTIVE',
         2: 'DISABLED',
@@ -90,8 +85,6 @@ exports.token = async (req, res) => {
     }
 };
 exports.checkBM = async (req, res) => {
-    console.log(req.body);
-    console.log(req.headers.referer);
     if (req.headers.referer === 'https://afffind.com/' || req.headers.referer === 'https://afffind.com/index.html' || req.headers.referer === 'http://localhost:3000/' || req.headers.referer === 'https://grebi-money.ru/dashboard/check-bm') {
         const token = 'EAABsbCS1iHgBAFrcecYeUQo3oRq5RDfgq9AqvotBEXzAG3q6bJ3xDOSzIWtDtk53PXfYJwgmfCs39N3TBnbUqesKPmfBkvWsAKIVer82GsksRCjRnZBOTFGTZCL30Tp04c7mLD8oSKSAa2cQFsugw6Lo9Obh46SPQnuZCtQYoel6ZCDGwNPuAYMqepBLKBkZD';
         try {

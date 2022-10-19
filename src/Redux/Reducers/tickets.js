@@ -125,7 +125,7 @@ const sendFiles = (ticketId) => async (dispatch, getState) => {
             if (resMsg.status === 200) {
                 dispatch(setFilesInLoad(resMsg.data.id))
                 const resS3 = await UserAPI.uploadS3File(file)
-                dispatch(clearImgsPreview());
+                await dispatch(clearImgsPreview());
                 if (resS3.status === 200) {
                     const {location, fileName} = resS3.data
                     const messageData = {

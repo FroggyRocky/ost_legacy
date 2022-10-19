@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {Redirect} from 'react-router-dom';
 import axios from "axios";
 import {serverURL} from '../api/URL';
@@ -25,13 +25,16 @@ const LoginForm = ({setPopUpState}) => {
         status: false,
         err: '',
         code: '',
-        });
-        
+        userEmail: ''
+    });
+
     const inputRef = useRef(null);
+
     function handleChange(event) {
         if (event.target.name === 'token') event.target.value = event.target.value.replace(/\D/g, '');
         setFormState({...formState, [event.target.name]: event.target.value});
     }
+
     function handleSwitchChange(event) {
         setFormState({...formState, [event.target.name]: event.target.checked});
     }
@@ -55,47 +58,61 @@ const LoginForm = ({setPopUpState}) => {
                             } else {
                                 sessionStorage.setItem('token', res.data.token);
                             }
-                            
+
                             setRedirectState(true);
-                        } setReqStatus(false)
-                    } else { 
+                        }
                         setReqStatus(false)
-                        res.data.code === 'qrcode' ? handle2Fa(res.data.err) : handleError(res.data.err, res.data.code);
+                    } else {
+                        setReqStatus(false)
+                        res.data.code === 'qrcode' ? handle2Fa(res.data.err) : handleError(res.data.err, res.data.code, res.data?.userEmail);
                     }
                 }).catch(err => {
                 console.log(err);
                 setReqStatus(false)
                 setLoginState({status: true, err: 'Server is not available'})
             })
-   
+
         }
-        
+
     }
+
     function handle2FaClick(event) {
         inputRef.current.focus();
         if (formState.token !== '') handleSubmit(event);
     }
 
-    function handleError(text, code) {
-        window.addEventListener('keydown', (event) => {if (event.keyCode === 27) handleClick()});
+    function handleError(text, code, userEmail) {
+        window.addEventListener('keydown', (event) => {
+            if (event.keyCode === 27) handleClick()
+        });
         setLoginState({
             status: true,
             err: text,
-            code: code
+            code: code,
+            userEmail: userEmail
         });
 
     }
-  
+
     function handle2Fa(text) {
-        window.addEventListener('keydown', (event) => {if (event.keyCode === 27) handle2FaClose()});
+        window.addEventListener('keydown', (event) => {
+            if (event.keyCode === 27) handle2FaClose()
+        });
         setToken2fa({status: true, err: text});
     }
+
     function handle2FaClose() {
-        window.removeEventListener('keydown', (event) => {if (event.keyCode === 27) handle2FaClose()});
-        setToken2fa({status: false, err: ''}); setFormState({...formState, token: ''});
+        window.removeEventListener('keydown', (event) => {
+            if (event.keyCode === 27) handle2FaClose()
+        });
+        setToken2fa({status: false, err: ''});
+        setFormState({...formState, token: ''});
     }
-    function handleClick () {
-        window.removeEventListener('keydown', (event) => {if (event.keyCode === 27) handleClick()});
+
+    function handleClick() {
+        window.removeEventListener('keydown', (event) => {
+            if (event.keyCode === 27) handleClick()
+        });
         setLoginState({status: false, err: ''});
     }
 
@@ -136,13 +153,13 @@ const LoginForm = ({setPopUpState}) => {
                         Remember
                         </span>
                 </label>
-                <div className='change-page' onClick={() => setPopUpState(true,1)}>
+                <div className='change-page' onClick={() => setPopUpState(true, 1)}>
                     Forgot password?
                 </div>
             </div>
             <button type='submit' className={`login-button ${isSendingReq && 'login-button-disabled'}`}
-             disabled={isSendingReq}>{isSendingReq ? 'Processing...' : 'Login'}</button>
-            <div className='change-page' onClick={() => setPopUpState(true,2)}>
+                    disabled={isSendingReq}>{isSendingReq ? 'Processing...' : 'Login'}</button>
+            <div className='change-page' onClick={() => setPopUpState(true, 2)}>
                 Registration
             </div>
             {redirectState && <Redirect to='/dashboard'/>}
@@ -153,9 +170,16 @@ const LoginForm = ({setPopUpState}) => {
                     </div>
                     <div className='login-modal-window-data'>
                         {loginState.code === 'activation' && <Activation/>}
-                        <p>{loginState.err}</p>
+                        {loginState.code === 'activation' ?
+                            <p>Please confirm your email. <br/>
+                                Use the link from the letter sent on {loginState.userEmail} to start the confirmation
+                                process. <br/>
+                                If you do not receive the email please check your spam filter or contact
+                                us.</p> :
+                            <p>{loginState.err}</p>
+                        }
                     </div>
-                    <button className='login-button' onClick={handleClick} >
+                    <button className='login-button' onClick={handleClick}>
                         OK
                     </button>
                 </div>
@@ -185,7 +209,7 @@ const LoginForm = ({setPopUpState}) => {
                         {token2fa.err !== 'qrcode' && <div className='login-modal-error'>{token2fa.err}</div>}
                     </div>
                     <button className={`login-button ${isSendingReq && 'login-button-disabled'}`}
-                     onClick={handle2FaClick}>{isSendingReq ? 'Processing...' : 'Login'}</button>
+                            onClick={handle2FaClick}>{isSendingReq ? 'Processing...' : 'Login'}</button>
                 </div>
             </div>}
         </form>

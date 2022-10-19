@@ -17,7 +17,6 @@ const RootReducer = combineReducers({
     Tickets:tickets,
     Mail:mail,
     Pagination:pagination
-
 })
 
 type RootStoreType = typeof RootReducer

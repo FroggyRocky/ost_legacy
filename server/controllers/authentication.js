@@ -158,7 +158,8 @@ exports.login = async (req, res) => {
                 if (!user.approved || !user.active) {
                     !user.approved && res.json({
                         code: 'activation',
-                        err: 'Please confirm your email\n' + `Use the link from the letter sent on ${userLogin.email} to start the confirmation process. If you do not receive the email please check your spam filter or contact us.`
+                        err:'activation',
+                        userEmail:userLogin.email
                     });
                     !user.active && res.json({err: 'Your account has been disabled'});
                 } else {

@@ -3,7 +3,7 @@ const modules = require('../dbmodels'),
     {Op} = require('sequelize');
 
 exports.data = async function (req, res) {
-    /*console.log(req.body);*/
+
     const userData = {};
     try {
         if (req.id) {

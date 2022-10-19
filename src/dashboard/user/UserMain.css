@@ -8,5 +8,7 @@
     .main {
         padding: 1% 1% 45px 1% !important;
         overflow: auto;
+        overflow-x:hidden;
+        margin: 0 1% 0 0;
     }
 }

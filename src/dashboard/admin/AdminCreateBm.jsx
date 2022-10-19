@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useTransition} from 'react';
 import './AdminCreateBm.css'
 import {ReactComponent as Cross} from "../../img/cross.svg";
 import AccountBmDropDown from "../../common/AccountBmDropDown";
@@ -20,7 +20,7 @@ const AdminCreateBm = (props) => {
     }
 
     const [bmState, setBmState] = useState(props.bm ? {
-            id: props.bm.id,
+            id: props.bm.id || props.bmTypes[0].id,
             statusId: props.bm.statusId || 1,
             userId: props.bm.userId || '',
             bmTypeId: props.bm.bmTypeId || 1,
@@ -31,16 +31,16 @@ const AdminCreateBm = (props) => {
             link3: props.bm.link3,
             faceToken: props.bm.faceToken,
             changeBm: '',
-        name:props.bmTypes?.find(el => +el.id === +props.bm?.bmTypeId).name,
-        type:props.bm.type,
+        name:props.bmTypes?.find(el => +el.id === +props.bm?.bmTypeId).name || props.bmTypes[0].name,
+        type:props.bm.type || props.bmTypes[0].type,
         } : setDefaultValues(1, 1)
     );
-    console.log(bmState, props.bm.type)
     const [currentBM, setCurrentBM] = useState({
-        name:`${bmState.name}`,
-        id:bmState.bmTypeId,
-        type:bmState.type,
+        name:bmState.name || props.bmTypes[0].name,
+        id:bmState.bmTypeId || props.bmTypes[0].id,
+        type:bmState.type || props.bmTypes[0].type
     })
+    console.log(currentBM)
     const listOfBm = props.bmTypes?.map((el) => ({
         name:`${el.name}`,
         id:el.id,
@@ -73,7 +73,6 @@ useEffect(() => {
 
     function handleClick(event) {
         event.preventDefault();
-
         async function postBm() {
             const res = await props.bmCreateOrUpdate(bmState);
             const adminData = await props.getUserData();

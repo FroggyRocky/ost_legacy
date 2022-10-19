@@ -138,7 +138,7 @@ animation-duration: 400ms;
 }
 .pagination .pagination-area {
     position:absolute;
-    bottom: 5px;
+    top: 100%;
     margin: auto auto;
     display: grid;
     grid-auto-flow: column;
