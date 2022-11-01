@@ -9,17 +9,6 @@ import {NavLink} from 'react-router-dom';
 
 function ReqContainer({requisites, isReqLoaded, getRequisites, deleteReq, updateReq}) {
 
-    // const [initialValues, setInitialValues] = useState({})
-
-// function getInitialValue() {
-//       for(let i = 0; i < requisites?.length; i++) {
-//             setInitialValues(prev => ({
-//                 ...prev,
-//                 [requisites[i].currency_ticker]:requisites[i].requisites
-//             }))
-//         }
-// }
-
     useEffect(async () => {
         // await getRequisites();
     }, [requisites])
@@ -31,7 +20,14 @@ function ReqContainer({requisites, isReqLoaded, getRequisites, deleteReq, update
     }
 
     useEffect(async () => {
-        await getRequisites();
+        async function fetchReq() {
+            await getRequisites();
+        }
+
+        fetchReq()
+            .catch(e => {
+                console.log(e)
+            })
     }, [])
 
     return <div className='requisites-header'>

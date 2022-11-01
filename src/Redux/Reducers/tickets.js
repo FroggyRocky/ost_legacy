@@ -12,7 +12,6 @@ const SET_IMG_ZOOM_STATE = 'Reducers/tickets/SET_IMG_ZOOM_STATE'
 const SET_TICKET_MODAL_STATE = 'Reducers/tickets/SET_TICKET_MODAL_STATE'
 const SET_UNREAD_TICKETS = 'Reducers/tickets/SET_UNREAD_TICKETS'
 const SET_USER_TICKETS = 'Reducers/tickets/SET_USER_TICKETS'
-const TICKETS_EXPIRATION_DATE = 3
 
 const initialState = {
     userTickets: [],
@@ -51,6 +50,7 @@ export default function tickets(state = initialState, action) {
                     isAttaching: false
                 }
             }
+            break;
         case DELETE_IMG_PREVIEW:
             return {
                 ...state,

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Manager.css";
-import {Link} from 'react-router-dom'
 import { ReactComponent as Skype } from "../img/skype.svg";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";

@@ -161,7 +161,7 @@ function Statistics(props) {
             <tr>
                 <td className='acc-id alert-info' onClick={handleClick} 
                     id={el.id}>{el.id} {props.countries && TableAdditionalInfo.getValueById(props.countries, el.countryId)}{el.type?.toLowerCase() === 'verified' && <img width='18' height='18' src={verified} alt='verified' />}</td>
-                <td colSpan='18'>{isLoading.state === true && isLoading.id == el.id && <CircularProgress />}</td>
+                <td colSpan='18'>{isLoading.state === true && +isLoading.id === +el.id && <CircularProgress />}</td>
             </tr>
             <tr className='statistics-table-spacer'></tr>
             </tbody>

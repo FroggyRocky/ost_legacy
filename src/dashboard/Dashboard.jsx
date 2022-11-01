@@ -32,11 +32,10 @@ const Dashboard = (props) => {
                 props.checkBalanceTicketTransfer(userState.tickets)
             }
         }
-    }, [userState?.tickets])
+    }, [userState?.tickets, userState])
 
     useEffect(() => {
         checkToken();
-
         async function fetchData() {
             const res = await UserAPI.getUserData();
             if (res.data === 'clear') {

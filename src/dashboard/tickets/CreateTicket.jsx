@@ -9,7 +9,6 @@ import DropDown from '../../common/DropDown';
 const CreateTicket = (props) => {
 
 
-
     useEffect(() => {
         async function checkExistingTicket() {
             const existingTicket = props.tickets?.find(el => el.title === ticketState.title)
@@ -29,16 +28,16 @@ const CreateTicket = (props) => {
         }
 
         checkExistingTicket().then()
-    }, [props.isCreateTicketModalOn])
+    }, [props.isCreateTicketModalOn, ticketState.title])
 
     useEffect(() => {
         async function sendToFoundTicket() {
             const location = window.location.pathname.split('/')[2]
             let foundTicketType;
             if (location === 'accounts') {
-                foundTicketType = props.ticketTypes.find(el => el.name == 'Account')
+                foundTicketType = props.ticketTypes.find(el => el.name === 'Account')
             } else if (location === 'bm') {
-                foundTicketType = props.ticketTypes.find(el => el.name == 'BM')
+                foundTicketType = props.ticketTypes.find(el => el.name === 'BM')
             }
             if (foundTicketType) {
 
@@ -97,75 +96,74 @@ const CreateTicket = (props) => {
     }
 
 
-
-        return (
-            <form className='ticket-create' onSubmit={handleSubmit}>
-                {isRedirectToExistingTicket.redirect &&
-                    <Redirect to={`/dashboard/tickets/ticket/${isRedirectToExistingTicket.ticketId}`}/>}
-                {/*{console.log(ticketState)}*/}
-                <div className='header-standard'>
-                    Create Ticket
-                </div>
-                <div className='row-long'>
-                    <div className='row-standard'>
-                        <div className='row-standard__name'>
-                            Type
-                        </div>
-                        <div className='createTicket-type-container'>
-                            {props.isCreateTicketModalOn ?
-                                <div className='createTicket-id'>
-                                    <div className='input-text modal-title-text'>{ticketState.title.split(':')[0]}</div>
-                                </div> :
-                                <div className='createTicket-dropDown'>
-                                    <DropDown
-                                              placeholder={currentOption} defaultPlaceholder='Select Type'
-                                              dropDownOptions={options} selectOption={handleTypeChange}/>
-                                </div>}
-                        </div>
-                    </div>
-                    {props.admin && <div className='row-standard'>
-                        <div className='row-standard__name'>
-                            User
-                        </div>
-                        <div className='row-standard__data'>
-                            <input
-                                className='input-text'
-                                type='number'
-                                name='userId'
-                                placeholder='Id'
-                                value={ticketState.userId}
-                                onChange={handleChange}
-                                maxLength="5"
-                                required
-                            />
-                        </div>
-                    </div>}
-                </div>
+    return (
+        <form className='ticket-create' onSubmit={handleSubmit}>
+            {isRedirectToExistingTicket.redirect &&
+                <Redirect to={`/dashboard/tickets/ticket/${isRedirectToExistingTicket.ticketId}`}/>}
+            {/*{console.log(ticketState)}*/}
+            <div className='header-standard'>
+                Create Ticket
+            </div>
+            <div className='row-long'>
                 <div className='row-standard'>
                     <div className='row-standard__name'>
-                        Title
+                        Type
                     </div>
-                    <div className='createTicket-id'>
+                    <div className='createTicket-type-container'>
                         {props.isCreateTicketModalOn ?
-                            <div className='input-text modal-title-text'>{ticketState.title}</div> :
-                            <input
-                                className='input-text'
-                                type='text'
-                                name='title'
-                                placeholder='Title'
-                                value={ticketState.title}
-                                onChange={handleChange}
-                                required
-                                maxLength="100"
-                            />
-                        }
+                            <div className='createTicket-id'>
+                                <div className='input-text modal-title-text'>{ticketState.title.split(':')[0]}</div>
+                            </div> :
+                            <div className='createTicket-dropDown'>
+                                <DropDown
+                                    placeholder={currentOption} defaultPlaceholder='Select Type'
+                                    dropDownOptions={options} selectOption={handleTypeChange}/>
+                            </div>}
                     </div>
                 </div>
-                <div className='row-standard'>
+                {props.admin && <div className='row-standard'>
                     <div className='row-standard__name'>
-                        Description
+                        User
                     </div>
-                    <div className='row-standard__data full-width'>
+                    <div className='row-standard__data'>
+                        <input
+                            className='input-text'
+                            type='number'
+                            name='userId'
+                            placeholder='Id'
+                            value={ticketState.userId}
+                            onChange={handleChange}
+                            maxLength="5"
+                            required
+                        />
+                    </div>
+                </div>}
+            </div>
+            <div className='row-standard'>
+                <div className='row-standard__name'>
+                    Title
+                </div>
+                <div className='createTicket-id'>
+                    {props.isCreateTicketModalOn ?
+                        <div className='input-text modal-title-text'>{ticketState.title}</div> :
+                        <input
+                            className='input-text'
+                            type='text'
+                            name='title'
+                            placeholder='Title'
+                            value={ticketState.title}
+                            onChange={handleChange}
+                            required
+                            maxLength="100"
+                        />
+                    }
+                </div>
+            </div>
+            <div className='row-standard'>
+                <div className='row-standard__name'>
+                    Description
+                </div>
+                <div className='row-standard__data full-width'>
                     <textarea
                         className='input-text'
                         rows='7'
@@ -176,27 +174,27 @@ const CreateTicket = (props) => {
                         required
                         style={{resize: 'none'}}
                     />
-                    </div>
                 </div>
-                <button className='button-standard createTicket-button' type='submit'>Save</button>
-                {ticketModalState && <div className='modal'>
-                    <div className='modal-window'>
-                        <div className='modal-window-data'>
-                            New ticket has been created
-                        </div>
-                        <NavLink className='modal-button-link' to={`/dashboard/tickets`}>
-                            OK
-                        </NavLink>
+            </div>
+            <button className='button-standard createTicket-button' type='submit'>Save</button>
+            {ticketModalState && <div className='modal'>
+                <div className='modal-window'>
+                    <div className='modal-window-data'>
+                        New ticket has been created
                     </div>
-                </div>}
-            </form>
-        );
-    };
+                    <NavLink className='modal-button-link' to={`/dashboard/tickets`}>
+                        OK
+                    </NavLink>
+                </div>
+            </div>}
+        </form>
+    );
+};
 
 
-    const mapStateToProps = (state) => ({
-        isCreateTicketModalOn: state.Tickets.isCreateTicketModalOn
-    })
+const mapStateToProps = (state) => ({
+    isCreateTicketModalOn: state.Tickets.isCreateTicketModalOn
+})
 
 
-    export default connect(mapStateToProps, {setTicketModalState, setProblemTicket})(CreateTicket);
+export default connect(mapStateToProps, {setTicketModalState, setProblemTicket})(CreateTicket);

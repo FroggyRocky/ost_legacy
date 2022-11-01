@@ -16,13 +16,13 @@ export default function Footer(props) {
               <h2 className={styles.socialMedia_header_desk}>SOCIAL MEDIA</h2>
               <p>Please feel free to follow us on all social media to</p>
               <ul>
-                <a href="" className="link">
+                <a href="#" className="link">
                   Telegram
                 </a>
-                <a href="" className="link">
+                <a href="#" className="link">
                   Discord
                 </a>
-                <a href="" className="link">
+                <a href="#" className="link">
                   Skype
                 </a>
               </ul>

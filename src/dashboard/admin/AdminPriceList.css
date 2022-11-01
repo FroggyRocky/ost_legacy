@@ -1,11 +1,13 @@
 .admin-price {
     color: white;
 }
+
 .admin-price .admin-price-header {
     font-family: "Montserrat sBold", sans-serif;
     font-size: 48px;
     margin-bottom: 32px;
 }
+
 .admin-price .admin-price-category {
     font-size: 24px;
     margin-bottom: 24px;

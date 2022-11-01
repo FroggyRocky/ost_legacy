@@ -1,4 +1,3 @@
-import React, {useEffect} from 'react';
 import AdminCountries from "./AdminCountries";
 import AdminBmType from "./AdminBmType";
 import '../admin/AdminPriceList.css'
@@ -19,7 +18,7 @@ const AdminPriceList = (props) => {
             bmTypes={props.bmTypes}
             user={props.user}
         />
-    <ReqContainer/>
+        <ReqContainer/>
     </div>
 };
 

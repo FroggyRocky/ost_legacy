@@ -59,7 +59,7 @@ const Registration = ({setPopUpState, ...props}) => {
                 if (event.keyCode === 27) handleOkClick()
             });
             setSubmitState(false)
-            return setModalState({status: true, err: 'ResetPassword confirmation doesnt match password', login: false})
+            return setModalState({status: true, err: 'Passwords do not match', login: false})
         } else {
             setPageState(true);
             setSubmitState(false)
@@ -160,7 +160,7 @@ const Registration = ({setPopUpState, ...props}) => {
                     {isSubmitting ? 'Processing' : 'Next step'}
                 </button>
             </form>}
-            {pageState && <>
+            {pageState && <form onSubmit={handleSubmit}>
                 <div className='registration-step'><span className='registration-step-back'
                                                          onClick={() => setPageState(false)}><Left/></span> Step 2/2
                 </div>
@@ -189,6 +189,7 @@ const Registration = ({setPopUpState, ...props}) => {
                         placeholder='Enter your Telegram'
                         value={registrationState.telegram}
                         onChange={handleChange}
+                        required
                     />
                 </div>
                 <div className='registration-input'>
@@ -219,11 +220,11 @@ const Registration = ({setPopUpState, ...props}) => {
                 </div>
                 <button
                     className={`login-button ${isSendingReq && 'login-button-disabled'}`}
-                    onClick={handleSubmit}
+                    type={"submit"}
                     disabled={isSendingReq}>
                     {isSendingReq ? 'Processing' : 'Create account'}
                 </button>
-            </>}
+            </form>}
             {modalState.status && <div className='login-modal'>
                 <div className='login-modal-window'>
                     {!modalState.login && <div className='login-modal-window-close' onClick={handleOkClick}>

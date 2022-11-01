@@ -300,12 +300,12 @@ exports.updateAllProxyTraffic = async (req, res) => {
                     id: id,
                     proxy_id: proxyId,
                 }
-                axios.get(`https://astroproxy.com/api/v1/ports/${proxyId}?token=${process.env.PROXY_TOKEN}`, {
-                    timeout: 1000,
+                await axios.get(`https://astroproxy.com/api/v1/ports/${proxyId}?token=${process.env.PROXY_TOKEN}`, {
+                    timeout: 5000,
                     headers: {'Accept': 'application/json'}
                 })
                     .then(async (result) => {
-                        await modules.Accounts.update({
+                        const response = await modules.Accounts.update({
                             proxy_traffic_left: result.data.data.traffic.left,
                             proxy_traffic_total: result.data.data.traffic.total
                         }, {

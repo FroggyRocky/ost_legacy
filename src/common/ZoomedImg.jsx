@@ -10,6 +10,7 @@ export default function ZoomedImg(props) {
         return document.removeEventListener('keydown', checkKey)
     }
         function checkKey(e) {
+        console.log(e)
             if(+e.keyCode === 27) {
                 props.setImgZoomState(null)
             }
@@ -17,13 +18,6 @@ export default function ZoomedImg(props) {
      document.addEventListener('keydown', checkKey)
         return removeEvent
     }, [])
-
-    // function checkKey(e) {
-    //     console.log('call')
-    //     if (e.keyCode == 27) {
-    //         props.setImgZoomState(null)
-    //     }
-    // }
 
     function closeModal(e) {
         const target = e.target.className

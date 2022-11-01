@@ -80,7 +80,7 @@ const AccountsTable = (props) => {
             document.body.style.overflowY = 'auto'
         }
     }, [modalAddTrafficState])
-    useEffect(async () => {
+    useEffect( () => {
         props.setTicketModalState(modalAddTicketState.active)
     }, [modalAddTicketState.active])
 
@@ -615,7 +615,7 @@ const AccountsTable = (props) => {
     }
 
     return (<div className='accounts'>
-        {props.updateAllTrafficError !== '' && <Modal closeModal={closeModal} smallModal={true} header={props.updateAllTrafficError} text={'Please check that data of all accounts\' proxies is valid'} />}
+        {props.updateAllTrafficError !== '' && <Modal closeModal={closeModal} smallModal={true} header={props.updateAllTrafficError} text={'Some accounts haven\'t been updated. Please check that data of all accounts\' proxies is valid'} />}
         {!props.archivePage && <div className='accounts-header'>
             <div className='accounts-header-name'>
                 Accounts

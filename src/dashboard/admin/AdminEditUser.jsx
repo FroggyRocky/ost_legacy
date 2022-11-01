@@ -7,7 +7,6 @@ import DropDown from '../../common/DropDown';
 const AdminEditUser = (props) => {
 
 
-
     const [adminSettingsState, setAdminSettingsState] = useState({
         id: props.user.id,
         email: props.user.email,
@@ -37,17 +36,18 @@ const AdminEditUser = (props) => {
 
     useEffect(() => {
         const currentManager = props.managerList.find(el => el.id === props.user.managerId)
-        if(currentManager) {
+        if (currentManager) {
 
             setManager({...currentManager})
         }
-    }, [])
+    }, [props.managerList])
 
     const [okModalState, setOkModalState] = useState(false);
     const [disabledBalanceState, setDisabledBalanceState] = useState(true);
+
     function handleSwitchChange(event) {
         if (event.target.id === 'admin' && event.target.checked === false) {
-            setAdminSettingsState({ ...adminSettingsState, [event.target.id]: event.target.checked });
+            setAdminSettingsState({...adminSettingsState, [event.target.id]: event.target.checked});
             setPermissionsState({
                 acc_bm: 0,
                 acc_bm_update: false,
@@ -63,15 +63,17 @@ const AdminEditUser = (props) => {
                 faq_update: false
             });
         } else {
-            setAdminSettingsState({ ...adminSettingsState, [event.target.id]: event.target.checked });
+            setAdminSettingsState({...adminSettingsState, [event.target.id]: event.target.checked});
         }
     }
-    const [manager, setManager] = useState({name:'', id:null})
+
+    const [manager, setManager] = useState({name: '', id: null})
 
     function selectManager(value) {
         setManager(value)
-        setAdminSettingsState(prev => ({...prev, managerId:value.id}))
+        setAdminSettingsState(prev => ({...prev, managerId: value.id}))
     }
+
     function handleRoleSwitchChange(event) {
         if (event.target.id === 'price_list' && event.target.checked === false) {
             setPermissionsState({
@@ -88,13 +90,13 @@ const AdminEditUser = (props) => {
                 [event.target.id]: event.target.checked
             });
         } else {
-            setPermissionsState({ ...permissionsState, [event.target.id]: event.target.checked });
+            setPermissionsState({...permissionsState, [event.target.id]: event.target.checked});
         }
     }
 
     function handleRadioChange(event) {
         if (event.target.name === 'acc_bm' && +event.target.id === 0) {
-            setPermissionsState({ ...permissionsState, acc_bm_update: false, [event.target.name]: +event.target.id });
+            setPermissionsState({...permissionsState, acc_bm_update: false, [event.target.name]: +event.target.id});
         } else if (event.target.name === 'users' && +event.target.id === 0) {
             setPermissionsState({
                 ...permissionsState,
@@ -105,33 +107,39 @@ const AdminEditUser = (props) => {
                 [event.target.name]: +event.target.id
             });
         } else {
-            setPermissionsState({ ...permissionsState, [event.target.name]: +event.target.id });
+            setPermissionsState({...permissionsState, [event.target.name]: +event.target.id});
         }
     }
 
     function handleChange(event) {
-        setAdminSettingsState({ ...adminSettingsState, [event.target.name]: event.target.value });
+        setAdminSettingsState({...adminSettingsState, [event.target.name]: event.target.value});
     }
 
     function handleClick(event) {
         event.preventDefault();
+
         async function putUserData() {
-            const res = await props.adminUserUpdate({ ...adminSettingsState, permissions: permissionsState });
+            console.log(adminSettingsState)
+            const res = await props.adminUserUpdate({...adminSettingsState, permissions: permissionsState});
             const adminData = await props.getUserData();
             props.setUserState(adminData.data);
             if (res.data === 'OK') {
-                window.addEventListener('keydown', (event) => { if (event.keyCode === 27) handleOkModalClick() });
+                window.addEventListener('keydown', (event) => {
+                    if (event.keyCode === 27) handleOkModalClick()
+                });
                 setOkModalState(true);
             } else {
                 alert('Something went wrong')
             }
         }
-    
+
         putUserData().then();
     }
 
     function handleOkModalClick() {
-        window.removeEventListener('keydown', (event) => { if (event.keyCode === 27) handleOkModalClick() });
+        window.removeEventListener('keydown', (event) => {
+            if (event.keyCode === 27) handleOkModalClick()
+        });
         setOkModalState(false);
     }
 
@@ -177,9 +185,9 @@ const AdminEditUser = (props) => {
                             Manager ID
                         </div>
                         <div className='editUser__dropDown'>
-                            <DropDown  dropDownOptions={props.managerList}
+                            <DropDown dropDownOptions={props.managerList}
                                       selectOption={selectManager}
-                                placeholder={manager.name} />
+                                      placeholder={manager.name}/>
                         </div>
                     </div>
                     {props.userCurrent.admin && props.userCurrent.permission.user_active &&
@@ -219,7 +227,8 @@ const AdminEditUser = (props) => {
                                     disabled={disabledBalanceState}
                                     min="0"
                                 />
-                                <div className='user-section-td-data-edit' onClick={handleConfirmActiveBalance}><Pencil /></div>
+                                <div className='user-section-td-data-edit' onClick={handleConfirmActiveBalance}>
+                                    <Pencil/></div>
                             </div>
                         </div>
                     </div>}
@@ -526,7 +535,7 @@ const AdminEditUser = (props) => {
             {okModalState && <div className='modal'>
                 <div className='modal-window'>
                     <div className='modal-window-close' onClick={handleOkModalClick}>
-                        <Cross />
+                        <Cross/>
                     </div>
                     <div className='modal-window-data'>
                         Your changes have been made

@@ -129,8 +129,6 @@ function setCryptoAddress(coin, requisites) {
 
 const setPaymentData = (formData, ticketData) => async (dispatch, getState) =>  {
   try {
-
-
   const {PriceList} = await getState();
   dispatch(setRequestStatus(true))
   const { coin, amount } = formData;

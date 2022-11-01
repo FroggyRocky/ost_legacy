@@ -13,9 +13,8 @@ import {ReactComponent as Plus} from '../../img/plus.svg';
 import {ReactComponent as Right} from '../../img/right.svg';
 
 const AdminLog = (props) => {
-
     const [searchState, setSearchState] = useState({
-        from: new Date().setHours(0, 0, 0, 0),
+        from: new Date().setDate(new Date().getDate() - 7),
         to: new Date().setHours(23, 59, 59, 999),
         operation: '0',
         userId: ''

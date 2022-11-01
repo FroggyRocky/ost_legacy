@@ -126,9 +126,7 @@
     align-items: center;
     justify-content: space-between;
     z-index: 5;
-    cursor: pointer;
 }
-
 
 .top-up-form-placeholder {
     font-family: 'Proxima Nova Rg';
@@ -252,9 +250,7 @@
     z-index: 5;
 }
 
-.top-up-arrow-off {
-    display: none;
-}
+
 
 .top-up-drop-down--option-container:hover {
     color: #61646B;

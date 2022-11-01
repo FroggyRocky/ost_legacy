@@ -49,8 +49,8 @@ return (<div className={`${styles.wrapper} ${isScrollingDown ? styles.header_hid
          onMouseOut={disableHover}
          onClick={togglePopUpState}
          >
-          <PersonIcon style={{ fontSize: 30, color: !isHovered ? "#767C89" : "white" }}/>
-          <a style={{color: !isHovered ? "#767C89" : "white" }}>Sign up</a>
+          <PersonIcon style={{ fontSize: 30, color: !isHovered ? "#767C89" : "white", cursor:'pointer'}}/>
+          <span style={{color: !isHovered ? "#767C89" : "white"}}>Sign up</span>
         </div>
       </div>
     </div>

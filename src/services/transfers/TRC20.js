@@ -18,13 +18,17 @@ export async function handleUSDT_TRC_20(ticket) {
 }
 
 async function handleUSDT_TRC_20_workerResponse(e) {
-    const foundTransfers = e.data
-    if(foundTransfers.length !== 0 && foundTransfers) {
-        const {netTranferValue, ticketId, transaction_id, ticketCreatorId} = foundTransfers[0]
-        await UserAPI.topUp(+netTranferValue, ticketCreatorId, transaction_id)
-        await UserAPI.solveTicket(ticketId, ticketCreatorId, transaction_id)
-    } else {
-        await UserAPI.solveTicket(foundTransfers[0].ticketId, foundTransfers[0].ticketCreatorId, foundTransfers[0].transaction_id)
+    try {
+        const foundTransfers = e.data
+        if (foundTransfers.length !== 0 && foundTransfers) {
+            const {netTranferValue, ticketId, transaction_id, ticketCreatorId} = foundTransfers[0]
+            await UserAPI.topUp(+netTranferValue, ticketCreatorId, transaction_id)
+            await UserAPI.solveTicket(ticketId, ticketCreatorId, transaction_id)
+        } else {
+            await UserAPI.solveTicket(foundTransfers[0].ticketId, foundTransfers[0].ticketCreatorId, foundTransfers[0].transaction_id)
+        }
+    } catch (e) {
+        return;
     }
 }
 

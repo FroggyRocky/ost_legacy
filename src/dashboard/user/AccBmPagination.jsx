@@ -82,27 +82,29 @@ const AccBmPagination = (props) => {
     }
 
     function handleChange(event) {
-        if (event.target.name === 'id') {
+        const value =  parseInt(event.target.value.replace(/\D+/g, ''))
+        const name = event.target.name
+        if (name === 'id') {
             setCurrentPage(0)
-            setDataState({...dataState, searchId: event.target.value});
-            setItemsPerPage(1, null, event.target.value, dataState.problem, dataState.userId, dataState.approved, dataState.from, dataState.to);
-        } else if (event.target.name === 'userId') {
+            setDataState({...dataState, searchId: value});
+            setItemsPerPage(1, null, value, dataState.problem, dataState.userId, dataState.approved, dataState.from, dataState.to);
+        } else if (name === 'userId') {
             setCurrentPage(0)
-            setDataState({...dataState, userId: event.target.value});
-            setItemsPerPage(1, null, null, dataState.problem, event.target.value, dataState.approved, dataState.from, dataState.to);
-        } else if (event.target.name === 'problem') {
+            setDataState({...dataState, userId:value});
+            setItemsPerPage(1, null, null, dataState.problem, value, dataState.approved, dataState.from, dataState.to);
+        } else if (name === 'problem') {
             setCurrentPage(0)
             setDataState({...dataState, problem: event.target.checked});
             setItemsPerPage(1, null, null, event.target.checked, dataState.userId, null, dataState.from, dataState.to);
-        } else if (event.target.name === 'from') {
+        } else if (name === 'from') {
             setCurrentPage(0)
             setDataState({...dataState, from: event.target.date});
             setItemsPerPage(1, null, null, dataState.problem, dataState.userId, null, event.target.date, dataState.to);
-        } else if (event.target.name === 'to') {
+        } else if (name === 'to') {
             setCurrentPage(0)
             setDataState({...dataState, to: event.target.date});
             setItemsPerPage(1, null, null, dataState.problem, dataState.userId, null, dataState.from, event.target.date);
-        } else if (event.target.name === 'approved') {
+        } else if (name === 'approved') {
             setCurrentPage(0)
             setDataState({...dataState, approved: event.target.checked});
             setItemsPerPage(1, null, dataState.searchId, event.target.checked, null, event.target.checked);
