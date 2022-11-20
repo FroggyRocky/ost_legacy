@@ -248,6 +248,22 @@ exports.multiToken = async (req, res) => {
         res.sendStatus(401)
     }
 };
+exports.multiCookies = async (req,res) => {
+    if (req.permission.acc_bm_update) {
+        try {
+            await modules.Accounts.update({cookies: req.body.cookies}, {
+                where: {
+                    login: req.body.login
+                }
+            });
+            res.sendStatus(200)
+        } catch (e) {
+            res.send(e)
+        }
+    } else {
+        res.sendStatus(401)
+    }
+}
 exports.proxyTraffic = async (req, res) => {
     try {
         let where = {

@@ -31,6 +31,7 @@ router.post('/accounts', authentication.token, account.accounts);
 router.post('/uuid', authentication.token, account.uuid);
 router.post('/multi-accounts', authentication.token, account.multiAccounts);
 router.post('/multi-token', authentication.token, account.multiToken);
+router.post('/multi-cookies',  authentication.token, account.multiCookies)
 router.post('/proxy-traffic', authentication.token, account.proxyTraffic);
 router.post('/proxy-data', authentication.token, account.proxyData);
 router.post('/add-proxy-traffic', authentication.token, account.addProxyTraffic);

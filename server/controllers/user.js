@@ -210,8 +210,10 @@ exports.addAdmin = async (req, res) => {
 
 exports.topUp = async (req, res) => {
     try {
-        const userId = req.id
+        const AuthUserId = req.id
+        const isAdmin = req.admin
         const money = req.body.sum
+        const userId = req.body.ticketCreatorId
         const transactionId = req.body.transaction_id
         const foundTicket = await modules.Tickets.findOne({
             raw:true,
@@ -227,23 +229,27 @@ exports.topUp = async (req, res) => {
                 }});
             return;
         } else if (!foundTicket) {
-            const response = await modules.Users.findOne({
-                raw: true,
-                attributes: ['balance'],
-                where: {
-                    id: userId
-                }
-            })
-            const sum = +response.balance + +money
-            await modules.Users.update({
-                    balance: +sum
-                },
-                {
+            if(+AuthUserId === +userId || isAdmin) {
+                const response = await modules.Users.findOne({
+                    raw: true,
+                    attributes: ['balance'],
                     where: {
                         id: userId
                     }
                 })
-            res.sendStatus(200)
+                const sum = +response.balance + +money
+                const topUpRes = await modules.Users.update({
+                        balance: +sum
+                    },
+                    {
+                        where: {
+                            id: userId
+                        }
+                    })
+                res.sendStatus(200)
+            } else {
+                res.sendStatus(403)
+            }
         }
     } catch (e) {
         console.log(e)
