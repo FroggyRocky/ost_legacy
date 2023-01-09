@@ -13,7 +13,7 @@ function Referral(props) {
 
     useEffect(() => {
         props.getRefferalData()
-    }, [])
+    }, [props])
 
     function selectLinkType(linkType) {
         console.log(linkType)

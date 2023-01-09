@@ -31,6 +31,7 @@ exports.ticketType = async (req, res) => {
 };
 exports.ticket = async (req, res) => {
     try {
+        let createdTicket
         if (req.body.data.id) {
             await modules.Tickets.update(
                 {solved: req.body.data.solved},
@@ -40,6 +41,11 @@ exports.ticket = async (req, res) => {
                     },
                 }
             );
+            await modules.Message.update(
+                {isRead:true},
+                {where:{ticketId:req.body.data.id}}
+            )
+            res.sendStatus(200)
         } else {
             const data = {
                 ticketTypeId: req.body.data.ticketTypeId,
@@ -56,16 +62,15 @@ exports.ticket = async (req, res) => {
             } else {
                 data.userId = req.id;
             }
-            await modules.Tickets.create({...data});
+            createdTicket = await modules.Tickets.create({...data});
             await modules.Log.create({
                 owner: req.body.data.userId || req.id,
                 receiver: req.body.data.userId || req.id,
                 operation: 6,
                 description: `Ticket Created`,
             });
+            res.status(200).send({id:createdTicket.id});
         }
-
-        res.sendStatus(200);
     } catch (e) {
         console.log(e);
         res.sendStatus(500);
@@ -84,7 +89,7 @@ exports.tickets = async (req, res) => {
                     },
                     {
                         model:modules.Requisites,
-                        attributes:['currency_ticker', 'requisites']
+                        attributes:['currency_ticker', 'requisites', 'currency_name']
                     },
                     {
                         model: modules.Message,
@@ -110,6 +115,10 @@ exports.tickets = async (req, res) => {
                     {
                         model: modules.TicketTypes,
                         attributes: ["name"],
+                    },
+                    {
+                        model:modules.Requisites,
+                        attributes:['currency_ticker', 'requisites', 'currency_name']
                     },
                     {
                         model: modules.Message,
@@ -142,7 +151,7 @@ exports.message = async (req, res) => {
             message: req.body.data.message,
             type: req.body.data.type || 'message',
             src: req.body.data.src,
-            isRead: false
+            isRead: false,
         };
         const response = await modules.Message.create({...data});
         res.send({id: response.id})
@@ -197,7 +206,7 @@ exports.balanceMessage = async (req, res) => {
             ticketId: req.body.data.ticketId,
             userId: req.body.data.userId,
             message: req.body.data.message,
-            type: 'message',
+            type: req.body.data.type || 'message',
             isRead: false
         };
         await modules.Message.create({...data});
@@ -255,12 +264,16 @@ exports.solveTicket = async (req, res) => {
         const transactionId = req.body.transaction_id
         if(+ticketCreatorId === +userId || req.admin) {
             await modules.Tickets.update(
-                {solved: true, transaction_id:transactionId},
+                {solved: true, transaction_id:transactionId, },
                 {
                     where: {
                         id: ticketId
                     }
                 }
+            )
+            await modules.Message.update(
+                {isRead:true},
+                {where:{ticketId:ticketId}}
             )
             res.sendStatus(200)
         } else {

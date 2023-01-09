@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import TableAdditionalInfo from "../../modules/TableAdditionalInfo";
 import './Statistics.css'
 import AccBmPagination from "./AccBmPagination";
@@ -7,32 +7,34 @@ import {connect} from 'react-redux'
 import verified from '../../img/verified.png'
 
 function Statistics(props) {
-      const [isLoading, setLoaderState] = useState({id:null,state:null})
+    const [isLoading, setLoaderState] = useState({id: null, state: null})
     const [accounts, setAccounts] = useState()
 
     useEffect(() => {
         const {page, id} = props.searchedId
-        if(page === 'a' && id !== 0) {
-           const searchedAccounts = props.accounts.filter(el => {
-            const accountId = el.id + '';
-            if(accountId.includes(id)) {
-                return el
-            }
-           })
-           
-           setAccounts(searchedAccounts)
+        if (page === 'a' && id !== 0) {
+            const searchedAccounts = props.accounts.filter(el => {
+                const accountId = el.id + '';
+                if (accountId.includes(id)) {
+                    return el
+                } else {
+                    return;
+                }
+            })
+
+            setAccounts(searchedAccounts)
         } else {
             setAccounts(props.paginatedItems)
         }
-    }, [props.accounts,props.paginatedItems])
+    }, [props.accounts, props.paginatedItems, props.searchedId])
 
-    async function handleClick (event) {
-        if(isLoading.state === true) return;
+    async function handleClick(event) {
+        if (isLoading.state === true) return;
         event.persist();
-        setLoaderState({id:event.target.id, state:true})
+        setLoaderState({id: event.target.id, state: true})
         const removeElements = event.target.id;
         if (event.target.classList.contains('opened')) {
-            setLoaderState({id:null, state:false})
+            setLoaderState({id: null, state: false})
             const elements = event.target.parentNode.parentNode.getElementsByClassName(removeElements);
             while (elements.length > 0) elements[0].remove();
             event.target.insertAdjacentHTML('afterend', `<td colspan="18"></td>`);
@@ -45,7 +47,7 @@ function Statistics(props) {
             const res = await props.getStatistics(removeElements);
 
             if (res.data.error) {
-                setLoaderState({id:null, state:false})
+                setLoaderState({id: null, state: false})
                 event.target.nextSibling.innerHTML = res.data.error.message || 'something is wrong';
             } else {
                 /*console.log(res.data);*/
@@ -77,7 +79,7 @@ function Statistics(props) {
                     },
                     disable_reasons = ['NONE', 'ADS_INTEGRITY_POLICY', 'ADS_IP_REVIEW', 'RISK_PAYMENT', 'GRAY_ACCOUNT_SHUT_DOWN', 'ADS_AFC_REVIEW', 'BUSINESS_INTEGRITY_RAR', 'PERMANENT_CLOSE', 'UNUSED_RESELLER_ACCOUNT', 'UNUSED_ACCOUNT'];
 
-                    res.data.forEach(el => {
+                res.data.forEach(el => {
                     if (!el.business) {
                         accInfo = `<td class='${removeElements}'>${el.name}</td>
                                <td class='${removeElements}'>Personal</td>
@@ -86,7 +88,7 @@ function Statistics(props) {
                                <td class='${removeElements}'>${disable_reasons[el.disable_reason]}</td>
                                <td class='${removeElements}'>${el.account_id}</td>`;
                         if (el.campaigns) {
-                            el.campaigns.data.forEach((elem,i) => {
+                            el.campaigns.data.forEach((elem, i) => {
                                 if (i === 0) {
                                     accInfo += returnCreativeData(elem, removeElements);
                                 } else {
@@ -109,7 +111,7 @@ function Statistics(props) {
                                         <td>${el.account_id}</td>
                                         <td colspan='13'></td></tr>`;
                         } else {
-                            el.campaigns.data.forEach((elem,i) => {
+                            el.campaigns.data.forEach((elem, i) => {
                                 if (i === 0) {
                                     busInfo += `<tr class='${removeElements}'>
                                         <td colspan='2'></td>
@@ -127,15 +129,16 @@ function Statistics(props) {
                         }
                     }
                 });
-                setLoaderState({id:null, state:false})
+                setLoaderState({id: null, state: false})
                 event.target.nextSibling.remove();
                 event.target.insertAdjacentHTML('afterend', accInfo);
                 event.target.parentNode.insertAdjacentHTML('afterend', busInfo);
             }
         }
-        
+
     }
-    function returnCreativeData (elem, id) {
+
+    function returnCreativeData(elem, id) {
         return `<td ${id && `class='${id}'`}>${TableAdditionalInfo.convertDate(elem.adsets.data[0].start_time) || 'X'}</td>
                 <td ${id && `class='${id}'`}>${elem.adsets.data[0].status || 'X'}</td>
                 <td ${id && `class='${id}'`}>${`<img src='${elem.adsets.data[0].adcreatives.data[0].thumbnail_url}'>` || 'X'}</td>
@@ -151,20 +154,21 @@ function Statistics(props) {
                 </tr>`
     }
 
-    function getHostname (url) {
+    function getHostname(url) {
         return new URL(url).hostname;
     }
 
 
     const accountsList = accounts?.map((el) => {
         return <tbody key={el.id} className='ym-hide-content'>
-            <tr>
-                <td className='acc-id alert-info' onClick={handleClick} 
-                    id={el.id}>{el.id} {props.countries && TableAdditionalInfo.getValueById(props.countries, el.countryId)}{el.type?.toLowerCase() === 'verified' && <img width='18' height='18' src={verified} alt='verified' />}</td>
-                <td colSpan='18'>{isLoading.state === true && +isLoading.id === +el.id && <CircularProgress />}</td>
-            </tr>
-            <tr className='statistics-table-spacer'></tr>
-            </tbody>
+        <tr>
+            <td className='acc-id alert-info' onClick={handleClick}
+                id={el.id}>{el.id} {props.countries && TableAdditionalInfo.getValueById(props.countries, el.countryId)}{el.type?.toLowerCase() === 'verified' &&
+                <img width='18' height='18' src={verified} alt='verified'/>}</td>
+            <td colSpan='18'>{isLoading.state === true && +isLoading.id === +el.id && <CircularProgress/>}</td>
+        </tr>
+        <tr className='statistics-table-spacer'></tr>
+        </tbody>
     });
 
     return (
@@ -172,52 +176,52 @@ function Statistics(props) {
             <div className='statistics-header-name'>
                 Statistics
             </div>
-                <AccBmPagination
-                    accCount={props.accCount}
-                    accArchivedCount={props.accArchivedCount}
-                    getUserData={props.getUserData}
-                    setUserState={props.setUserState}
-                    paginationType={props.archive ? 'aa' : 'a'}
-                    page={props.page}
-                    admin={props.admin}
-                    archive={props.archive}
-                    itemsToPaginate={props.accounts}
-                />
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Profile</th>
-                            <th>Type</th>
-                            <th>BM ID</th>
-                            <th>Status</th>
-                            <th>Disable reason</th>
-                            <th>Ad ID</th>
-                            <th>Launch date</th>
-                            <th>Status</th>
-                            <th>Image</th>
-                            <th>Note</th>
-                            <th>Domain</th>
-                            <th>Geo</th>
-                            <th>Link</th>
-                            <th>Daily spend</th>
-                            <th>CPM</th>
-                            <th>Clicks</th>
-                            <th>CTR</th>
-                            <th>Amount spend</th>
-                        </tr>
-                    </thead>
-                    {accountsList}
-                      {/* {isLoading ? progressCircle : accountsList}  */}
-                </table>
+            <AccBmPagination
+                accCount={props.accCount}
+                accArchivedCount={props.accArchivedCount}
+                getUserData={props.getUserData}
+                setUserState={props.setUserState}
+                paginationType={props.archive ? 'aa' : 'a'}
+                page={props.page}
+                admin={props.admin}
+                archive={props.archive}
+                itemsToPaginate={props.accounts}
+            />
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Profile</th>
+                    <th>Type</th>
+                    <th>BM ID</th>
+                    <th>Status</th>
+                    <th>Disable reason</th>
+                    <th>Ad ID</th>
+                    <th>Launch date</th>
+                    <th>Status</th>
+                    <th>Image</th>
+                    <th>Note</th>
+                    <th>Domain</th>
+                    <th>Geo</th>
+                    <th>Link</th>
+                    <th>Daily spend</th>
+                    <th>CPM</th>
+                    <th>Clicks</th>
+                    <th>CTR</th>
+                    <th>Amount spend</th>
+                </tr>
+                </thead>
+                {accountsList}
+                {/* {isLoading ? progressCircle : accountsList}  */}
+            </table>
         </div>
     );
 };
 
 
 const mapStateProps = (state) => ({
-    searchedId:state.Pagination.searchedId,
-    paginatedItems:state.Pagination.paginatedItems
+    searchedId: state.Pagination.searchedId,
+    paginatedItems: state.Pagination.paginatedItems
 })
 
 export default connect(mapStateProps, {})(Statistics)

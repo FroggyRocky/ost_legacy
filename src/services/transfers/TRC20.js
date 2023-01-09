@@ -20,7 +20,8 @@ export async function handleUSDT_TRC_20(ticket) {
 async function handleUSDT_TRC_20_workerResponse(e) {
     try {
         const foundTransfers = e.data
-        if (foundTransfers.length !== 0 && foundTransfers) {
+        console.log(e)
+        if (foundTransfers && Object.keys(foundTransfers).length !== 0 || foundTransfers.length !== 0) {
             const {netTranferValue, ticketId, transaction_id, ticketCreatorId} = foundTransfers[0]
             await UserAPI.topUp(+netTranferValue, ticketCreatorId, transaction_id)
             await UserAPI.solveTicket(ticketId, ticketCreatorId, transaction_id)

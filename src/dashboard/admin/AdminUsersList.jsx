@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './AdminUsersList.css'
 import {NavLink} from "react-router-dom";
 import ReactTooltip from 'react-tooltip';
@@ -9,8 +9,40 @@ import {ReactComponent as Skype} from '../../img/skype.svg';
 import {ReactComponent as Cross} from '../../img/cross.svg';
 import {ReactComponent as Pencil} from "../../img/pencil.svg";
 import {ReactComponent as Tick} from '../../img/tick.svg';
+import {connect} from "react-redux";
+
 
 const AdminUserList = (props) => {
+
+const [users, setUsers] = useState()
+const [isUnApprovedUsersHidden, setUnApprovedUsersState] = useState(true)
+    useEffect(() => {
+        const {page, id} = props.searchedId
+        if (page === 'u' && id) {
+            const searchedAccounts = filterBySearchId(id, props.userList, isUnApprovedUsersHidden)
+            setUsers(searchedAccounts)
+        } else if(isUnApprovedUsersHidden) {
+            const filteredUsers = props.userList.filter(el => el.approved === true);
+            setUsers(filteredUsers)
+        }
+        else {
+            setUsers(props.paginatedItems)
+        }
+    }, [props.userList, props.paginatedItems, isUnApprovedUsersHidden])
+
+    function filterBySearchId(id, items, isUnApprovedUsersHidden) {
+        let searchedAccounts = items.filter(el => {
+            const accountId = el.id + '';
+            if (accountId.includes(id)) {
+                return el
+            }
+        })
+        if(isUnApprovedUsersHidden) {
+            searchedAccounts = searchedAccounts.filter(el => el.approved === true)
+        }
+        return searchedAccounts
+    }
+
     // Вставить функцию из доп функций таблицы
     function convertDate (date) {
         const formattedDate = new Date(Date.parse(date));
@@ -37,7 +69,8 @@ const AdminUserList = (props) => {
         }
         makeUserApproved().then()
     }
-    const userList = props.userList?.map(el => {
+
+    const userList = users?.map(el => {
         return <tbody key={el.id}>
             <tr>
                 <td>
@@ -55,7 +88,11 @@ const AdminUserList = (props) => {
                     </div>
                 </td>
                 <td className='country'>{el.country ? el.country : <Cross/>}</td>
-                <td className='manager-id'>{el.managerId}</td>
+                <td className='manager-id'>
+                    <div className='user-list-table-manager'>
+                        {props.managerList.find(manager => manager.id === el.managerId)?.name || ''}
+                    </div>
+                </td>
                 <td className='admin'>{el.admin ? <Tick/> : <Cross/>}</td>
                 <td className='user-list-manager'>{el.manager ?
                     <div className='user-list-table-manager'>
@@ -98,6 +135,9 @@ const AdminUserList = (props) => {
                     paginationType={'u'}
                     page={props.user.page}
                     userCount={props.userCount}
+                    itemsToPaginate={props.userList}
+                    setUnApprovedUsersState={setUnApprovedUsersState}
+                    isUnApprovedUsersHidden={isUnApprovedUsersHidden}
                 />
             </div>
             <table className='user-list-table ym-hide-content'>
@@ -124,4 +164,9 @@ const AdminUserList = (props) => {
         </div>
     )};
 
-export default AdminUserList;
+const mapStateToProps = (state) => ({
+    searchedId: state.Pagination.searchedId,
+    paginatedItems: state.Pagination.paginatedItems,
+    updateAllTrafficError:state.Pagination.updateAllTrafficError
+})
+export default connect(mapStateToProps, {})(AdminUserList);

@@ -1,6 +1,6 @@
 const DataTypes = require('sequelize'),
     db = require('./dbconnection');
-    
+
 const Faqs = db.define('faqs', {
     header: {
         type: DataTypes.STRING(500),
@@ -55,7 +55,7 @@ const Bms = db.define('bms', {
     creator: {
         type: DataTypes.INTEGER,
     },
-    type:{
+    type: {
         type: DataTypes.STRING(20),
         defaultValue: 'standard'
     }
@@ -187,10 +187,10 @@ const Accounts = db.define('accounts', {
         type: DataTypes.STRING(20),
     },
     act_id: {
-        type:DataTypes.STRING(20)
+        type: DataTypes.STRING(20)
     },
     cookies: {
-        type:DataTypes.TEXT('long'),
+        type: DataTypes.TEXT('long'),
     },
     selfie: {
         type: DataTypes.STRING(50),
@@ -319,7 +319,7 @@ const Users = db.define('users', {
         type: DataTypes.BOOLEAN,
         defaultValue: 0
     },
-    referred_user_id:{
+    referred_user_id: {
         type: DataTypes.INTEGER, //id of the user who invited you
     }
 });
@@ -351,57 +351,57 @@ const Tickets = db.define('tickets', {
         defaultValue: 0
     },
     transaction_id: {
-        type:DataTypes.STRING,
+        type: DataTypes.STRING,
     }
 });
 const TicketTypes = db.define('ticketTypes', {
-  name: {
-      type: DataTypes.STRING(20)
-  },
-  active: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: 1
-  }
+    name: {
+        type: DataTypes.STRING(20)
+    },
+    active: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: 1
+    }
 });
 const Message = db.define('message', {
     message: {
         type: DataTypes.STRING(600)
     },
-    src:{
+    src: {
         type: DataTypes.STRING(1000)
     },
     type: {
-        type:DataTypes.STRING(600)
+        type: DataTypes.STRING(600)
     },
-isRead: {
-    type:DataTypes.BOOLEAN
-}
+    isRead: {
+        type: DataTypes.BOOLEAN
+    }
 
 });
 
 const Requisites = db.define('requisites', {
     currency_ticker: {
-        type:DataTypes.STRING(20),
+        type: DataTypes.STRING(20),
         allowNull: false
     },
     currency_name: {
-        type:DataTypes.STRING(100)
+        type: DataTypes.STRING(100)
     },
     requisites: {
-        type:DataTypes.STRING(100)
+        type: DataTypes.STRING(100)
     }
-    
+
 })
 
 const Referrals = db.define('referrals', { // referral data of the user
     users_invited: {
-        type:DataTypes.INTEGER
+        type: DataTypes.INTEGER
     },
     referral_revenue: {
-        type:DataTypes.DECIMAL
+        type: DataTypes.DECIMAL
     },
     referral_level: {
-        type:DataTypes.INTEGER //percentage
+        type: DataTypes.INTEGER //percentage
     }
 })
 

@@ -9,6 +9,9 @@ import UserAPI from "../../api/UserAPI";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import ModalAttach from '../../common/ModalAttach'
 import ZoomedImg from '../../common/ZoomedImg'
+import {ReactComponent as BalanceVector1} from '../../img/balanceMsgVector1.svg'
+import {ReactComponent as BalanceVector2} from '../../img/balanceMsgVector2.svg'
+import ReactTooltip from 'react-tooltip';
 import {
     deleteImgPreview,
     readMessages,
@@ -19,7 +22,7 @@ import {
     unsetLoadedFile
 } from '../../Redux/Reducers/tickets'
 import LoopIcon from '@mui/icons-material/Loop';
-
+import {IoCopy} from "react-icons/io5";
 
 const TicketChat = (props) => {
 
@@ -33,6 +36,9 @@ const TicketChat = (props) => {
     const chatPanel = useRef(null);
     const attachInput = useRef(null)
     const [isMessageSending, setMessageSendingState] = useState(false)
+    const [isAddressCopied, setAddressCopyState] = useState(false)
+    const [isToPayMoneyAmountCopied, setToPayMoneyAmountCopyState] = useState(false)
+
     useEffect(() => {
         props.getTickets();
     }, [props.filesInLoad])
@@ -41,6 +47,13 @@ const TicketChat = (props) => {
     useEffect(() => {
         props?.readMessages(props.user?.id, props.ticket?.id)
     }, [])
+
+    async function copyCredentials(evt) {
+        const value = evt.currentTarget.getAttribute('value')
+        await navigator.clipboard.writeText(value)
+        ReactTooltip.hide();
+    }
+
 
     useEffect(() => {
         async function setCreatorId() {
@@ -178,14 +191,14 @@ const TicketChat = (props) => {
 
     const messages = props.ticket?.messages.map((el, index) => {
         return (
-            <>
+            <div key={index + 1}>
                 <div
                     className={`messages__message ${
                         el.userId === props.user?.id || el.user?.admin === props.user?.admin
                             ? "you"
                             : "other"
                     }`}
-                    key={index}
+
                 >
                     <div className="messages__message--name">
                         {el.userId === props.user?.id || el.user?.admin === props.user?.admin
@@ -195,7 +208,45 @@ const TicketChat = (props) => {
                                 : "Admin:"}
                     </div>
 
-                    {el.type === 'message' && <div className="messages__message--text">{el.message}</div>}
+                    {el.type === 'message' && <div className="messages__message--text">
+                        {el.message}
+                    </div>}
+                    {el.type === 'balance' && <div className={`messages__balanceMessage_container ${props.user.admin && "messages__balanceMessage_container-mirrored"}`}>
+                        <main className="messages__balanceMessage_content">
+                            <section className="messages__balanceMessage_container-text">
+                                <div className="messages__balanceMessage_textSection">
+                                    <p className="messages__balanceMessage_textSection-text">Here
+                                        your {props.ticket?.requisite?.currency_name}</p>
+                                    <p className="messages__balanceMessage_textSection-text">({props.ticket?.requisite?.currency_ticker})</p>
+                                </div>
+                                <div className="messages__balanceMessage_textSection">
+                                    <p className="messages__balanceMessage_textSection-header">Amount</p>
+                                    <p className="messages__balanceMessage_textSection-text">
+                                        {el.message} USDC <IoCopy
+                                        data-tip='Copied!'
+                                        value={el.message}
+                                        className='messages__balanceMessage_textSection-icon'/>
+                                    </p>
+                                </div>
+                                <div className="messages__balanceMessage_textSection">
+                                    <p className="messages__balanceMessage_textSection-header">Address</p>
+                                    <p className="messages__balanceMessage_textSection-text">{
+                                        props.ticket?.requisite?.requisites} <IoCopy
+                                        data-tip='Copied!'
+                                        value={props.ticket?.requisite?.requisites}
+                                        className='messages__balanceMessage_textSection-icon'/>
+                                    </p>
+                                </div>
+                            </section>
+                            <section className="messages__balanceMessage_container-qr">
+                                <img src={`/qr/${props.ticket?.requisite?.currency_ticker}.png`} alt=""/>
+                            </section>
+                        </main>
+                        <BalanceVector1 className={'messages__balanceMessage_vector-1'}/>
+                        <BalanceVector2 className={'messages__balanceMessage_vector-2'}/>
+                        <ReactTooltip effect="solid" event='click' afterShow={(evt) => copyCredentials(evt)} delayHide={900} />
+                    </div>
+                    }
                     {props.filesInLoad.some((id) => id === el.id) && <div className="img-loader-container">
                         <LoopIcon className="ticketChat-loader" style={{fontSize: 50}}/>
                     </div>}
@@ -207,7 +258,7 @@ const TicketChat = (props) => {
                                  src={el.src} alt="image_chat" onLoad={() => onFileLoaded(el.id)}/>}
                     </section>
                 </div>
-            </>
+            </div>
         );
     });
 
@@ -287,7 +338,6 @@ const TicketChat = (props) => {
                     </div>
                 </div>
             )}
-
             <div className="send-message" ref={chatPanel}>
                 <section className="img-preview-section">
                     {imgsPreviews()}

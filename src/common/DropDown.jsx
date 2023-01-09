@@ -59,7 +59,7 @@ export default function DropDown(props) {
       </span>
 
       <span className={`select-arrow ${!props.dropDownOptions?.length && 'selectArrow-off'}`}>
-        <KeyboardArrowDownIcon className={isDropDownOpen && 'selectArrow-up'}
+        <KeyboardArrowDownIcon className={isDropDownOpen ? 'selectArrow-up' : ''}
           style={{ color: '#f2f2f3', fontSize: 28 }} />
       </span>
     </div>

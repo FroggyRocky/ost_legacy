@@ -59,7 +59,7 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 16px;
-    color: #61646B;
+    color: white;
     padding-left: 18px;
     border-radius: 4px;
 
@@ -136,6 +136,8 @@
     line-height: 16px;
     color: #61646B;
     cursor: default;
+    display: flex;
+    align-items: center;
 }
 
 .top-up-select--arrow {
@@ -196,7 +198,10 @@
     width: 19px;
     height: 19px;
 }
-
+.top-up-currency-img--chosen {
+    width: 19px;
+    height: 19px;
+}
 .top-up-img--container {
     display: flex;
     align-items: center;

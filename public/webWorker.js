@@ -1,13 +1,11 @@
-const USDT_TRC20_AMOUNT_OF_DIGITS_AFTER_VALUE = 6
+
 function removerZeros(num) {
         for (var i = 0; i < num.length; i++) {
-
             if (num.charAt(i) != '0') {
-                let res = num.substr(i);
+                let res = num.slice(i);
                 return res;
             }
         }
-
         return "0";
     }
 function findTransfer(tickets, userId, ticketId) {
@@ -17,7 +15,9 @@ function findTransfer(tickets, userId, ticketId) {
             const splitFrom = (value.length - 6)
             let id = value.slice(splitFrom)
             id = removerZeros(id)
-            if(+id === +userId) {
+            id = id.toString()
+            let userIdString = userId.toString()
+            if(id.includes(userIdString)) {
                 ticket.ticketCreatorId = userId
                 ticket.netTranferValue = value.slice(0,splitFrom)
                 ticket.ticketId = ticketId

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import TableAdditionalInfo from '../../modules/TableAdditionalInfo';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -59,11 +59,15 @@ const AdminLog = (props) => {
     function handleButtonClick(number) {
         setSearchState({...searchState, operation: number})
     }
+    async function sendSearchState() {
+        const adminData = await props.getUserData({searchState});
+        props.setUserState(adminData.data);
+    }
+    useEffect(() => {
+        sendSearchState().then();
+    }, [searchState])
+
     function handleClick() {
-        async function sendSearchState() {
-            const adminData = await props.getUserData({searchState});
-            props.setUserState(adminData.data);
-        }
         sendSearchState().then();
     }
 

@@ -38,7 +38,6 @@ const AccBmPagination = (props) => {
         const adminData = await props.getUserData();
         props.setUserState(adminData.data);
     }
-
     useEffect(() => {
         if (props.itemsToPaginate) {
             props.getPaginatedItems(props.itemsToPaginate, usersPerPage, currentPage)
@@ -82,7 +81,7 @@ const AccBmPagination = (props) => {
     }
 
     function handleChange(event) {
-        const value =  parseInt(event.target.value.replace(/\D+/g, ''))
+        const value =  parseInt(event.target.value?.replace(/\D+/g, ''))
         const name = event.target.name
         if (name === 'id') {
             setCurrentPage(0)
@@ -142,7 +141,8 @@ const AccBmPagination = (props) => {
                 />
             </div>}
 
-        {props.paginationType === 'u' && <label className='pagination-check-input'>
+        {props.paginationType === 'u' && <div className='pagination__switchContainer_userApproval'>
+            <label className='pagination-check-input'>
             <input
                 type='checkbox'
                 name='approved'
@@ -153,6 +153,18 @@ const AccBmPagination = (props) => {
                 Unapproved
             </span>
         </label>
+            <label className='pagination-check-input'>
+                <input
+                    type='checkbox'
+                    name='approved'
+                    onChange={() => props.setUnApprovedUsersState(prev => !prev)}
+                    checked={props.isUnApprovedUsersHidden}
+                />
+                <span className='pagination-check-input-text'>
+                    Hide unapproved users
+            </span>
+            </label>
+            </div>
         }
         <div className='pagination-text-input'>
             <div className='pagination-text-input-icon'>

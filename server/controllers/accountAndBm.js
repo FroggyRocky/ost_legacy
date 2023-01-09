@@ -12,6 +12,12 @@ exports.problem = async (req, res) => {
                         id: req.body.data.id
                     }
                 });
+                await modules.Log.create({
+                    owner: req.id,
+                    receiver: req.id,
+                    operation: 3,
+                    description: `BM ${req.body.data.id} has a problem, owner of the BM: ${req.id}`,
+                });
                 res.sendStatus(200);
             } else {
                 res.send('You are permitted to change this BM')
@@ -26,6 +32,12 @@ exports.problem = async (req, res) => {
                     where: {
                         id: req.body.data.id
                     }
+                });
+                await modules.Log.create({
+                    owner: req.id,
+                    receiver: req.id,
+                    operation: 3,
+                    description: `Account ${req.body.data.id} has a problem, owner of the Account: ${req.id}`,
                 });
                 res.sendStatus(200);
             } else {

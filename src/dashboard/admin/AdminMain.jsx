@@ -43,6 +43,7 @@ const AdminMain = (props) => {
                         user={props.user}
                         userCount={props.userCount}
                         approveUser={props.approveUser}
+                        managerList={props.managerList}
                     />}
                 />}
                  {props.user.admin && props.user.permission.users !== 0 && <Route

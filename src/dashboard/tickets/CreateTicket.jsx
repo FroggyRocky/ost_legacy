@@ -8,6 +8,12 @@ import DropDown from '../../common/DropDown';
 
 const CreateTicket = (props) => {
 
+    const [ticketState, setTicketState] = useState({
+        ticketTypeId: 1,
+        userId: '',
+        title: props?.title || '',
+        description: ''
+    });
 
     useEffect(() => {
         async function checkExistingTicket() {
@@ -50,12 +56,7 @@ const CreateTicket = (props) => {
         sendToFoundTicket().then()
     }, [])
 
-    const [ticketState, setTicketState] = useState({
-        ticketTypeId: 1,
-        userId: '',
-        title: props?.title || '',
-        description: ''
-    });
+
     const [currentOption, setCurrentOption] = useState(props.ticketTypes[0]?.name)
     const [ticketModalState, setTicketModalState] = useState(false); // modal for successfull creation of the ticket
     const [isRedirectToExistingTicket, setredirectToExistingTicketState] = useState({
@@ -77,13 +78,13 @@ const CreateTicket = (props) => {
     async function handleSubmit(event) {
         if (props.isCreateTicketModalOn) {
             await props.setProblemTicket(props.dataState.id, props.dataState.type);
-            props.setTicketModalState(false)
             await props.getTickets();
+            props.setTicketModalState(false)
         }
 
         async function saveTicket() {
             const res = await props.ticketCreateOrUpdate(ticketState);
-            if (res.data === 'OK') {
+            if (res.status === 200) {
                 await props.getTickets();
                 setTicketModalState(true);
             } else {
@@ -96,8 +97,7 @@ const CreateTicket = (props) => {
     }
 
 
-    return (
-        <form className='ticket-create' onSubmit={handleSubmit}>
+    return <form className='ticket-create' onSubmit={handleSubmit}>
             {isRedirectToExistingTicket.redirect &&
                 <Redirect to={`/dashboard/tickets/ticket/${isRedirectToExistingTicket.ticketId}`}/>}
             {/*{console.log(ticketState)}*/}
@@ -188,7 +188,6 @@ const CreateTicket = (props) => {
                 </div>
             </div>}
         </form>
-    );
 };
 
 

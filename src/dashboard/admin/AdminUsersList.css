@@ -126,3 +126,6 @@
 .user-list .user-list-table .user-list-table-icon.edit div:hover path {
     fill: white;
 }
+.accounts__updateAllTrafficErr {
+    transition: opacity 300ms 300ms ease-in-out;
+}

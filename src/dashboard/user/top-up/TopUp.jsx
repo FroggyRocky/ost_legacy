@@ -7,12 +7,13 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 export default function TopUp(props) {
 
     const [isRedirect, setRedirectState] = useState(false);
-
     const [isDropDownOpen, setDropDownState] = useState(false)
 
     function setCrypto(event) {
-        const value = event.currentTarget.getAttribute('value')
-        props.setCurrencyTicker(value);
+        const currencyId = event.currentTarget.id
+        const currencyTicker = event.currentTarget.getAttribute('name')
+        const userEmail = props.user.email
+        props.setTopUpData({currencyTicker, currencyId, userEmail});
         setDropDownState(false)
     }
 
@@ -31,7 +32,7 @@ export default function TopUp(props) {
 
     const currencyOptions = props.requisites?.map((el, index) => {
         return <div key={index} className='top-up-drop-down--option-container'
-                    value={el.currency_ticker} onClick={setCrypto}>
+                    id={el.id} name={el.currency_ticker} onClick={setCrypto}>
             <div className="top-up-img--container">
                 <img className="top-up-currency-img" src={`/tickers/${el.currency_ticker}.svg`} alt='currency_logo'/>
                 <span>{`${el.currency_name} ( ${el.currency_ticker} )`}</span>
@@ -39,8 +40,8 @@ export default function TopUp(props) {
             <div>
                 <input className="top-up--radio" type="radio"
                        name={el.currency_ticker}/>
-                <div className={`${(el.currency_ticker === props.currentCurrencyTicker ||
-                    !props.currentCurrencyTicker && index === 0) ? 'top-up--radio-circle--checked' : 'top-up--radio-circle'}`}></div>
+                <div className={`${((el.currency_ticker === props.topUpData.currencyTicker ||
+                    !props.topUpData.currencyTicker) && index === 0) ? 'top-up--radio-circle--checked' : 'top-up--radio-circle'}`}></div>
             </div>
         </div>
     })
@@ -66,9 +67,9 @@ export default function TopUp(props) {
                         style={{cursor: props.requisites?.length > 1 ? 'pointer' : ''}}
                     >
           <span className="top-up-form-placeholder">
-            Pay with:&nbsp;
+            <img className="top-up-currency-img--chosen" src={`/tickers/${props.topUpData.currencyTicker || 'USDT TRC-20'}.svg`} alt='currency_logo'/>&nbsp;
               <span className="top-up-currency-name">
-              {props.currentCurrencyTicker || 'No currencies'}
+              {props.topUpData.currencyTicker || 'No currencies'}
             </span>
           </span>
                         {props.requisites?.length > 1 &&

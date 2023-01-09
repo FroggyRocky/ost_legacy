@@ -4,35 +4,38 @@ import {setPaymentData} from '../../../Redux/Reducers/settings'
 import {connect} from 'react-redux';
 import {useEffect, useState} from 'react'
 import AdminAPI from '../../../api/AdminAPI'
-
 function TopUpContainer(props) {
 
-    const [error, setError] = useState('')
-    const [currentCurrencyTicker, setCurrencyTicker] = useState('')
-
+    const [topUpData, setTopUpData] = useState({currencyTicker: '', currencyId: '', userEmail: ''})
     useEffect(() => {
         if (props.requisites && props.requisites.length !== 0) {
-            setCurrencyTicker(props.requisites[0].currency_ticker)
+            setTopUpData({
+                currencyTicker: props.requisites[0].currency_ticker,
+                currencyId: props.requisites[0].id,
+                userEmail: props.user.email
+            })
         }
-    }, [props.requisites])
+    }, [props.requisites, props.user])
 
     async function onSubmit(data) {
         const formData = {
             ...data,
-            coin: currentCurrencyTicker,
+            currencyTicker: topUpData.name,
+            userEmail: topUpData.userEmail
         }
         const ticketTypeId = await AdminAPI.getBalanceTicketTypeId('Balance')
         const ticketData = {
             ticketTypeId: ticketTypeId.data.id,
             userId: props.user.id,
-            title: 'TOP UP'
+            title: 'TOP UP',
+            requisiteId: topUpData.currencyId
         }
         await props.setPaymentData(formData, ticketData)
     }
 
     return <>
-        <WithReduxForm onSubmit={onSubmit} {...props} currentCurrencyTicker={currentCurrencyTicker}
-                       setCurrencyTicker={setCurrencyTicker} customError={error}
+        <WithReduxForm onSubmit={onSubmit} {...props} topUpData={topUpData}
+                       setTopUpData={setTopUpData}
                        isDropDownOpen={props.isDropDownOpen} requisites={props.requisites}
         />
     </>

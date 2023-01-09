@@ -54,18 +54,20 @@ const AccountsTable = (props) => {
 
     useEffect(() => {
         const {page, id} = props.searchedId
-        if (page === 'a' && id !== 0) {
+        if (page === 'a' && id) {
             const searchedAccounts = props.accounts.filter(el => {
                 const accountId = el.id + '';
                 if (accountId.includes(id)) {
                     return el
+                } else {
+                    return;
                 }
             })
             setAccounts(searchedAccounts)
         } else {
             setAccounts(props.paginatedItems)
         }
-    }, [props.accounts, props.paginatedItems])
+    }, [props.accounts, props.paginatedItems, props.searchedId])
 
     useEffect(() => {
         if (props.freeUserBms?.length !== 0 && !props.user.admin && !props.archive) {
@@ -86,7 +88,7 @@ const AccountsTable = (props) => {
 
     useEffect(() => {
         ReactTooltip.rebuild();
-    });
+    }, []);
 
     const listOfBms = props.freeUserBms?.map((el) => {
         return <option key={el.id} value={el.id}>{el.id}</option>
@@ -613,6 +615,14 @@ const AccountsTable = (props) => {
     function closeModal() {
         props.setUpdateAllTrafficError('')
     }
+useEffect(() => {
+    console.log(props.updateAllTrafficError)
+    if(!props.updateAllTrafficError) return;
+        setTimeout(() => {
+            props.setUpdateAllTrafficError('')
+        }, 900)
+
+}, [props.updateAllTrafficError])
 
     return (<div className='accounts'>
         {props.updateAllTrafficError !== '' && <Modal closeModal={closeModal} smallModal={true} header={props.updateAllTrafficError} text={'Some accounts haven\'t been updated. Please check that data of all accounts\' proxies is valid'} />}

@@ -33,6 +33,8 @@ const AdminBmList = (props) => {
                 const elId = el.id + ''
                 if (elId.includes(id)) {
                     return el
+                } else {
+                    return;
                 }
             })
             setBms(searchedBms)
@@ -47,7 +49,7 @@ const AdminBmList = (props) => {
 
     useEffect(() => {
         ReactTooltip.rebuild();
-    });
+    }, []);
 
     const bmList = bms?.map(el => {
 

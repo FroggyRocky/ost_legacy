@@ -33,7 +33,7 @@ exports.account = async (req, res) => {
                 token: req.body.data.token,
                 archived: req.body.data.archived || false,
                 cookies: req.body.data.cookies || null,
-                birth:req.body.data.birth
+                birth: req.body.data.birth
             };
             if (req.body.data.id) {
                 const currentAcc = await modules.Accounts.findByPk(req.body.data.id, {
@@ -110,13 +110,19 @@ exports.account = async (req, res) => {
                         data.proxy_login = access.login
                         data.proxy_password = access.password
                     }
-
+                    if (+data.statusId === 3 && +currentAcc.statusId !== 3) {
+                        await modules.Log.create({
+                            owner: req.id,
+                            receiver: currentAcc.userId,
+                            operation: 3,
+                            description: `Account ${req.body.data.id} has a problem, owner of the account: ${currentAcc.userId}`,
+                        });
+                    }
                     await modules.Accounts.update({...data}, {
                         where: {
                             id: req.body.data.id
                         }
                     })
-
                 }
             } else {
                 await modules.Accounts.create({...data, creator: req.id})
@@ -248,7 +254,7 @@ exports.multiToken = async (req, res) => {
         res.sendStatus(401)
     }
 };
-exports.multiCookies = async (req,res) => {
+exports.multiCookies = async (req, res) => {
     if (req.permission.acc_bm_update) {
         try {
             await modules.Accounts.update({cookies: req.body.cookies}, {
