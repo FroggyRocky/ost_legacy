@@ -62,7 +62,7 @@ router.post('/token', facebook.token);
 // User
 router.post('/admin-user', authentication.token, user.adminUser);
 router.post('/user', authentication.token, user.user);
-router.get('/add-admin', user.addAdmin);
+/*router.get('/add-admin', user.addAdmin);*/
 router.post('/top-up', authentication.token, user.topUp);
 
 // FAQs
