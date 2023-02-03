@@ -36,7 +36,6 @@ router.post('/proxy-traffic', authentication.token, account.proxyTraffic);
 router.post('/proxy-data', authentication.token, account.proxyData);
 router.post('/add-proxy-traffic', authentication.token, account.addProxyTraffic);
 router.post('/update-all-proxy-traffic', authentication.token, account.updateAllProxyTraffic)
-
 // BM
 router.post('/bm', authentication.token, bm.bm);
 router.post('/user-bm', authentication.token, bm.userBm);

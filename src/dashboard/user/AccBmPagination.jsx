@@ -30,10 +30,21 @@ const AccBmPagination = (props) => {
 
     async function updateGlobalTriffic() {
         const filteredItems = props.itemsToPaginate.filter(el => el.id && el.proxy_id)
-        const items = filteredItems.map(el => ({
-            accountId: +el.id,
-            proxyId: +el.proxy_id
-        }))
+        const items = filteredItems.map(el => {
+            if(el.proxy_id.includes('p')) {
+                const clearedProxy =  el.proxy_id.substring(1)
+                return {
+                    accountId: +el.id,
+                    proxyId: clearedProxy
+                }
+            } else {
+                return {
+                    accountId: +el.id,
+                    proxyId: +el.proxy_id
+                }
+            }
+
+        })
         await props.updateAllTraffic(items)
         const adminData = await props.getUserData();
         props.setUserState(adminData.data);

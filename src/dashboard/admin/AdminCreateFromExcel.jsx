@@ -15,14 +15,18 @@ const AdminCreateFromExcel = (props) => {
         const object = array.find(el => (el.name === value));
         return object.id
     }
+
     function handleModalClick() {
-        window.removeEventListener('keydown', (event) => {if (event.keyCode === 27) handleModalClick()});
+        window.removeEventListener('keydown', (event) => {
+            if (event.keyCode === 27) handleModalClick()
+        });
         setPageModal(false);
     }
+
     function handleChange(event) {
         const fileName = event.target.value.split("\\");
         const label = document.querySelector('.bulk-upload-file label');
-        label.innerText = fileName[fileName.length-1];
+        label.innerText = fileName[fileName.length - 1];
         const fileReader = new FileReader();
         let rows;
         fileReader.readAsBinaryString(event.target.files[0]);
@@ -32,29 +36,37 @@ const AdminCreateFromExcel = (props) => {
                 rows = xlsx.utils.sheet_to_json(workbook.Sheets[sheet]);
             });
 
-        
             await Promise.all(rows.map(async el => {
-                if (el.proxy_id) { 
-                    const res = await props.proxyData({proxy_id: el.proxy_id});
-                    if(!res.data.error) {
-                    el.proxy_ip = `${res.data.node.ip}:${res.data.ports.http}`;
-                    el.proxy_login = res.data.access.login;
-                    el.proxy_password = res.data.access.password;
-                    el.proxy_traffic_total = res.data.traffic.total;
-                    el.proxy_traffic_left = res.data.traffic.left;
+                    if (el.proxy_id) {
+                        const res = await props.proxyData({proxy_id: el.proxy_id});
+                        if (res.data.error) return;
+                        el.proxy_ip = `${res.data.node.ip}:${res.data.ports.http}`;
+                        el.proxy_login = res.data.access.login;
+                        el.proxy_password = res.data.access.password;
+                        el.proxy_traffic_total = res.data.traffic.total;
+                        el.proxy_traffic_left = res.data.traffic.left;
                     } else {
-                        el.proxy_ip = '0'
+                        if (!el.proxy_ip) return
+                        const address = el.proxy_ip.split(':');
+                        const res = await props.proxyData({type: 'p'});
+                        const proxy = res.data.find(proxy => proxy.host === address[0].trim() && proxy.port === address[1].trim());
+                        const date1 = Date.now();
+                        const diffInMs = date1 - proxy.unixtime_end
+                        el.proxy_id = `p${proxy.id}`;
+                        el.proxy_login = proxy.user;
+                        el.proxy_password = proxy.pass;
+                        el.proxy_date = proxy.date_end;
+                        el.proxy_traffic_left = Math.floor(diffInMs / 1000 / 60 / 60 / 24);
                     }
+
+                    return el
                 }
-                return el
-                }
-            
             )).then(result => {
                 setData(result);
                 const table = document.getElementsByTagName('table')[0];
                 return table.insertAdjacentHTML('beforebegin', getExcelTable(result));
             })
-            
+
         };
     }
 
@@ -101,10 +113,13 @@ const AdminCreateFromExcel = (props) => {
                 console.log(e);
             }
         } else {
-            window.addEventListener('keydown', (event) => {if (event.keyCode === 27) handleModalClick()});
+            window.addEventListener('keydown', (event) => {
+                if (event.keyCode === 27) handleModalClick()
+            });
             setPageModal(true)
         }
     }
+
     function getExcelTable(info) {
         let htmlData = '';
         if (props.accCount) {
@@ -122,9 +137,9 @@ const AdminCreateFromExcel = (props) => {
                 <td>${el.email_password ? el.email_password : '#'}</td>
                 <td>${el.birth ? el.birth : '#'}</td>
                 <td>${el.cookie ? el.cookie : '#'}</td>
-                <td>${el.type ? el.type: '#'}</td>
+                <td>${el.type ? el.type : '#'}</td>
             </tr>`);
-        return `<table class='excel-table'>
+            return `<table class='excel-table'>
             <thead>
                 <tr>
                     <th>country</th>

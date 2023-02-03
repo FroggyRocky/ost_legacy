@@ -5,6 +5,14 @@ const modules = require('../dbmodels'),
     axios = require('axios');
 require('dotenv').config();
 
+
+async function getProxy6(id) {
+    const result = await axios.get(`https://proxy6.net/api/${process.env.PROXY6_TOKEN}/getproxy?state=active&nokey`)
+    const list = result.data.list
+    return list.find(el => el.id === id)
+}
+
+
 exports.account = async (req, res) => {
     if (req.permission.acc_bm_update) {
         try {
@@ -272,33 +280,49 @@ exports.multiCookies = async (req, res) => {
 }
 exports.proxyTraffic = async (req, res) => {
     try {
+        let proxy_id = req.body.data.proxy_id
         let where = {
             id: req.body.data.id,
-            proxy_id: req.body.data.proxy_id,
+            proxy_id: proxy_id,
         };
         if (req.admin && req.permission.acc_bm_update) {
-            const result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
+            if(proxy_id.includes('p')) {
+                proxy_id = proxy_id.substring(1)
+                const foundProxy = await getProxy6(proxy_id)
+                await modules.Accounts.update({proxy_date:foundProxy.date_end}, {
+                    where:where
+                })
+            } else {
+                const result = await axios.get(`https://astroproxy.com/api/v1/ports/${proxy_id}?token=${process.env.PROXY_TOKEN}`);
+                await modules.Accounts.update({
+                    proxy_traffic_left: result.data.data.traffic.left,
+                    proxy_traffic_total: result.data.data.traffic.total
+                }, {
+                    where: where
 
-            await modules.Accounts.update({
-                proxy_traffic_left: result.data.data.traffic.left,
-                proxy_traffic_total: result.data.data.traffic.total
-            }, {
-                where: where
-
-            })
+                })
+            }
         } else {
             where.userId = req.id;
             const account = await modules.Accounts.findOne({
                 where: where
             });
             if (account) {
-                const result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
-                await modules.Accounts.update({
-                    proxy_traffic_left: result.data.data.traffic.left,
-                    proxy_traffic_total: result.data.data.traffic.total
-                }, {
-                    where: where
-                })
+                if(proxy_id.includes('p')) {
+                    proxy_id = proxy_id.substring(1)
+                    const foundProxy = await getProxy6(proxy_id)
+                    await modules.Accounts.update({proxy_traffic_left:foundProxy.date_end}, {
+                        where:where
+                    })
+                } else {
+                    const result = await axios.get(`https://astroproxy.com/api/v1/ports/${proxy_id}?token=${process.env.PROXY_TOKEN}`);
+                    await modules.Accounts.update({
+                        proxy_traffic_left: result.data.data.traffic.left,
+                        proxy_traffic_total: result.data.data.traffic.total
+                    }, {
+                        where: where
+                    })
+                }
             } else {
                 return res.sendStatus(401)
             }
@@ -322,21 +346,33 @@ exports.updateAllProxyTraffic = async (req, res) => {
                     id: id,
                     proxy_id: proxyId,
                 }
-                await axios.get(`https://astroproxy.com/api/v1/ports/${proxyId}?token=${process.env.PROXY_TOKEN}`, {
-                    timeout: 5000,
-                    headers: {'Accept': 'application/json'}
-                })
-                    .then(async (result) => {
-                        const response = await modules.Accounts.update({
-                            proxy_traffic_left: result.data.data.traffic.left,
-                            proxy_traffic_total: result.data.data.traffic.total
-                        }, {
+                if (proxyId.includes('p')) {
+                    try {
+                        const clearedProxy = proxyId.substring(1)
+                        const foundProxy = await getProxy6(clearedProxy)
+                        await modules.Accounts.update({proxy_traffic_left: foundProxy.date_end}, {
                             where: where
                         })
-                    })
-                    .catch((e) => {
+                    } catch(e) {
                         console.log(e)
+                    }
+                } else {
+                    await axios.get(`https://astroproxy.com/api/v1/ports/${proxyId}?token=${process.env.PROXY_TOKEN}`, {
+                        timeout: 5000,
+                        headers: {'Accept': 'application/json'}
                     })
+                        .then(async (result) => {
+                            const response = await modules.Accounts.update({
+                                proxy_traffic_left: result.data.data.traffic.left,
+                                proxy_traffic_total: result.data.data.traffic.total
+                            }, {
+                                where: where
+                            })
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                }
             }
             res.sendStatus(200)
         } else {
@@ -349,83 +385,107 @@ exports.updateAllProxyTraffic = async (req, res) => {
 
 exports.addProxyTraffic = async (req, res) => {
     try {
-        const accountId = req.body.data.id
-        const proxy_id = req.body.data.proxy_id;
-        const [traffic, money] = req.body.data.trafficAmount.split('-')
-        const [amount, key] = traffic.split(' ')
-        const convertedMoneyNum = +money.replace('$', '')
-        const getVolume = () => {
-            switch (amount) {
-                case '600':
-                    return '0.3'
-                case '1':
-                    return '0.5'
-                case '2':
-                    return '1'
-                case '6':
-                    return '3'
-                default:
-                    break;
-            }
-        }
-        const volume = await getVolume();
-
-        const where = {
-            id: accountId,
-            proxy_id: proxy_id,
-        };
         const sumOnAcc = await modules.Users.findByPk(req.id, {
             attributes: ['balance']
         });
-        if (+sumOnAcc.balance - convertedMoneyNum >= 0) {
-            const result = await axios.post(`https://astroproxy.com/api/v1/ports/${proxy_id}/renew?token=${process.env.PROXY_TOKEN}&volume=${volume}&id=${proxy_id}`,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        'Accept': 'application/json'
-                    },
-                }
-            );
-            if (result.data.status === 'ok') {
-                await modules.Accounts.update({
-                    proxy_traffic_left: result.data.data.traffic.left,
-                    proxy_traffic_total: result.data.data.traffic.total
-                }, {
+        if (req.body.data.proxy_id.includes('p')) {
+            const proxy_id = req.body.data.proxy_id.replace('p', '');
+            const where = {
+                id: req.body.data.id,
+                proxy_id: req.body.data.proxy_id,
+            };
+            if (sumOnAcc.balance - 4 <= 0) res.sendStatus(405);
+                const result = await axios.get(`https://proxy6.net/api/${process.env.PROXY_TOKEN_P}/prolong?period=3&ids=${proxy_id}&nokey`);
+            if (result.data.status === 'yes') {
+                await modules.Accounts.update({proxy_date: result.data.list[0].date_end}, {
                     where: where
                 });
-                await modules.Users.update({balance: sumOnAcc.balance - convertedMoneyNum}, {
+                await modules.Users.update({balance: sumOnAcc.balance - 4}, {
                     where: {
                         id: req.id
                     }
                 });
-                await modules.Log.create({
-                    owner: req.id,
-                    receiver: req.id,
-                    operation: 2,
-                    description: `Traffic added: <span class='success'>id:${req.id}, AccountId: ${accountId}</span>: For <b>${amount} - ${money}$</b>,  <span class='primary'>New Traffic State</span>: Total: <b>${result.data.data.traffic.total}</b>, Left: <b>${result.data.data.traffic.left}</b>`,
-                    amount: amount
-                });
-                return res.sendStatus(200)
+                return res.sendStatus(200);
             }
-
         } else {
-            res.sendStatus(405)
-        }
+            const accountId = req.body.data.id
+            const proxy_id = req.body.data.proxy_id;
+            const [traffic, money] = req.body.data.trafficAmount.split('-')
+            const [amount, key] = traffic.split(' ')
+            const convertedMoneyNum = +money.replace('$', '')
+            const getVolume = () => {
+                switch (amount) {
+                    case '600':
+                        return '0.3'
+                    case '1':
+                        return '0.5'
+                    case '2':
+                        return '1'
+                    case '6':
+                        return '3'
+                    default:
+                        break;
+                }
+            }
+            const volume = getVolume();
+
+            const where = {
+                id: accountId,
+                proxy_id: proxy_id,
+            };
+            const sumOnAcc = await modules.Users.findByPk(req.id, {
+                attributes: ['balance']
+            });
+            if (+sumOnAcc.balance - convertedMoneyNum <= 0) res.sendStatus(405);
+                const result = await axios.post(`https://astroproxy.com/api/v1/ports/${proxy_id}/renew?token=${process.env.PROXY_TOKEN}&volume=${volume}&id=${proxy_id}`,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            'Accept': 'application/json'
+                        },
+                    }
+                );
+                if (result.data.status === 'ok') {
+                    await modules.Accounts.update({
+                        proxy_traffic_left: result.data.data.traffic.left,
+                        proxy_traffic_total: result.data.data.traffic.total
+                    }, {
+                        where: where
+                    });
+                    await modules.Users.update({balance: sumOnAcc.balance - convertedMoneyNum}, {
+                        where: {
+                            id: req.id
+                        }
+                    });
+                    await modules.Log.create({
+                        owner: req.id,
+                        receiver: req.id,
+                        operation: 2,
+                        description: `Traffic added: <span class='success'>id:${req.id}, AccountId: ${accountId}</span>: For <b>${amount} - ${money}$</b>,  <span class='primary'>New Traffic State</span>: Total: <b>${result.data.data.traffic.total}</b>, Left: <b>${result.data.data.traffic.left}</b>`,
+                        amount: amount
+                    });
+                    return res.sendStatus(200)
+                }
+            }
     } catch (e) {
         console.log(e);
         res.sendStatus(405)
     }
 };
+
 exports.proxyData = async (req, res) => {
     try {
         if (req.permission.acc_bm_update) {
             let result;
-            result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
-            console.log(result)
-            return res.send(result.data.data);
+            if (req.body.data.type !== 'p') {
+                result = await axios.get(`https://astroproxy.com/api/v1/ports/${req.body.data.proxy_id}?token=${process.env.PROXY_TOKEN}`);
+                return res.send(result.data.data);
+            } else if(req.body.data.type === 'p') {
+                result = await axios.get(`https://proxy6.net/api/${process.env.PROXY6_TOKEN}/getproxy?state=active&nokey`)
+                return res.send(result.data.list);
+            }
         } else {
             return res.sendStatus(401)
-
         }
     } catch (e) {
         res.send({error: 'Proxy id is not correct'}).status(400)
