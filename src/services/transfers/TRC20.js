@@ -13,14 +13,12 @@ export async function handleUSDT_TRC_20(ticket) {
         worker.addEventListener('error', handleUSDT_TRC_20_workerErr)
         worker.postMessage({type:'transfer', tickets:data, userId, ticketId:id})
     } catch (e) {
-        console.log(e)
     }
 }
 
 async function handleUSDT_TRC_20_workerResponse(e) {
     try {
         const foundTransfers = e.data
-        console.log(e)
         if (foundTransfers && Object.keys(foundTransfers).length !== 0 || foundTransfers.length !== 0) {
             const {netTranferValue, ticketId, transaction_id, ticketCreatorId} = foundTransfers[0]
             await UserAPI.topUp(+netTranferValue, ticketCreatorId, transaction_id)
@@ -34,5 +32,4 @@ async function handleUSDT_TRC_20_workerResponse(e) {
 }
 
 function handleUSDT_TRC_20_workerErr(e) {
-    console.log(e)
 }

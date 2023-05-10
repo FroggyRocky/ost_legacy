@@ -616,7 +616,6 @@ const AccountsTable = (props) => {
         props.setUpdateAllTrafficError('')
     }
 useEffect(() => {
-    console.log(props.updateAllTrafficError)
     if(!props.updateAllTrafficError) return;
         setTimeout(() => {
             props.setUpdateAllTrafficError('')

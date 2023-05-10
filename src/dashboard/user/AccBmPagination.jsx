@@ -35,7 +35,8 @@ const AccBmPagination = (props) => {
                 const clearedProxy =  el.proxy_id.substring(1)
                 return {
                     accountId: +el.id,
-                    proxyId: clearedProxy
+                    proxyId: clearedProxy,
+                    proxyIp:el.proxy_ip
                 }
             } else {
                 return {

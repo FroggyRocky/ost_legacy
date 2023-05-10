@@ -75,8 +75,8 @@ exports.statistics = async (req, res) => {
                 attributes: ['userId', 'proxy_ip', 'proxy_login', 'proxy_password', 'act_id', 'cookies']
             });
 
-            if (!account.cookies || account.proxy_ip === '' || !account.proxy_ip || account.proxy_login === '' || !account.proxy_login || account.proxy_password === '' || !account.proxy_password) {
-                res.send({error: {message: 'Check all proxy whether cookie fields are filled'}})
+            if (!account.cookies || !account.proxy_ip || !account.proxy_login || account.proxy_password === '' || !account.proxy_password) {
+                res.send({error: {message: 'Check all proxy, make sure that cookie field is filled'}})
             } else {
                 let actId;
                 const handledCookies = handleRawCookies(JSON.parse(account.cookies))

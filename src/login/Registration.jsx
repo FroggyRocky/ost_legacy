@@ -73,6 +73,9 @@ const Registration = ({setPopUpState, ...props}) => {
 
     function handleSubmit(event) {
         event.preventDefault();
+        if((!registrationState.skype && !registrationState.telegram) || (registrationState.skype.length < 4 && registrationState.telegram.length < 4)) {
+            return setModalState({status: true, err: 'Please provide your skype or telegram', login: false})
+        }
         sendMetrix('Create Account', 'Account Created');
         setReqStatus(true)
         const successful = <div><h3>Registration Successful!</h3>
@@ -189,7 +192,7 @@ const Registration = ({setPopUpState, ...props}) => {
                         placeholder='Enter your Telegram'
                         value={registrationState.telegram}
                         onChange={handleChange}
-                        required
+                        min={'4'}
                     />
                 </div>
                 <div className='registration-input'>
@@ -203,6 +206,7 @@ const Registration = ({setPopUpState, ...props}) => {
                         placeholder='Enter your Skype'
                         value={registrationState.skype}
                         onChange={handleChange}
+                        min={'4'}
                     />
                 </div>
                 <div className='registration-input'>

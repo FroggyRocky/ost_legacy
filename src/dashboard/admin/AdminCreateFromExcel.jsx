@@ -35,7 +35,7 @@ const AdminCreateFromExcel = (props) => {
             workbook.SheetNames.forEach(sheet => {
                 rows = xlsx.utils.sheet_to_json(workbook.Sheets[sheet]);
             });
-
+           const proxy6 = await props.proxyData({type: 'p'});
             await Promise.all(rows.map(async el => {
                     if (el.proxy_id) {
                         const res = await props.proxyData({proxy_id: el.proxy_id});
@@ -46,19 +46,21 @@ const AdminCreateFromExcel = (props) => {
                         el.proxy_traffic_total = res.data.traffic.total;
                         el.proxy_traffic_left = res.data.traffic.left;
                     } else {
-                        if (!el.proxy_ip) return
-                        const address = el.proxy_ip.split(':');
-                        const res = await props.proxyData({type: 'p'});
-                        const proxy = res.data.find(proxy => proxy.host === address[0].trim() && proxy.port === address[1].trim());
-                        const date1 = Date.now();
-                        const diffInMs = date1 - proxy.unixtime_end
-                        el.proxy_id = `p${proxy.id}`;
-                        el.proxy_login = proxy.user;
-                        el.proxy_password = proxy.pass;
-                        el.proxy_date = proxy.date_end;
-                        el.proxy_traffic_left = Math.floor(diffInMs / 1000 / 60 / 60 / 24);
+                        if (!el.proxy_ip) return;
+                        const proxyData = proxy6.data
+                        for(let key in proxyData) {
+                            const address = el.proxy_ip.split(':');
+                            if(proxyData[key].host === address[0].trim() && proxyData[key].port === address[1].trim()) {
+                                const date1 = Date.now();
+                                const diffInMs = date1 - proxyData[key].unixtime_end
+                                el.proxy_traffic_left = Math.floor(diffInMs / 1000 / 60 / 60 / 24);
+                                el.proxy_id = `p${proxyData[key].id}`;
+                                el.proxy_login = proxyData[key].user;
+                                el.proxy_password = proxyData[key].pass;
+                                el.proxy_date = proxyData[key].date_end;
+                            }
+                        }
                     }
-
                     return el
                 }
             )).then(result => {
